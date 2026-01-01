@@ -23,5 +23,24 @@ namespace School_Management.UI
         {
             InitializeComponent();
         }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (UsernameTextBox.Text == string.Empty || PasswordBox.Password == string.Empty)
+            {
+                MessageBox.Show("Name or Password Is Empty" , "fill all fild" ,MessageBoxButton.OK , MessageBoxImage.Warning);
+                return;
+            }
+            if (UsernameTextBox.Text == "admin" && PasswordBox.Password == "admin")
+            {
+                AdminDashboard admin_ui = new AdminDashboard();
+                admin_ui.Show();
+            }
+            if (UsernameTextBox.Text == "emp" && PasswordBox.Password == "emp")
+            {
+                EmployeeDashboard emp_ui = new EmployeeDashboard();
+                emp_ui.Show();
+            }
+        }
     }
 }

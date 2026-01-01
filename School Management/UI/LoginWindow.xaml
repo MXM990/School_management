@@ -245,7 +245,7 @@
                               FontWeight="Bold"
                               Height="50"
                               Cursor="Hand"
-                              IsEnabled="False">
+                              IsEnabled="True" Click="LoginButton_Click">
                             <Button.Resources>
                                 <Style TargetType="Border">
                                     <Setter Property="CornerRadius" Value="10"/>
