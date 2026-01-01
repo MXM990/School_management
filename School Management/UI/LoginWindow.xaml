@@ -1,0 +1,380 @@
+﻿<Window x:Class="School_Management.UI.LoginWindow"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="نظام إدارة المدرسة - تسجيل الدخول" 
+        Height="650" 
+        Width="1000"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent">
+
+    <!-- نافذة مع تأثير زجاجي -->
+    <Border CornerRadius="20" 
+            Background="#ECF4E8"
+            BorderBrush="#CBF3BB" 
+            BorderThickness="1">
+
+        <Grid>
+            <!-- تقسيم النافذة -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.7*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- الجانب الأيسر: الشعار والمعلومات -->
+            <Border Grid.Column="0" 
+                    Background="White"
+                    CornerRadius="20,0,0,20">
+
+                <Grid>
+                    <!-- خلفية دائرية خفيفة -->
+                    <Ellipse Width="400" Height="400" 
+                             HorizontalAlignment="Center" 
+                             VerticalAlignment="Center"
+                             Fill="#ECF4E8" 
+                             Opacity="0.5"/>
+
+                    <StackPanel HorizontalAlignment="Center" 
+                                VerticalAlignment="Center" 
+                                Margin="40">
+
+                        <!-- شعار النظام -->
+                        <Viewbox Width="120" Height="120" 
+                                 Margin="0,0,0,30">
+                            <Grid>
+                                <!-- رمز المدرسة -->
+                                <Path Data="M0,20 L40,0 L80,20 L80,60 L40,80 L0,60 Z" 
+                                      Stroke="#93BFC7" 
+                                      StrokeThickness="3"
+                                      Fill="Transparent"/>
+
+                                <!-- كتاب داخل المدرسة -->
+                                <Path Data="M15,30 L65,30 L65,50 L15,50 Z" 
+                                      Stroke="#5A6D5E" 
+                                      StrokeThickness="2"
+                                      Fill="#ECF4E8"/>
+
+                                <!-- خطوط الكتاب -->
+                                <Line X1="20" Y1="35" X2="60" Y2="35" 
+                                      Stroke="#5A6D5E" 
+                                      StrokeThickness="1"/>
+                                <Line X1="20" Y1="40" X2="60" Y2="40" 
+                                      Stroke="#5A6D5E" 
+                                      StrokeThickness="1"/>
+                                <Line X1="20" Y1="45" X2="60" Y2="45" 
+                                      Stroke="#5A6D5E" 
+                                      StrokeThickness="1"/>
+                            </Grid>
+                        </Viewbox>
+
+                        <!-- عنوان النظام -->
+                        <TextBlock Text="نظام إدارة المدرسة" 
+                                 FontFamily="Segoe UI"
+                                 FontSize="36" 
+                                 FontWeight="Bold"
+                                 Foreground="#2C3E2F"
+                                 HorizontalAlignment="Center"
+                                 Margin="0,0,0,15"/>
+
+                        <TextBlock Text="التعليم أرقى درجات التطور" 
+                                 FontSize="18"
+                                 Foreground="#5A6D5E"
+                                 HorizontalAlignment="Center"
+                                 Margin="0,0,0,40"/>
+
+                        <!-- ميزات النظام -->
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                                <Border Width="24" Height="24" 
+                                        CornerRadius="12" 
+                                        Background="#CBF3BB"
+                                        Margin="0,0,10,0">
+                                    <TextBlock Text="✓" 
+                                             Foreground="#2C3E2F"
+                                             HorizontalAlignment="Center"
+                                             VerticalAlignment="Center"/>
+                                </Border>
+                                <TextBlock Text="إدارة الطلاب والموظفين" 
+                                         Foreground="#5A6D5E"
+                                         VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                                <Border Width="24" Height="24" 
+                                        CornerRadius="12" 
+                                        Background="#ABE7B2"
+                                        Margin="0,0,10,0">
+                                    <TextBlock Text="✓" 
+                                             Foreground="#2C3E2F"
+                                             HorizontalAlignment="Center"
+                                             VerticalAlignment="Center"/>
+                                </Border>
+                                <TextBlock Text="جدولة الصفوف والشعب" 
+                                         Foreground="#5A6D5E"
+                                         VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Border Width="24" Height="24" 
+                                        CornerRadius="12" 
+                                        Background="#93BFC7"
+                                        Margin="0,0,10,0">
+                                    <TextBlock Text="✓" 
+                                             Foreground="White"
+                                             HorizontalAlignment="Center"
+                                             VerticalAlignment="Center"/>
+                                </Border>
+                                <TextBlock Text="تقارير وإحصائيات متقدمة" 
+                                         Foreground="#5A6D5E"
+                                         VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- الجانب الأيمن: نموذج تسجيل الدخول -->
+            <Border Grid.Column="1" 
+                    Background="#FFFFFF"
+                    CornerRadius="0,20,20,0">
+
+                <Grid>
+                    <!-- تدرج لوني خفيف -->
+                    <Rectangle>
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#FFFFFF" Offset="0"/>
+                                <GradientStop Color="#ECF4E8" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+
+                    <StackPanel VerticalAlignment="Center" 
+                                HorizontalAlignment="Center" 
+                                Width="320">
+
+                        <!-- عنوان تسجيل الدخول -->
+                        <TextBlock Text="تسجيل الدخول" 
+                                 FontSize="28" 
+                                 FontWeight="Bold"
+                                 Foreground="#2C3E2F"
+                                 HorizontalAlignment="Center"
+                                 Margin="0,0,0,40"/>
+
+                        <!-- حقل اسم المستخدم -->
+                        <StackPanel Margin="0,0,0,20">
+                            <TextBlock Text="اسم المستخدم" 
+                                     FontSize="14" 
+                                     FontWeight="SemiBold"
+                                     Foreground="#5A6D5E"
+                                     Margin="0,0,0,8"/>
+
+                            <Border CornerRadius="10" 
+                                    Background="#ECF4E8"
+                                    BorderBrush="#CBF3BB" 
+                                    BorderThickness="1"
+                                    Padding="2">
+                                <TextBox x:Name="UsernameTextBox"
+                                       BorderThickness="0"
+                                       Background="Transparent"
+                                       Foreground="#2C3E2F"
+                                       FontSize="16"
+                                       Padding="15,12"
+                                       VerticalContentAlignment="Center"/>
+                            </Border>
+                        </StackPanel>
+
+                        <!-- حقل كلمة المرور -->
+                        <StackPanel Margin="0,0,0,30">
+                            <TextBlock Text="كلمة المرور" 
+                                     FontSize="14" 
+                                     FontWeight="SemiBold"
+                                     Foreground="#5A6D5E"
+                                     Margin="0,0,0,8"/>
+
+                            <Border CornerRadius="10" 
+                                    Background="#ECF4E8"
+                                    BorderBrush="#CBF3BB" 
+                                    BorderThickness="1"
+                                    Padding="2">
+                                <PasswordBox x:Name="PasswordBox"
+                                           BorderThickness="0"
+                                           Background="Transparent"
+                                           FontSize="16"
+                                           Padding="15,12"
+                                           VerticalContentAlignment="Center"/>
+                            </Border>
+                        </StackPanel>
+
+                        <!-- خيارات إضافية -->
+                        <Grid Margin="0,0,0,30">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <CheckBox x:Name="RememberMeCheckBox"
+                                    Content="تذكر بيانات الدخول"
+                                    Foreground="#5A6D5E"
+                                    FontSize="14"
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"/>
+
+                            <TextBlock Text="نسيت كلمة المرور؟" 
+                                     Foreground="#93BFC7"
+                                     FontSize="14"
+                                     Cursor="Hand"
+                                     Grid.Column="1"
+                                     HorizontalAlignment="Right"
+                                     VerticalAlignment="Center"/>
+                        </Grid>
+
+                        <!-- زر تسجيل الدخول -->
+                        <Button x:Name="LoginButton"
+                              Content="تسجيل الدخول"
+                              Background="#CBF3BB"
+                              Foreground="#2C3E2F"
+                              BorderBrush="#ABE7B2"
+                              BorderThickness="0"
+                              FontSize="16"
+                              FontWeight="Bold"
+                              Height="50"
+                              Cursor="Hand"
+                              IsEnabled="False">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="10"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+
+                        <!-- أزرار إضافية -->
+                        <StackPanel Margin="0,30,0,0">
+                            <Button x:Name="CreateDatabaseButton"
+                                  Content="إنشاء قاعدة جديدة"
+                                  Background="Transparent"
+                                  Foreground="#5A6D5E"
+                                  BorderBrush="#ABE7B2"
+                                  BorderThickness="1"
+                                  FontSize="14"
+                                  Height="40"
+                                  Cursor="Hand"
+                                  Margin="0,0,0,10">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="8"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+
+                            <Button x:Name="ExitButton"
+                                  Content="خروج"
+                                  Background="Transparent"
+                                  Foreground="#F44336"
+                                  BorderBrush="#93BFC7"
+                                  BorderThickness="1"
+                                  FontSize="14"
+                                  Height="40"
+                                  Cursor="Hand">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="8"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                        </StackPanel>
+
+                        <!-- إصدار النظام -->
+                        <TextBlock Text="الإصدار 1 ©" 
+                                 FontSize="12"
+                                 Foreground="#93BFC7"
+                                 HorizontalAlignment="Center"
+                                 Margin="0,20,0,0"/>
+                        <TextBlock Text="Devolper by MXM" 
+                                   FontSize="12"
+                                   Foreground="#93BFC7"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,20,0,0"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- أزرار التحكم بالنافذة -->
+            <StackPanel Orientation="Horizontal" 
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Top"
+                      Margin="20">
+                <Button x:Name="MinimizeButton"
+                      Content="─" 
+                      Width="30" 
+                      Height="30"
+                      Background="Transparent"
+                      BorderBrush="Transparent"
+                      Foreground="#5A6D5E"
+                      FontSize="14"
+                      FontWeight="Bold"
+                      Cursor="Hand"
+                      Margin="0,0,10,0">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="Transparent"
+                                                CornerRadius="4">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                              VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#ECF4E8"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button x:Name="CloseButton"
+                      Content="✕" 
+                      Width="30" 
+                      Height="30"
+                      Background="Transparent"
+                      BorderBrush="Transparent"
+                      Foreground="#5A6D5E"
+                      FontSize="14"
+                      FontWeight="Bold"
+                      Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="Transparent"
+                                                CornerRadius="4">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                              VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FFEBEE"/>
+                                    <Setter Property="Foreground" Value="#F44336"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

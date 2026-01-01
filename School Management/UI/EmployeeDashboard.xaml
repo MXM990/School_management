@@ -1,0 +1,636 @@
+﻿<Window x:Class="School_Management.UI.EmployeeDashboard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="نظام إدارة المدرسة - لوحة تحكم الموظف"
+        Height="800"
+        Width="1400"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent">
+
+    <!-- نافذة رئيسية -->
+    <Border CornerRadius="15" 
+            Background="#ECF4E8"
+            BorderBrush="#ABE7B2" 
+            BorderThickness="1">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+            <!-- شريط العنوان -->
+            <Border Grid.Row="0" 
+                    Background="#CBF3BB"
+                    CornerRadius="15,15,0,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- شعار واسم المستخدم -->
+                    <StackPanel Grid.Column="0" 
+                                Orientation="Horizontal" 
+                                Margin="20,0,0,0"
+                                VerticalAlignment="Center">
+                        <Border Width="40" 
+                                Height="40" 
+                                CornerRadius="20"
+                                Background="#ABE7B2">
+                            <TextBlock Text="👨‍💼" 
+                                     FontSize="20"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel Margin="10,0,0,0">
+                            <TextBlock Text="سامر علي" 
+                                     FontSize="16"
+                                     FontWeight="Bold"
+                                     Foreground="#2C3E2F"/>
+                            <TextBlock Text="موظف إداري" 
+                                     FontSize="12"
+                                     Foreground="#5A6D5E"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- عنوان الصفحة -->
+                    <TextBlock Grid.Column="1" 
+                             Text="لوحة تحكم الموظف - الإدارة الأكاديمية" 
+                             FontSize="24"
+                             FontWeight="Bold"
+                             Foreground="#2C3E2F"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"/>
+
+                    <!-- أزرار التحكم -->
+                    <StackPanel Grid.Column="2" 
+                              Orientation="Horizontal"
+                              Margin="0,0,20,0"
+                              VerticalAlignment="Center">
+                        <Button x:Name="EmpMinimizeButton"
+                              Content="─" 
+                              Width="30" Height="30"
+                              Background="Transparent"
+                              BorderBrush="Transparent"
+                              Foreground="#2C3E2F"
+                              FontSize="14"
+                              FontWeight="Bold"
+                              Cursor="Hand"
+                              Margin="0,0,10,0">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="Transparent"
+                                                        CornerRadius="4">
+                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                                      VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#2C3E2F"/>
+                                            <Setter Property="Foreground" Value="#CBF3BB"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+
+                        <Button x:Name="EmpCloseButton"
+                              Content="✕" 
+                              Width="30" Height="30"
+                              Background="Transparent"
+                              BorderBrush="Transparent"
+                              Foreground="#2C3E2F"
+                              FontSize="14"
+                              FontWeight="Bold"
+                              Cursor="Hand">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="Transparent"
+                                                        CornerRadius="4">
+                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                                      VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#2C3E2F"/>
+                                            <Setter Property="Foreground" Value="#F44336"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- محتوى رئيسي -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- القائمة الجانبية -->
+                <Border Grid.Column="0" 
+                        Background="White"
+                        CornerRadius="0,0,0,0">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel Margin="10">
+                            <!-- زر الرئيسية -->
+                            <Button x:Name="EmpHomeButton"
+                                  Style="{StaticResource SidebarButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="🏠" 
+                                             FontSize="20"
+                                             Margin="0,0,10,0"/>
+                                    <TextBlock Text="الرئيسية" 
+                                             FontSize="16"/>
+                                </StackPanel>
+                            </Button>
+
+                            <!-- قسم الإضافة -->
+                            <TextBlock Text="عمليات الإضافة" 
+                                     FontSize="14"
+                                     FontWeight="Bold"
+                                     Foreground="#93BFC7"
+                                     Margin="10,20,10,5"/>
+
+                            <Button x:Name="AddStudentButton"
+                                  Style="{StaticResource SidebarButtonStyle}"
+                                  Tag="AddStudent">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="➕" 
+                                             FontSize="16"
+                                             Margin="0,0,10,0"/>
+                                    <TextBlock Text="إضافة طالب" 
+                                             FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+
+                            <Button x:Name="AddTeacherButton"
+                                  Style="{StaticResource SidebarButtonStyle}"
+                                  Tag="AddTeacher">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="➕" 
+                                             FontSize="16"
+                                             Margin="0,0,10,0"/>
+                                    <TextBlock Text="إضافة مدرس" 
+                                             FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+
+                            <Button x:Name="AddClassButton"
+                                  Style="{StaticResource SidebarButtonStyle}"
+                                  Tag="AddClass">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="➕" 
+                                             FontSize="16"
+                                             Margin="0,0,10,0"/>
+                                    <TextBlock Text="إضافة صف" 
+                                             FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+
+                            <Button x:Name="AddGroupButton"
+                                  Style="{StaticResource SidebarButtonStyle}"
+                                  Tag="AddGroup">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="➕" 
+                                             FontSize="16"
+                                             Margin="0,0,10,0"/>
+                                    <TextBlock Text="إضافة شعبة" 
+                                             FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+
+                            <Button x:Name="AssignStudentToClassButton"
+                                  Style="{StaticResource SidebarButtonStyle}"
+                                  Tag="AssignStudentToClass">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="↪️" 
+                                             FontSize="16"
+                                             Margin="0,0,10,0"/>
+                                    <TextBlock Text="إضافة طالب إلى صف/شعبة" 
+                                             FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+
+                            <Button x:Name="AssignTeacherToClassButton"
+                                  Style="{StaticResource SidebarButtonStyle}"
+                                  Tag="AssignTeacherToClass">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="↪️" 
+                                             FontSize="16"
+                                             Margin="0,0,10,0"/>
+                                    <TextBlock Text="إضافة مدرس إلى صف/شعبة" 
+                                             FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+
+                            <Button x:Name="AssignSubjectsButton"
+                                  Style="{StaticResource SidebarButtonStyle}"
+                                  Tag="AssignSubjects">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="📚" 
+                                             FontSize="16"
+                                             Margin="0,0,10,0"/>
+                                    <TextBlock Text="إعطاء مواد للطالب" 
+                                             FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+
+                            <!-- قسم العروض -->
+                            <TextBlock Text="عمليات العرض" 
+                                     FontSize="14"
+                                     FontWeight="Bold"
+                                     Foreground="#93BFC7"
+                                     Margin="10,20,10,5"/>
+
+                            <Button x:Name="ViewAllClassesButton"
+                                  Style="{StaticResource SidebarButtonStyle}"
+                                  Tag="ViewAllClasses">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="🏫" 
+                                             FontSize="16"
+                                             Margin="0,0,10,0"/>
+                                    <TextBlock Text="عرض جميع الصفوف" 
+                                             FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+
+                            <Button x:Name="ViewClassesByGroupButton"
+                                  Style="{StaticResource SidebarButtonStyle}"
+                                  Tag="ViewClassesByGroup">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="👥" 
+                                             FontSize="16"
+                                             Margin="0,0,10,0"/>
+                                    <TextBlock Text="عرض الصفوف حسب الشعبة" 
+                                             FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+
+                            <Button x:Name="ViewAllTeachersButton"
+                                  Style="{StaticResource SidebarButtonStyle}"
+                                  Tag="ViewAllTeachers">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="👨‍🏫" 
+                                             FontSize="16"
+                                             Margin="0,0,10,0"/>
+                                    <TextBlock Text="عرض جميع المدرسين" 
+                                             FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+
+                            <Button x:Name="ViewAllStudentsButton"
+                                  Style="{StaticResource SidebarButtonStyle}"
+                                  Tag="ViewAllStudents">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="👨‍🎓" 
+                                             FontSize="16"
+                                             Margin="0,0,10,0"/>
+                                    <TextBlock Text="عرض جميع الطلاب" 
+                                             FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+
+                            <Button x:Name="SearchStudentButton"
+                                  Style="{StaticResource SidebarButtonStyle}"
+                                  Tag="SearchStudent">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="🔍" 
+                                             FontSize="16"
+                                             Margin="0,0,10,0"/>
+                                    <TextBlock Text="بحث عن طالب" 
+                                             FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+
+                            <Button x:Name="ViewStudentsByClassButton"
+                                  Style="{StaticResource SidebarButtonStyle}"
+                                  Tag="ViewStudentsByClass">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="📊" 
+                                             FontSize="16"
+                                             Margin="0,0,10,0"/>
+                                    <TextBlock Text="عرض الطلاب حسب الصف" 
+                                             FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+
+                            <!-- قسم التقارير -->
+                            <TextBlock Text="التقارير والإحصائيات" 
+                                     FontSize="14"
+                                     FontWeight="Bold"
+                                     Foreground="#93BFC7"
+                                     Margin="10,20,10,5"/>
+
+                            <Button x:Name="EmpReportsButton"
+                                  Style="{StaticResource SidebarButtonStyle}"
+                                  Tag="Reports">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="📈" 
+                                             FontSize="16"
+                                             Margin="0,0,10,0"/>
+                                    <TextBlock Text="التقارير الإحصائية" 
+                                             FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+
+                            <!-- قسم الإعدادات -->
+                            <Button x:Name="EmpSettingsButton"
+                                  Style="{StaticResource SidebarButtonStyle}"
+                                  Tag="Settings"
+                                  Margin="0,20,0,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="⚙️" 
+                                             FontSize="16"
+                                             Margin="0,0,10,0"/>
+                                    <TextBlock Text="الإعدادات" 
+                                             FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+
+                            <!-- زر الخروج -->
+                            <Button x:Name="EmpLogoutButton"
+                                  Style="{StaticResource SidebarButtonStyle}"
+                                  Margin="0,40,0,20"
+                                  Background="#FFEBEE"
+                                  BorderBrush="#F44336">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="🚪" 
+                                             FontSize="16"
+                                             Margin="0,0,10,0"/>
+                                    <TextBlock Text="تسجيل الخروج" 
+                                             FontSize="14"
+                                             Foreground="#F44336"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+
+                <!-- منطقة المحتوى -->
+                <Border Grid.Column="1" 
+                        Background="#ECF4E8"
+                        CornerRadius="0,0,15,0">
+                    <Grid>
+                        <!-- شاشة الترحيب (الافتراضية) -->
+                        <Border x:Name="EmpWelcomeContent"
+                              Background="White"
+                              CornerRadius="10"
+                              Margin="20"
+                              Visibility="Visible">
+                            <StackPanel HorizontalAlignment="Center" 
+                                      VerticalAlignment="Center">
+                                <Viewbox Width="150" Height="150" 
+                                       Margin="0,0,0,30">
+                                    <Grid>
+                                        <Ellipse Width="150" Height="150" 
+                                               Fill="#ECF4E8"/>
+                                        <Path Data="M30,40 L70,40 L70,80 L30,80 Z" 
+                                            Stroke="#93BFC7" 
+                                            StrokeThickness="2"
+                                            Fill="#CBF3BB"/>
+                                        <Path Data="M40,50 L60,50 L60,70 L40,70 Z" 
+                                            Stroke="#5A6D5E" 
+                                            StrokeThickness="1"
+                                            Fill="#ABE7B2"/>
+                                    </Grid>
+                                </Viewbox>
+
+                                <TextBlock Text="مرحباً بك في لوحة تحكم الموظف" 
+                                         FontSize="28"
+                                         FontWeight="Bold"
+                                         Foreground="#2C3E2F"
+                                         HorizontalAlignment="Center"
+                                         Margin="0,0,0,15"/>
+
+                                <TextBlock Text="يمكنك إضافة وعرض بيانات الطلاب، المدرسين، الصفوف والشعب من خلال القائمة الجانبية" 
+                                         FontSize="16"
+                                         Foreground="#5A6D5E"
+                                         HorizontalAlignment="Center"
+                                         Margin="0,0,0,30"/>
+
+                                <!-- بطاقات الوظائف السريعة -->
+                                <WrapPanel HorizontalAlignment="Center"
+                                         Margin="0,0,0,30">
+                                    <Button x:Name="QuickAddStudent"
+                                          Style="{StaticResource CardButtonStyle}"
+                                          Width="180" Height="180"
+                                          Margin="10">
+                                        <StackPanel>
+                                            <TextBlock Text="➕👨‍🎓" 
+                                                     FontSize="40"
+                                                     HorizontalAlignment="Center"/>
+                                            <TextBlock Text="إضافة طالب" 
+                                                     FontSize="16"
+                                                     FontWeight="Bold"
+                                                     Foreground="#2C3E2F"
+                                                     HorizontalAlignment="Center"
+                                                     Margin="0,10,0,0"/>
+                                            <TextBlock Text="إضافة طالب جديد للنظام" 
+                                                     FontSize="12"
+                                                     Foreground="#5A6D5E"
+                                                     HorizontalAlignment="Center"
+                                                     TextWrapping="Wrap"
+                                                     Width="150"/>
+                                        </StackPanel>
+                                    </Button>
+
+                                    <Button x:Name="QuickViewStudents"
+                                          Style="{StaticResource CardButtonStyle}"
+                                          Width="180" Height="180"
+                                          Margin="10">
+                                        <StackPanel>
+                                            <TextBlock Text="👥👨‍🎓" 
+                                                     FontSize="40"
+                                                     HorizontalAlignment="Center"/>
+                                            <TextBlock Text="عرض الطلاب" 
+                                                     FontSize="16"
+                                                     FontWeight="Bold"
+                                                     Foreground="#2C3E2F"
+                                                     HorizontalAlignment="Center"
+                                                     Margin="0,10,0,0"/>
+                                            <TextBlock Text="عرض جميع الطلاب أو البحث" 
+                                                     FontSize="12"
+                                                     Foreground="#5A6D5E"
+                                                     HorizontalAlignment="Center"
+                                                     TextWrapping="Wrap"
+                                                     Width="150"/>
+                                        </StackPanel>
+                                    </Button>
+
+                                    <Button x:Name="QuickAssign"
+                                          Style="{StaticResource CardButtonStyle}"
+                                          Width="180" Height="180"
+                                          Margin="10">
+                                        <StackPanel>
+                                            <TextBlock Text="↪️🏫" 
+                                                     FontSize="40"
+                                                     HorizontalAlignment="Center"/>
+                                            <TextBlock Text="توزيع الطلاب" 
+                                                     FontSize="16"
+                                                     FontWeight="Bold"
+                                                     Foreground="#2C3E2F"
+                                                     HorizontalAlignment="Center"
+                                                     Margin="0,10,0,0"/>
+                                            <TextBlock Text="توزيع الطلاب على الصفوف والشعب" 
+                                                     FontSize="12"
+                                                     Foreground="#5A6D5E"
+                                                     HorizontalAlignment="Center"
+                                                     TextWrapping="Wrap"
+                                                     Width="150"/>
+                                        </StackPanel>
+                                    </Button>
+                                </WrapPanel>
+
+                                <!-- إحصائيات سريعة -->
+                                <Border Background="#F8F9FA"
+                                      CornerRadius="10"
+                                      Padding="20"
+                                      Margin="20">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Column="0"
+                                                  HorizontalAlignment="Center">
+                                            <TextBlock Text="👨‍🎓" 
+                                                     FontSize="24"/>
+                                            <TextBlock Text="الطلاب" 
+                                                     FontSize="14"
+                                                     Foreground="#5A6D5E"/>
+                                            <TextBlock Text="1,245" 
+                                                     FontSize="24"
+                                                     FontWeight="Bold"
+                                                     Foreground="#2C3E2F"/>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="1"
+                                                  HorizontalAlignment="Center">
+                                            <TextBlock Text="👨‍🏫" 
+                                                     FontSize="24"/>
+                                            <TextBlock Text="المدرسين" 
+                                                     FontSize="14"
+                                                     Foreground="#5A6D5E"/>
+                                            <TextBlock Text="85" 
+                                                     FontSize="24"
+                                                     FontWeight="Bold"
+                                                     Foreground="#2C3E2F"/>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="2"
+                                                  HorizontalAlignment="Center">
+                                            <TextBlock Text="🏫" 
+                                                     FontSize="24"/>
+                                            <TextBlock Text="الصفوف" 
+                                                     FontSize="14"
+                                                     Foreground="#5A6D5E"/>
+                                            <TextBlock Text="36" 
+                                                     FontSize="24"
+                                                     FontWeight="Bold"
+                                                     Foreground="#2C3E2F"/>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="3"
+                                                  HorizontalAlignment="Center">
+                                            <TextBlock Text="👥" 
+                                                     FontSize="24"/>
+                                            <TextBlock Text="الشعب" 
+                                                     FontSize="14"
+                                                     Foreground="#5A6D5E"/>
+                                            <TextBlock Text="108" 
+                                                     FontSize="24"
+                                                     FontWeight="Bold"
+                                                     Foreground="#2C3E2F"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- باقي المحتويات (سيتم التحكم بها من الكود الخلفي) -->
+                        <ContentControl x:Name="EmpMainContent" 
+                                      Visibility="Collapsed"/>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- التذييل -->
+            <Border Grid.Row="2" 
+                    Background="#CBF3BB"
+                    CornerRadius="0,0,15,15">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- معلومات الجلسة -->
+                    <StackPanel Grid.Column="0" 
+                              Orientation="Horizontal"
+                              Margin="20,0,0,0"
+                              VerticalAlignment="Center">
+                        <TextBlock Text="آخر دخول: " 
+                                 FontSize="12"
+                                 Foreground="#5A6D5E"/>
+                        <TextBlock Text="اليوم الساعة 08:30 صباحاً" 
+                                 FontSize="12"
+                                 FontWeight="Bold"
+                                 Foreground="#2C3E2F"/>
+                    </StackPanel>
+
+                    <!-- الإصدار -->
+                    <TextBlock Grid.Column="1" 
+                             Text="الإصدار 2.0.2024 - قسم الإدارة الأكاديمية ©" 
+                             FontSize="12"
+                             Foreground="#5A6D5E"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"/>
+
+                    <!-- معلومات النظام -->
+                    <StackPanel Grid.Column="2" 
+                              Orientation="Horizontal"
+                              HorizontalAlignment="Right"
+                              Margin="0,0,20,0"
+                              VerticalAlignment="Center">
+                        <TextBlock Text="عدد العمليات اليوم: " 
+                                 FontSize="12"
+                                 Foreground="#5A6D5E"/>
+                        <TextBlock Text="47" 
+                                 FontSize="12"
+                                 FontWeight="Bold"
+                                 Foreground="#2C3E2F"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>
