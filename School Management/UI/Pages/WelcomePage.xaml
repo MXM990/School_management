@@ -1,0 +1,257 @@
+﻿<UserControl x:Class="School_Management.UI.Pages.WelcomePage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Width="Auto" Height="Auto">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel HorizontalAlignment="Center" 
+                  VerticalAlignment="Center"
+                  Margin="20">
+            <!-- شاشة الترحيب -->
+            <Border Background="White"
+                  CornerRadius="15"
+                  Padding="30"
+                  Margin="0,0,0,20">
+                <StackPanel HorizontalAlignment="Center" 
+                          VerticalAlignment="Center">
+                    <Viewbox Width="150" Height="150" 
+                           Margin="0,0,0,30">
+                        <Grid>
+                            <Ellipse Width="150" Height="150" 
+                                   Fill="#ECF4E8"/>
+                            <Path Data="M30,40 L70,40 L70,80 L30,80 Z" 
+                                Stroke="#93BFC7" 
+                                StrokeThickness="2"
+                                Fill="#CBF3BB"/>
+                            <Path Data="M40,50 L60,50 L60,70 L40,70 Z" 
+                                Stroke="#5A6D5E" 
+                                StrokeThickness="1"
+                                Fill="#ABE7B2"/>
+                        </Grid>
+                    </Viewbox>
+
+                    <TextBlock Text="مرحباً بك في لوحة تحكم المدير" 
+                             FontSize="28"
+                             FontWeight="Bold"
+                             Foreground="#2C3E2F"
+                             HorizontalAlignment="Center"
+                             Margin="0,0,0,15"/>
+
+                    <TextBlock Text="يمكنك إدارة جميع جوانب النظام من خلال القائمة الجانبية" 
+                             FontSize="16"
+                             Foreground="#5A6D5E"
+                             HorizontalAlignment="Center"
+                             Margin="0,0,0,30"
+                             TextWrapping="Wrap"
+                             TextAlignment="Center"
+                             Width="500"/>
+                </StackPanel>
+            </Border>
+
+            <!-- بطاقات سريعة -->
+            <WrapPanel HorizontalAlignment="Center"
+                     Margin="0,20,0,0">
+                <!-- بطاقة الموظفين -->
+                <Border Width="180" Height="180"
+                      Background="#CBF3BB"
+                      CornerRadius="10"
+                      Margin="10"
+                      Cursor="Hand"
+                      MouseLeftButtonDown="EmployeeCard_MouseLeftButtonDown">
+                    <StackPanel HorizontalAlignment="Center" 
+                              VerticalAlignment="Center">
+                        <TextBlock Text="👥" 
+                                 FontSize="40"
+                                 HorizontalAlignment="Center"/>
+                        <TextBlock Text="الموظفين" 
+                                 FontSize="18"
+                                 FontWeight="Bold"
+                                 Foreground="#2C3E2F"
+                                 HorizontalAlignment="Center"
+                                 Margin="0,15,0,5"/>
+                        <TextBlock Text="إدارة جميع الموظفين" 
+                                 FontSize="12"
+                                 Foreground="#5A6D5E"
+                                 HorizontalAlignment="Center"
+                                 TextAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- بطاقة المدرسين -->
+                <Border Width="180" Height="180"
+                      Background="#ABE7B2"
+                      CornerRadius="10"
+                      Margin="10"
+                      Cursor="Hand"
+                      MouseLeftButtonDown="TeacherCard_MouseLeftButtonDown">
+                    <StackPanel HorizontalAlignment="Center" 
+                              VerticalAlignment="Center">
+                        <TextBlock Text="👨‍🏫" 
+                                 FontSize="40"
+                                 HorizontalAlignment="Center"/>
+                        <TextBlock Text="المدرسين" 
+                                 FontSize="18"
+                                 FontWeight="Bold"
+                                 Foreground="#2C3E2F"
+                                 HorizontalAlignment="Center"
+                                 Margin="0,15,0,5"/>
+                        <TextBlock Text="إدارة جميع المدرسين" 
+                                 FontSize="12"
+                                 Foreground="#5A6D5E"
+                                 HorizontalAlignment="Center"
+                                 TextAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- بطاقة الصفوف -->
+                <Border Width="180" Height="180"
+                      Background="#93BFC7"
+                      CornerRadius="10"
+                      Margin="10"
+                      Cursor="Hand"
+                      MouseLeftButtonDown="ClassCard_MouseLeftButtonDown">
+                    <StackPanel HorizontalAlignment="Center" 
+                              VerticalAlignment="Center">
+                        <TextBlock Text="🏫" 
+                                 FontSize="40"
+                                 HorizontalAlignment="Center"/>
+                        <TextBlock Text="الصفوف" 
+                                 FontSize="18"
+                                 FontWeight="Bold"
+                                 Foreground="White"
+                                 HorizontalAlignment="Center"
+                                 Margin="0,15,0,5"/>
+                        <TextBlock Text="إدارة جميع الصفوف" 
+                                 FontSize="12"
+                                 Foreground="White"
+                                 HorizontalAlignment="Center"
+                                 TextAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- بطاقة الطلاب -->
+                <Border Width="180" Height="180"
+                      Background="#7AB2B2"
+                      CornerRadius="10"
+                      Margin="10"
+                      Cursor="Hand"
+                      MouseLeftButtonDown="StudentCard_MouseLeftButtonDown">
+                    <StackPanel HorizontalAlignment="Center" 
+                              VerticalAlignment="Center">
+                        <TextBlock Text="👨‍🎓" 
+                                 FontSize="40"
+                                 HorizontalAlignment="Center"/>
+                        <TextBlock Text="الطلاب" 
+                                 FontSize="18"
+                                 FontWeight="Bold"
+                                 Foreground="White"
+                                 HorizontalAlignment="Center"
+                                 Margin="0,15,0,5"/>
+                        <TextBlock Text="إدارة جميع الطلاب" 
+                                 FontSize="12"
+                                 Foreground="White"
+                                 HorizontalAlignment="Center"
+                                 TextAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+            </WrapPanel>
+
+            <!-- إحصائيات سريعة -->
+            <Border Background="White"
+                  CornerRadius="15"
+                  Padding="20"
+                  Margin="0,30,0,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="📊 الإحصائيات السريعة" 
+                             FontSize="20"
+                             FontWeight="Bold"
+                             Foreground="#2C3E2F"
+                             Margin="0,0,0,20"/>
+
+                    <WrapPanel Grid.Row="1" 
+                             HorizontalAlignment="Center">
+                        <!-- إحصائيات الموظفين -->
+                        <Border Background="#F8F9FA"
+                              CornerRadius="8"
+                              Padding="15"
+                              Margin="10"
+                              Width="200">
+                            <StackPanel>
+                                <TextBlock Text="👥 الموظفين" 
+                                         FontSize="14"
+                                         FontWeight="Bold"
+                                         Foreground="#93BFC7"/>
+                                <TextBlock Text="45 موظف" 
+                                         FontSize="24"
+                                         FontWeight="Bold"
+                                         Foreground="#2C3E2F"
+                                         Margin="0,5,0,0"/>
+                                <ProgressBar Value="85" 
+                                           Maximum="100" 
+                                           Height="8"
+                                           Margin="0,10,0,0"
+                                           Background="#E9ECEF"
+                                           Foreground="#93BFC7"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- إحصائيات المدرسين -->
+                        <Border Background="#F8F9FA"
+                              CornerRadius="8"
+                              Padding="15"
+                              Margin="10"
+                              Width="200">
+                            <StackPanel>
+                                <TextBlock Text="👨‍🏫 المدرسين" 
+                                         FontSize="14"
+                                         FontWeight="Bold"
+                                         Foreground="#ABE7B2"/>
+                                <TextBlock Text="30 مدرس" 
+                                         FontSize="24"
+                                         FontWeight="Bold"
+                                         Foreground="#2C3E2F"
+                                         Margin="0,5,0,0"/>
+                                <ProgressBar Value="75" 
+                                           Maximum="100" 
+                                           Height="8"
+                                           Margin="0,10,0,0"
+                                           Background="#E9ECEF"
+                                           Foreground="#ABE7B2"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- إحصائيات الصفوف -->
+                        <Border Background="#F8F9FA"
+                              CornerRadius="8"
+                              Padding="15"
+                              Margin="10"
+                              Width="200">
+                            <StackPanel>
+                                <TextBlock Text="🏫 الصفوف" 
+                                         FontSize="14"
+                                         FontWeight="Bold"
+                                         Foreground="#7AB2B2"/>
+                                <TextBlock Text="12 صف" 
+                                         FontSize="24"
+                                         FontWeight="Bold"
+                                         Foreground="#2C3E2F"
+                                         Margin="0,5,0,0"/>
+                                <ProgressBar Value="60" 
+                                           Maximum="100" 
+                                           Height="8"
+                                           Margin="0,10,0,0"
+                                           Background="#E9ECEF"
+                                           Foreground="#7AB2B2"/>
+                            </StackPanel>
+                        </Border>
+                    </WrapPanel>
+                </Grid>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

@@ -11,7 +11,8 @@
         ResizeMode="NoResize"
         WindowStyle="None"
         AllowsTransparency="True"
-        Background="Transparent">
+        Background="Transparent"
+        Loaded="Window_Loaded">
 
     <!-- نافذة رئيسية -->
     <Border CornerRadius="15" 
@@ -62,7 +63,8 @@
                     </StackPanel>
 
                     <!-- عنوان الصفحة -->
-                    <TextBlock Grid.Column="1" 
+                    <TextBlock x:Name="PageTitle" 
+                             Grid.Column="1" 
                              Text="لوحة تحكم المدير" 
                              FontSize="24"
                              FontWeight="Bold"
@@ -84,6 +86,7 @@
                               FontSize="14"
                               FontWeight="Bold"
                               Cursor="Hand"
+                              Click="MinimizeButton_Click"
                               Margin="0,0,10,0">
                             <Button.Style>
                                 <Style TargetType="Button">
@@ -116,7 +119,8 @@
                               Foreground="White"
                               FontSize="14"
                               FontWeight="Bold"
-                              Cursor="Hand">
+                              Cursor="Hand"
+                              Click="CloseButton_Click">
                             <Button.Style>
                                 <Style TargetType="Button">
                                     <Setter Property="Template">
@@ -158,7 +162,8 @@
                         <StackPanel Margin="10">
                             <!-- زر الرئيسية -->
                             <Button x:Name="HomeButton"
-                                  Style="{StaticResource SidebarButtonStyle}">
+                                  Style="{StaticResource SidebarButtonStyle}"
+                                  Click="HomeButton_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="🏠" 
                                              FontSize="20"
@@ -177,7 +182,7 @@
 
                             <Button x:Name="AddEmployeeButton"
                                   Style="{StaticResource SidebarButtonStyle}"
-                                  Tag="AddEmployee">
+                                  Tag="AddEmployee" Click="SidebarButton_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="➕" 
                                              FontSize="16"
@@ -189,7 +194,7 @@
 
                             <Button x:Name="EditEmployeeButton"
                                   Style="{StaticResource SidebarButtonStyle}"
-                                  Tag="EditEmployee">
+                                  Tag="EditEmployee" Click="SidebarButton_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="✏️" 
                                              FontSize="16"
@@ -201,7 +206,7 @@
 
                             <Button x:Name="DeleteEmployeeButton"
                                   Style="{StaticResource SidebarButtonStyle}"
-                                  Tag="DeleteEmployee">
+                                  Tag="DeleteEmployee" Click="SidebarButton_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="🗑️" 
                                              FontSize="16"
@@ -213,7 +218,7 @@
 
                             <Button x:Name="ViewAllEmployeesButton"
                                   Style="{StaticResource SidebarButtonStyle}"
-                                  Tag="ViewAllEmployees">
+                                  Tag="ViewAllEmployees" Click="SidebarButton_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="👥" 
                                              FontSize="16"
@@ -232,7 +237,7 @@
 
                             <Button x:Name="AddTeacherButton"
                                   Style="{StaticResource SidebarButtonStyle}"
-                                  Tag="AddTeacher">
+                                  Tag="AddTeacher" Click="SidebarButton_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="➕" 
                                              FontSize="16"
@@ -244,7 +249,7 @@
 
                             <Button x:Name="EditTeacherButton"
                                   Style="{StaticResource SidebarButtonStyle}"
-                                  Tag="EditTeacher">
+                                  Tag="EditTeacher" Click="SidebarButton_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="✏️" 
                                              FontSize="16"
@@ -256,7 +261,7 @@
 
                             <Button x:Name="DeleteTeacherButton"
                                   Style="{StaticResource SidebarButtonStyle}"
-                                  Tag="DeleteTeacher">
+                                  Tag="DeleteTeacher" Click="SidebarButton_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="🗑️" 
                                              FontSize="16"
@@ -268,7 +273,7 @@
 
                             <Button x:Name="ViewAllTeachersButton"
                                   Style="{StaticResource SidebarButtonStyle}"
-                                  Tag="ViewAllTeachers">
+                                  Tag="ViewAllTeachers" Click="SidebarButton_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="👨‍🏫" 
                                              FontSize="16"
@@ -287,7 +292,7 @@
 
                             <Button x:Name="AddClassButton"
                                   Style="{StaticResource SidebarButtonStyle}"
-                                  Tag="AddClass">
+                                  Tag="AddClass" Click="SidebarButton_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="➕" 
                                              FontSize="16"
@@ -299,7 +304,7 @@
 
                             <Button x:Name="EditClassButton"
                                   Style="{StaticResource SidebarButtonStyle}"
-                                  Tag="EditClass">
+                                  Tag="EditClass" Click="SidebarButton_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="✏️" 
                                              FontSize="16"
@@ -311,7 +316,7 @@
 
                             <Button x:Name="DeleteClassButton"
                                   Style="{StaticResource SidebarButtonStyle}"
-                                  Tag="DeleteClass">
+                                  Tag="DeleteClass" Click="SidebarButton_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="🗑️" 
                                              FontSize="16"
@@ -323,7 +328,7 @@
 
                             <Button x:Name="ViewAllClassesButton"
                                   Style="{StaticResource SidebarButtonStyle}"
-                                  Tag="ViewAllClasses">
+                                  Tag="ViewAllClasses" Click="SidebarButton_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="🏫" 
                                              FontSize="16"
@@ -342,7 +347,7 @@
 
                             <Button x:Name="AddGroupButton"
                                   Style="{StaticResource SidebarButtonStyle}"
-                                  Tag="AddGroup">
+                                  Tag="AddGroup" Click="SidebarButton_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="➕" 
                                              FontSize="16"
@@ -354,7 +359,7 @@
 
                             <Button x:Name="EditGroupButton"
                                   Style="{StaticResource SidebarButtonStyle}"
-                                  Tag="EditGroup">
+                                  Tag="EditGroup" Click="SidebarButton_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="✏️" 
                                              FontSize="16"
@@ -366,7 +371,7 @@
 
                             <Button x:Name="DeleteGroupButton"
                                   Style="{StaticResource SidebarButtonStyle}"
-                                  Tag="DeleteGroup">
+                                  Tag="DeleteGroup" Click="SidebarButton_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="🗑️" 
                                              FontSize="16"
@@ -378,7 +383,7 @@
 
                             <Button x:Name="ViewAllGroupsButton"
                                   Style="{StaticResource SidebarButtonStyle}"
-                                  Tag="ViewAllGroups">
+                                  Tag="ViewAllGroups" Click="SidebarButton_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="👥" 
                                              FontSize="16"
@@ -397,7 +402,7 @@
 
                             <Button x:Name="ViewAllStudentsButton"
                                   Style="{StaticResource SidebarButtonStyle}"
-                                  Tag="ViewAllStudents">
+                                  Tag="ViewAllStudents" Click="SidebarButton_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="👨‍🎓" 
                                              FontSize="16"
@@ -412,7 +417,8 @@
                                   Style="{StaticResource SidebarButtonStyle}"
                                   Margin="0,40,0,0"
                                   Background="#FFEBEE"
-                                  BorderBrush="#F44336">
+                                  BorderBrush="#F44336"
+                                  Click="LogoutButton_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="🚪" 
                                              FontSize="16"
@@ -430,106 +436,11 @@
                 <Border Grid.Column="1" 
                         Background="#ECF4E8"
                         CornerRadius="0,0,15,0">
-                    <Grid>
-                        <!-- شاشة الترحيب (الافتراضية) -->
-                        <Border x:Name="WelcomeContent"
-                              Background="White"
-                              CornerRadius="10"
-                              Margin="20"
-                              Visibility="Visible">
-                            <StackPanel HorizontalAlignment="Center" 
-                                      VerticalAlignment="Center">
-                                <Viewbox Width="150" Height="150" 
-                                       Margin="0,0,0,30">
-                                    <Grid>
-                                        <Ellipse Width="150" Height="150" 
-                                               Fill="#ECF4E8"/>
-                                        <Path Data="M30,40 L70,40 L70,80 L30,80 Z" 
-                                            Stroke="#93BFC7" 
-                                            StrokeThickness="2"
-                                            Fill="#CBF3BB"/>
-                                        <Path Data="M40,50 L60,50 L60,70 L40,70 Z" 
-                                            Stroke="#5A6D5E" 
-                                            StrokeThickness="1"
-                                            Fill="#ABE7B2"/>
-                                    </Grid>
-                                </Viewbox>
-
-                                <TextBlock Text="مرحباً بك في لوحة تحكم المدير" 
-                                         FontSize="28"
-                                         FontWeight="Bold"
-                                         Foreground="#2C3E2F"
-                                         HorizontalAlignment="Center"
-                                         Margin="0,0,0,15"/>
-
-                                <TextBlock Text="يمكنك إدارة جميع جوانب النظام من خلال القائمة الجانبية" 
-                                         FontSize="16"
-                                         Foreground="#5A6D5E"
-                                         HorizontalAlignment="Center"
-                                         Margin="0,0,0,30"/>
-
-                                <WrapPanel HorizontalAlignment="Center">
-                                    <Border Width="150" Height="150"
-                                          Background="#CBF3BB"
-                                          CornerRadius="10"
-                                          Margin="10">
-                                        <StackPanel HorizontalAlignment="Center" 
-                                                  VerticalAlignment="Center">
-                                            <TextBlock Text="👥" 
-                                                     FontSize="30"
-                                                     HorizontalAlignment="Center"/>
-                                            <TextBlock Text="الموظفين" 
-                                                     FontSize="16"
-                                                     FontWeight="Bold"
-                                                     Foreground="#2C3E2F"
-                                                     HorizontalAlignment="Center"
-                                                     Margin="0,10,0,0"/>
-                                        </StackPanel>
-                                    </Border>
-
-                                    <Border Width="150" Height="150"
-                                          Background="#ABE7B2"
-                                          CornerRadius="10"
-                                          Margin="10">
-                                        <StackPanel HorizontalAlignment="Center" 
-                                                  VerticalAlignment="Center">
-                                            <TextBlock Text="👨‍🏫" 
-                                                     FontSize="30"
-                                                     HorizontalAlignment="Center"/>
-                                            <TextBlock Text="المدرسين" 
-                                                     FontSize="16"
-                                                     FontWeight="Bold"
-                                                     Foreground="#2C3E2F"
-                                                     HorizontalAlignment="Center"
-                                                     Margin="0,10,0,0"/>
-                                        </StackPanel>
-                                    </Border>
-
-                                    <Border Width="150" Height="150"
-                                          Background="#93BFC7"
-                                          CornerRadius="10"
-                                          Margin="10">
-                                        <StackPanel HorizontalAlignment="Center" 
-                                                  VerticalAlignment="Center">
-                                            <TextBlock Text="🏫" 
-                                                     FontSize="30"
-                                                     HorizontalAlignment="Center"/>
-                                            <TextBlock Text="الصفوف" 
-                                                     FontSize="16"
-                                                     FontWeight="Bold"
-                                                     Foreground="White"
-                                                     HorizontalAlignment="Center"
-                                                     Margin="0,10,0,0"/>
-                                        </StackPanel>
-                                    </Border>
-                                </WrapPanel>
-                            </StackPanel>
-                        </Border>
-
-                        <!-- باقي المحتويات (سيتم التحكم بها من الكود الخلفي) -->
-                        <ContentControl x:Name="MainContent" 
-                                      Visibility="Collapsed"/>
-                    </Grid>
+                    <!-- استخدام Frame للتنقل بين الواجهات -->
+                    <Frame x:Name="MainFrame"
+                           NavigationUIVisibility="Hidden"
+                           Background="Transparent"
+                           BorderThickness="0"/>
                 </Border>
             </Grid>
         </Grid>

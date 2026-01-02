@@ -1,0 +1,595 @@
+﻿<UserControl x:Class="School_Management.UI.Pages.AddTeacherPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:School_Management.UI.Pages"
+             mc:Ignorable="d"
+             d:DesignHeight="800" d:DesignWidth="900">
+
+    <UserControl.Resources>
+        <!-- أنماط مشابهة لواجهة الموظفين -->
+        <Style x:Key="RoundedTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="BorderBrush" Value="#D1D1D1"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#93BFC7"/>
+                            </Trigger>
+                            <Trigger Property="Validation.HasError" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#F44336"/>
+                                <Setter Property="ToolTip" 
+                                        Value="{Binding RelativeSource={RelativeSource Self}, 
+                                                Path=(Validation.Errors)[0].ErrorContent}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="RoundedComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="BorderBrush" Value="#D1D1D1"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <Border x:Name="border"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="5">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="20"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ContentPresenter Grid.Column="0"
+                                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                    Margin="{TemplateBinding Padding}"/>
+                                    <Path Grid.Column="1"
+                                          x:Name="arrow"
+                                          Data="M0,0 L5,5 L10,0"
+                                          Stroke="#666"
+                                          StrokeThickness="1"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#93BFC7"/>
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#93BFC7"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="#93BFC7"
+                                CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#7DA8B0"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="#B0BEC5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+        <!-- نمط لعناصر الاختصاص -->
+        <DataTemplate x:Key="SpecializationTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Icon}" FontSize="14" Margin="0,0,10,0"/>
+                <TextBlock Text="{Binding Name}" FontSize="14"/>
+            </StackPanel>
+        </DataTemplate>
+
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="20">
+
+            <!-- عنوان الصفحة -->
+            <Border Background="#93BFC7" CornerRadius="10" Padding="20" Margin="0,0,0,20">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Text="👨‍🏫" FontSize="28" Margin="0,0,10,0"/>
+                        <TextBlock Text="إضافة مدرس جديد" 
+                                 FontSize="24" FontWeight="Bold" Foreground="White"/>
+                    </StackPanel>
+
+                    <TextBlock Text="املأ النموذج التالي لإضافة مدرس جديد إلى النظام" 
+                             FontSize="14" Foreground="#ECF4E8"
+                             HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- نموذج الإضافة -->
+            <Border Background="White" CornerRadius="10" Padding="30">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- رسالة GUID -->
+                    <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                            Background="#F8F9FA" CornerRadius="5" Padding="10" Margin="0,0,0,20">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="🔒" FontSize="16" Margin="0,0,10,0"/>
+                            <TextBlock Text="سيتم إنشاء رقم تعريف فريد (GUID) تلقائياً عند حفظ البيانات" 
+                                     FontSize="12" Foreground="#6C757D"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- اسم المدرس -->
+                    <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,10,20">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                            <TextBlock Text="👤" FontSize="14" Margin="0,0,5,0"/>
+                            <TextBlock Text="اسم المدرس" 
+                                     FontSize="14" FontWeight="Bold" Foreground="#2C3E2F"/>
+                            <TextBlock Text=" *" Foreground="#F44336"/>
+                        </StackPanel>
+
+                        <TextBox x:Name="TeacherNameTextBox"
+                               Style="{StaticResource RoundedTextBoxStyle}"
+                               TextChanged="TextBox_TextChanged"/>
+
+                        <TextBlock x:Name="NameErrorText" 
+                                 Foreground="#F44336" 
+                                 FontSize="12"
+                                 Margin="5,5,0,0"
+                                 Visibility="Collapsed"/>
+                    </StackPanel>
+
+                    <!-- الرقم الوطني -->
+                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="10,0,0,20">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                            <TextBlock Text="🆔" FontSize="14" Margin="0,0,5,0"/>
+                            <TextBlock Text="الرقم الوطني" 
+                                     FontSize="14" FontWeight="Bold" Foreground="#2C3E2F"/>
+                            <TextBlock Text=" *" Foreground="#F44336"/>
+                        </StackPanel>
+
+                        <TextBox x:Name="NationalIdTextBox"
+                               Style="{StaticResource RoundedTextBoxStyle}"
+                               MaxLength="14"
+                               PreviewTextInput="NationalIdTextBox_PreviewTextInput"
+                               TextChanged="TextBox_TextChanged"/>
+
+                        <TextBlock x:Name="NationalIdErrorText" 
+                                 Foreground="#F44336" 
+                                 FontSize="12"
+                                 Margin="5,5,0,0"
+                                 Visibility="Collapsed"/>
+                    </StackPanel>
+
+                    <!-- الاختصاص -->
+                    <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,10,20">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                            <TextBlock Text="📚" FontSize="14" Margin="0,0,5,0"/>
+                            <TextBlock Text="الاختصاص" 
+                                     FontSize="14" FontWeight="Bold" Foreground="#2C3E2F"/>
+                            <TextBlock Text=" *" Foreground="#F44336"/>
+                        </StackPanel>
+
+                        <ComboBox x:Name="SpecializationComboBox"
+                                Style="{StaticResource RoundedComboBoxStyle}"
+                                ItemTemplate="{StaticResource SpecializationTemplate}"
+                                SelectionChanged="SpecializationComboBox_SelectionChanged"/>
+
+                        <TextBlock x:Name="SpecializationErrorText" 
+                                 Foreground="#F44336" 
+                                 FontSize="12"
+                                 Margin="5,5,0,0"
+                                 Visibility="Collapsed"/>
+                    </StackPanel>
+
+                    <!-- العمر -->
+                    <StackPanel Grid.Row="2" Grid.Column="1" Margin="10,0,0,20">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                            <TextBlock Text="🎂" FontSize="14" Margin="0,0,5,0"/>
+                            <TextBlock Text="العمر" 
+                                     FontSize="14" FontWeight="Bold" Foreground="#2C3E2F"/>
+                            <TextBlock Text=" *" Foreground="#F44336"/>
+                        </StackPanel>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="80"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Slider x:Name="AgeSlider"
+                                  Grid.Column="0"
+                                  Minimum="22" 
+                                  Maximum="70" 
+                                  Value="30"
+                                  TickFrequency="1"
+                                  IsSnapToTickEnabled="True"
+                                  TickPlacement="BottomRight"
+                                  Margin="0,0,10,0"
+                                  ValueChanged="AgeSlider_ValueChanged"/>
+
+                            <Border Grid.Column="1"
+                                  Background="#ECF4E8"
+                                  CornerRadius="5"
+                                  BorderBrush="#D1D1D1"
+                                  BorderThickness="1">
+                                <TextBlock x:Name="AgeValueText"
+                                         Text="30 سنة"
+                                         FontSize="14"
+                                         FontWeight="Bold"
+                                         Foreground="#2C3E2F"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Padding="10"/>
+                            </Border>
+                        </Grid>
+
+                        <TextBlock Text="يجب أن يكون العمر بين 22 و 70 سنة" 
+                                 FontSize="11"
+                                 Foreground="#6C757D"
+                                 Margin="0,5,0,0"/>
+                    </StackPanel>
+
+                    <!-- رقم الهاتف النقال -->
+                    <StackPanel Grid.Row="3" Grid.Column="0" Margin="0,0,10,20">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                            <TextBlock Text="📱" FontSize="14" Margin="0,0,5,0"/>
+                            <TextBlock Text="رقم الهاتف النقال" 
+                                     FontSize="14" FontWeight="Bold" Foreground="#2C3E2F"/>
+                            <TextBlock Text=" *" Foreground="#F44336"/>
+                        </StackPanel>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Column="0"
+                                  Background="#ECF4E8"
+                                  CornerRadius="5,0,0,5"
+                                  BorderBrush="#D1D1D1"
+                                  BorderThickness="1,1,0,1">
+                                <TextBlock Text="+963"
+                                         FontSize="14"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Padding="10"/>
+                            </Border>
+
+                            <TextBox x:Name="MobilePhoneTextBox"
+                                   Grid.Column="1"
+                                   Style="{StaticResource RoundedTextBoxStyle}"
+                                   Margin="-1,0,0,0"
+                                   BorderThickness="0,1,1,1"
+                                   MaxLength="10"
+                                   PreviewTextInput="PhoneTextBox_PreviewTextInput"
+                                   TextChanged="TextBox_TextChanged"/>
+                        </Grid>
+
+                        <TextBlock x:Name="MobilePhoneErrorText" 
+                                 Foreground="#F44336" 
+                                 FontSize="12"
+                                 Margin="5,5,0,0"
+                                 Visibility="Collapsed"/>
+                    </StackPanel>
+
+                    <!-- رقم الهاتف الأرضي -->
+                    <StackPanel Grid.Row="3" Grid.Column="1" Margin="10,0,0,20">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                            <TextBlock Text="☎️" FontSize="14" Margin="0,0,5,0"/>
+                            <TextBlock Text="رقم الهاتف الأرضي" 
+                                     FontSize="14" FontWeight="Bold" Foreground="#2C3E2F"/>
+                        </StackPanel>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Column="0"
+                                  Background="#ECF4E8"
+                                  CornerRadius="5,0,0,5"
+                                  BorderBrush="#D1D1D1"
+                                  BorderThickness="1,1,0,1">
+                                <TextBlock Text="+963"
+                                         FontSize="14"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Padding="10"/>
+                            </Border>
+
+                            <TextBox x:Name="LandlinePhoneTextBox"
+                                   Grid.Column="1"
+                                   Style="{StaticResource RoundedTextBoxStyle}"
+                                   Margin="-1,0,0,0"
+                                   BorderThickness="0,1,1,1"
+                                   MaxLength="8"
+                                   PreviewTextInput="PhoneTextBox_PreviewTextInput"/>
+                        </Grid>
+
+                        <TextBlock Text="اختياري" 
+                                 FontSize="11"
+                                 Foreground="#6C757D"
+                                 Margin="0,5,0,0"/>
+                    </StackPanel>
+
+                    <!-- سنوات الخبرة -->
+                    <StackPanel Grid.Row="4" Grid.Column="0" Margin="0,0,10,20">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                            <TextBlock Text="📅" FontSize="14" Margin="0,0,5,0"/>
+                            <TextBlock Text="سنوات الخبرة" 
+                                     FontSize="14" FontWeight="Bold" Foreground="#2C3E2F"/>
+                            <TextBlock Text=" *" Foreground="#F44336"/>
+                        </StackPanel>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="80"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Slider x:Name="ExperienceSlider"
+                                  Grid.Column="0"
+                                  Minimum="0" 
+                                  Maximum="40" 
+                                  Value="5"
+                                  TickFrequency="1"
+                                  IsSnapToTickEnabled="True"
+                                  TickPlacement="BottomRight"
+                                  Margin="0,0,10,0"
+                                  ValueChanged="ExperienceSlider_ValueChanged"/>
+
+                            <Border Grid.Column="1"
+                                  Background="#ECF4E8"
+                                  CornerRadius="5"
+                                  BorderBrush="#D1D1D1"
+                                  BorderThickness="1">
+                                <TextBlock x:Name="ExperienceValueText"
+                                         Text="5 سنوات"
+                                         FontSize="14"
+                                         FontWeight="Bold"
+                                         Foreground="#2C3E2F"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Padding="10"/>
+                            </Border>
+                        </Grid>
+
+                        <TextBlock Text="عدد سنوات الخبرة في التدريس" 
+                                 FontSize="11"
+                                 Foreground="#6C757D"
+                                 Margin="0,5,0,0"/>
+                    </StackPanel>
+
+                    <!-- الراتب (اختياري) -->
+                    <StackPanel Grid.Row="4" Grid.Column="1" Margin="10,0,0,20">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                            <TextBlock Text="💰" FontSize="14" Margin="0,0,5,0"/>
+                            <TextBlock Text="الراتب (اختياري)" 
+                                     FontSize="14" FontWeight="Bold" Foreground="#2C3E2F"/>
+                        </StackPanel>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Column="0"
+                                  Background="#ECF4E8"
+                                  CornerRadius="5,0,0,5"
+                                  BorderBrush="#D1D1D1"
+                                  BorderThickness="1,1,0,1">
+                                <TextBlock Text="ل.س"
+                                         FontSize="14"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Padding="10"/>
+                            </Border>
+
+                            <TextBox x:Name="SalaryTextBox"
+                                   Grid.Column="1"
+                                   Style="{StaticResource RoundedTextBoxStyle}"
+                                   Margin="-1,0,0,0"
+                                   BorderThickness="0,1,1,1"
+                                   PreviewTextInput="SalaryTextBox_PreviewTextInput"
+                                   TextChanged="SalaryTextBox_TextChanged">
+                                <TextBox.Text>
+                                    <Binding Path="Salary" StringFormat="{}{0:N0}" Mode="TwoWay">
+                                        <Binding.ValidationRules>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                        </Grid>
+
+                        <TextBlock Text="اختياري - يمكن تحديده لاحقاً" 
+                                 FontSize="11"
+                                 Foreground="#6C757D"
+                                 Margin="0,5,0,0"/>
+                    </StackPanel>
+
+                    <!-- معلومات إضافية -->
+                    <Border Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
+                            Background="#F8F9FA" CornerRadius="5" Padding="15" Margin="0,0,0,20">
+                        <StackPanel>
+                            <TextBlock Text="📝 معلومات إضافية (اختيارية)" 
+                                     FontSize="14" FontWeight="Bold" Foreground="#2C3E2F"
+                                     Margin="0,0,0,10"/>
+
+                            <TextBox x:Name="AdditionalInfoTextBox"
+                                   Height="80"
+                                   FontSize="14"
+                                   Padding="12"
+                                   BorderBrush="#D1D1D1"
+                                   BorderThickness="1"
+                                   AcceptsReturn="True"
+                                   TextWrapping="Wrap"
+                                   VerticalScrollBarVisibility="Auto">
+                                <TextBox.Template>
+                                    <ControlTemplate TargetType="TextBox">
+                                        <Border x:Name="border"
+                                                Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                CornerRadius="5">
+                                            <ScrollViewer x:Name="PART_ContentHost"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsFocused" Value="True">
+                                                <Setter TargetName="border" Property="BorderBrush" Value="#93BFC7"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </TextBox.Template>
+                            </TextBox>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- حالة النموذج -->
+                    <Border Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"
+                            x:Name="FormStatusBorder"
+                            Background="#FFF3E0" 
+                            CornerRadius="5" 
+                            Padding="15" 
+                            Margin="0,0,0,20"
+                            Visibility="Collapsed">
+                        <StackPanel x:Name="FormStatusPanel">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock x:Name="StatusIcon" Text="⚠️" FontSize="16" Margin="0,0,10,0"/>
+                                <TextBlock x:Name="StatusMessage" 
+                                         FontSize="14"
+                                         Foreground="#FF9800"
+                                         TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- أزرار التحكم -->
+                    <StackPanel Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
+                              Orientation="Horizontal"
+                              HorizontalAlignment="Center"
+                              Margin="0,20,0,10">
+                        <Button x:Name="SaveButton"
+                              Content="💾 حفظ المدرس"
+                              Width="200"
+                              Style="{StaticResource PrimaryButtonStyle}"
+                              Margin="0,0,15,0"
+                              Click="SaveButton_Click"/>
+
+                        <Button x:Name="ClearButton"
+                              Content="🧹 مسح النموذج"
+                              Width="180"
+                              Background="#ABE7B2"
+                              BorderBrush="#93C9A8"
+                              Margin="0,0,15,0"
+                              Click="ClearButton_Click">
+                           
+                        </Button>
+
+                        <Button x:Name="CancelButton"
+                              Content="❌ إلغاء"
+                              Width="150"
+                              Style="{StaticResource PrimaryButtonStyle}"
+                              Background="#FFEBEE"
+                              BorderBrush="#F44336"
+                              Foreground="#F44336"
+                              Click="CancelButton_Click">
+                          
+                        </Button>
+                    </StackPanel>
+
+                    <!-- تذييل الصفحة -->
+                    <Border Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"
+                            BorderThickness="0,1,0,0"
+                            BorderBrush="#E0E0E0"
+                            Margin="0,30,0,0"
+                            Padding="0,20,0,0">
+                        <StackPanel>
+                            <TextBlock Text="📋 ملاحظات هامة:" 
+                                     FontSize="14" FontWeight="Bold" Foreground="#2C3E2F"
+                                     Margin="0,0,0,10"/>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                <TextBlock Text="•" Margin="0,0,10,0" Foreground="#93BFC7"/>
+                                <TextBlock Text="الحقول التي تحمل علامة (*) إلزامية" 
+                                         FontSize="12" Foreground="#5A6D5E"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                <TextBlock Text="•" Margin="0,0,10,0" Foreground="#93BFC7"/>
+                                <TextBlock Text="يجب أن يكون عمر المدرس 22 سنة على الأقل" 
+                                         FontSize="12" Foreground="#5A6D5E"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="•" Margin="0,0,10,0" Foreground="#93BFC7"/>
+                                <TextBlock Text="سيتم حفظ بيانات المدرس في قاعدة البيانات فور الضغط على زر الحفظ" 
+                                         FontSize="12" Foreground="#5A6D5E"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
