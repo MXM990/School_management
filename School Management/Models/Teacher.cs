@@ -153,7 +153,6 @@ namespace School_Management.Models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        // دالة التحقق من صحة البيانات
         public bool IsValid()
         {
             return !string.IsNullOrWhiteSpace(Name) &&
@@ -164,7 +163,6 @@ namespace School_Management.Models
                    ExperienceYears >= 0;
         }
 
-        // دالة لإنشاء معلم جديد مع قيم افتراضية
         public static Teacher CreateNew()
         {
             return new Teacher

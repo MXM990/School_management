@@ -23,5 +23,14 @@ namespace School_Management.UI.Pages
         {
             InitializeComponent();
         }
+
+        private void MaxStudentsSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (MaxStudentsValueText is not null)
+                //   MaxStudentsValueText.Text = (sender as Slider).Value.ToString();
+                  MaxStudentsValueText.Text = MaxStudentsSlider.Value.ToString();
+                //  MaxStudentsValueText.Text = e.NewValue.ToString();
+
+        }
     }
 }

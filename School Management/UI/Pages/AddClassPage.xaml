@@ -261,7 +261,8 @@
                                   Minimum="10" 
                                   Maximum="50" 
                                   Value="25"
-                                  TickFrequency="5"
+                                    ValueChanged="MaxStudentsSlider_ValueChanged"
+                                  TickFrequency="1"
                                   IsSnapToTickEnabled="True"
                                   TickPlacement="BottomRight"
                                   Margin="0,0,10,0"/>
@@ -299,7 +300,7 @@
                                  Margin="0,5,0,0"/>
                     </StackPanel>
 
-                    <!-- معلومات إضافية -->
+                  
                     <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                             Background="#F8F9FA" CornerRadius="5" Margin="0,0,0,20">
                         <StackPanel Margin="15">
@@ -335,7 +336,7 @@
                         </StackPanel>
                     </Border>
 
-                    <!-- حالة النموذج -->
+      
                     <Border Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
                             x:Name="FormStatusBorder"
                             Background="#FFF3E0" 
@@ -353,7 +354,7 @@
                         </StackPanel>
                     </Border>
 
-                    <!-- أزرار التحكم -->
+             
                     <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
                               Orientation="Horizontal"
                               HorizontalAlignment="Center"
