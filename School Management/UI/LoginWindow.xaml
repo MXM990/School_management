@@ -264,7 +264,7 @@
                                   FontSize="14"
                                   Height="40"
                                   Cursor="Hand"
-                                  Margin="0,0,0,10">
+                                  Margin="0,0,0,10" Click="CreateDatabaseButton_Click">
                                 <Button.Resources>
                                     <Style TargetType="Border">
                                         <Setter Property="CornerRadius" Value="8"/>

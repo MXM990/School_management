@@ -1,4 +1,5 @@
-﻿using System;
+﻿using School_Management.Control;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -41,6 +42,12 @@ namespace School_Management.UI
                 EmployeeDashboard emp_ui = new EmployeeDashboard();
                 emp_ui.Show();
             }
+        }
+
+        private void CreateDatabaseButton_Click(object sender, RoutedEventArgs e)
+        {
+             CreateDataBaseUI createDataBaseUI = new CreateDataBaseUI();
+            createDataBaseUI.Show();
         }
     }
 }
