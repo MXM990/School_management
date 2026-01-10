@@ -149,12 +149,12 @@
         </Border>
 
         <!-- زر الإغلاق -->
-        <Button Grid.Row="5"
+        <Button Grid.Row="4"
                 x:Name="btnClose" 
                 Content="إغلاق" 
                 Click="btnClose_Click"
                 Padding="15,8"
-                Margin="0,15,0,0"
+                Margin="0,10,0,5"
                 HorizontalAlignment="Left"
                 FontWeight="Bold"
                 FontSize="14"
