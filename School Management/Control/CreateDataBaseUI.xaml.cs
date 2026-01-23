@@ -44,41 +44,23 @@ namespace School_Management.Control
                         {
                             foreach (var instance in instances)
                             {
-                                if (instance == "MSSQLSERVER")
-                                {
-                                    servers.Add(".");
-                                    servers.Add("(local)");
-                                    servers.Add("localhost");
-                                }
-                                else
-                                {
-                                    servers.Add($".\\{instance}");
-                                    servers.Add($"localhost\\{instance}");
-                                }
+                                servers.Add($".\\{instance}");
                             }
                         }
                     }
                 }
 
-                // إضافة SQLEXPRESS إذا لم تكن موجودة
-                if (!servers.Contains(".\\SQLEXPRESS"))
-                {
-                    servers.Add(".\\SQLEXPRESS");
-                    servers.Add("localhost\\SQLEXPRESS");
-                }
 
                 // إزالة التكرارات
-                var uniqueServers = new HashSet<string>(servers);
-                var sortedServers = new List<string>(uniqueServers);
-                sortedServers.Sort();
+                servers.Sort();
 
-                if (sortedServers.Count > 0)
+                if (servers.Count > 0)
                 {
-                    foreach (var server in sortedServers)
+                    foreach (var server in servers)
                     {
                         lstServers.Items.Add(server);
                     }
-                    txtStatus.Text = $"تم العثور على {sortedServers.Count} سيرفر";
+                    txtStatus.Text = $"تم العثور على {servers.Count} سيرفر";
                 }
                 else
                 {
@@ -89,6 +71,8 @@ namespace School_Management.Control
             catch (Exception ex)
             {
                 ShowResult("❌", $"خطأ: {ex.Message}", "حدث خطأ أثناء البحث عن السيرفرات", "#FFCDD2");
+                lstServers.Items.Add(".");
+                lstServers.Items.Add(".\\SQLEXPRESS");
             }
         }
 
@@ -183,9 +167,9 @@ namespace School_Management.Control
                 {
                     connection.Open();
 
-                    
-                        ShowResult("✅", "الاتصال ناجح", $"تم الاتصال بنجاح بالسيرفر: {serverName}", "#D4EDDA");
-                    
+
+                    ShowResult("✅", "الاتصال ناجح", $"تم الاتصال بنجاح بالسيرفر: {serverName}", "#D4EDDA");
+
                 }
             }
             catch (SqlException sqlEx)

@@ -49,5 +49,10 @@ namespace School_Management.UI
              CreateDataBaseUI createDataBaseUI = new CreateDataBaseUI();
             createDataBaseUI.Show();
         }
+        private void SelectDatabaseButton_Click(Object sender, RoutedEventArgs e)
+        {
+            SelectDatabaseUI selectDatabaseUI = new SelectDatabaseUI();
+            selectDatabaseUI.Show();
+        }
     }
 }

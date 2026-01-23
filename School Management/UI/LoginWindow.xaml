@@ -255,6 +255,23 @@
 
                         <!-- أزرار إضافية -->
                         <StackPanel Margin="0,30,0,0">
+                            <Button x:Name="SelectDatabaseButton"
+                                    Content="📂 اختيار قاعدة بيانات"
+                                    Background="Transparent"
+                                    Foreground="#5A6D5E"
+                                    BorderBrush="#ABE7B2"
+                                    BorderThickness="1"
+                                    FontSize="14"
+                                    Height="40"
+                                    Cursor="Hand"
+                                    Margin="0,0,0,10" Click="SelectDatabaseButton_Click">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="8"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+
                             <Button x:Name="CreateDatabaseButton"
                                   Content="إنشاء قاعدة جديدة"
                                   Background="Transparent"

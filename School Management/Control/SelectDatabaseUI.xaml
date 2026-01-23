@@ -1,0 +1,261 @@
+﻿<Window x:Class="School_Management.Control.SelectDatabaseUI"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="اختر قاعدة البيانات" 
+        Height="700" 
+        Width="800"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- العنوان -->
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="اختر قاعدة البيانات" 
+                       FontSize="24" 
+                       FontWeight="Bold"
+                       Foreground="#1976D2"/>
+            <TextBlock Text="اختر السيرفر ثم قاعدة البيانات للاتصال" 
+                       FontSize="14"
+                       Foreground="#757575"/>
+        </StackPanel>
+
+        <!-- زر البحث عن السيرفرات -->
+        <Button x:Name="btnFindServers" 
+                Grid.Row="0"
+                Content="🔄 تحديث السيرفرات" 
+                Click="btnFindServers_Click"
+                Padding="10,6"
+                FontWeight="Bold"
+                FontSize="13"
+                Background="#2196F3"
+                Foreground="White"
+                BorderBrush="#0D47A1"
+                Cursor="Hand"
+                HorizontalAlignment="Right"/>
+
+        <!-- قسم السيرفرات -->
+        <Border Grid.Row="2" 
+                BorderBrush="#BDBDBD" 
+                BorderThickness="1"
+                CornerRadius="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Border Background="#F5F5F5" 
+                        BorderBrush="#BDBDBD"
+                        BorderThickness="0,0,0,1"
+                        Padding="10">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="السيرفرات المتاحة:" 
+                                   FontWeight="Bold"/>
+                        <TextBlock x:Name="txtServerCount" 
+                                   Text="(0)"
+                                   Foreground="#757575"
+                                   Margin="5,0,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <ListBox x:Name="lstServers" 
+                         Grid.Row="1"
+                         SelectionChanged="lstServers_SelectionChanged"
+                         BorderThickness="0"
+                         FontSize="14"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <TextBlock Text="🖥️" 
+                                           Margin="0,0,10,0"
+                                           FontSize="16"/>
+                                <TextBlock Text="{Binding}" 
+                                           FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Padding" Value="5"/>
+                            <Setter Property="Margin" Value="2"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#E3F2FD"/>
+                                    <Setter Property="BorderBrush" Value="#2196F3"/>
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+            </Grid>
+        </Border>
+
+        <!-- قسم قواعد البيانات -->
+        <Border Grid.Row="4" 
+                BorderBrush="#BDBDBD" 
+                BorderThickness="1"
+                CornerRadius="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Border Background="#F5F5F5" 
+                        BorderBrush="#BDBDBD"
+                        BorderThickness="0,0,0,1"
+                        Padding="10">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="قواعد البيانات المتاحة:" 
+                                   FontWeight="Bold"/>
+                        <TextBlock x:Name="txtDatabaseCount" 
+                                   Text="(0)"
+                                   Foreground="#757575"
+                                   Margin="5,0,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <ListBox x:Name="lstDatabases" 
+                         Grid.Row="1"
+                         SelectionChanged="lstDatabases_SelectionChanged"
+                         BorderThickness="0"
+                         FontSize="14"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <TextBlock Text="🗃️" 
+                                           Margin="0,0,10,0"
+                                           FontSize="16"/>
+                                <TextBlock Text="{Binding}" 
+                                           FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Padding" Value="5"/>
+                            <Setter Property="Margin" Value="2"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#E8F5E9"/>
+                                    <Setter Property="BorderBrush" Value="#4CAF50"/>
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+            </Grid>
+        </Border>
+
+        <!-- بيانات المصادقة -->
+        <Border Grid.Row="5" 
+                Margin="0,15,0,0"
+                BorderBrush="#E0E0E0"
+                BorderThickness="1"
+                CornerRadius="5"
+                Padding="15">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <CheckBox x:Name="chkWindowsAuth"
+                          Grid.Row="0"
+                          Grid.ColumnSpan="2"
+                          Content="استخدام مصادقة Windows"
+                          Margin="0,0,0,10"
+                          Checked="chkWindowsAuth_Checked"
+                          Unchecked="chkWindowsAuth_Unchecked"/>
+
+                <TextBlock Grid.Row="1"
+                           Grid.Column="0"
+                           Text="اسم المستخدم:"
+                           VerticalAlignment="Center"/>
+                <TextBox x:Name="txtUsername"
+                         Grid.Row="1"
+                         Grid.Column="1"
+                         Margin="0,5"
+                         Padding="10"
+                         FontSize="14"/>
+
+                <TextBlock Grid.Row="2"
+                           Grid.Column="0"
+                           Text="كلمة المرور:"
+                           VerticalAlignment="Center"/>
+                <PasswordBox x:Name="txtPassword"
+                             Grid.Row="2"
+                             Grid.Column="1"
+                             Margin="0,5"
+                             Padding="10"
+                             FontSize="14"/>
+            </Grid>
+        </Border>
+
+        <!-- أزرار الإجراءات -->
+        <StackPanel Grid.Row="6" 
+                    Orientation="Horizontal" 
+                    Margin="0,15,0,0"
+                    HorizontalAlignment="Right">
+            <Button x:Name="btnTest" 
+                    Content="🔍 اختبار الاتصال" 
+                    Click="btnTest_Click"
+                    Padding="15,8"
+                    FontWeight="Bold"
+                    FontSize="14"
+                    Background="#4CAF50"
+                    Foreground="White"
+                    BorderBrush="#388E3C"
+                    Cursor="Hand"
+                    IsEnabled="False"/>
+
+            <Button x:Name="btnConnect" 
+                    Content="✅ الاتصال والتسجيل" 
+                    Click="btnConnect_Click"
+                    Padding="15,8"
+                    Margin="10,0,0,0"
+                    FontWeight="Bold"
+                    FontSize="14"
+                    Background="#2196F3"
+                    Foreground="White"
+                    BorderBrush="#0D47A1"
+                    Cursor="Hand"
+                    IsEnabled="False"/>
+
+            <Button x:Name="btnClose" 
+                    Content="إغلاق" 
+                    Click="btnClose_Click"
+                    Padding="15,8"
+                    Margin="10,0,0,0"
+                    FontSize="14"
+                    FontWeight="Bold"
+                    Background="#F5F5F5"
+                    Foreground="#757575"
+                    BorderBrush="#E0E0E0"/>
+        </StackPanel>
+    </Grid>
+</Window>
