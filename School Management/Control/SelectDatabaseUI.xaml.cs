@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
-using Microsoft.Win32;
+using System.Data;
+using System.Data.SqlClient;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Data.SqlClient;
-using System.Data;
 
 namespace School_Management.Control
 {
@@ -277,17 +278,11 @@ namespace School_Management.Control
 
                 ConnectionString = BuildConnectionString(SelectedServer, SelectedDatabase);
 
-                // اختبار الاتصال مرة أخرى قبل الإغلاق
                 try
                 {
-                    using (SqlConnection connection = new SqlConnection(ConnectionString))
-                    {
-                        connection.Open();
-
-                        // نجاح - إغلاق النافذة مع نتيجة إيجابية
-                        this.DialogResult = true;
-                        this.Close();
-                    }
+                    CurrentConnection.CuCon = new SqlConnection(ConnectionString);
+                    CurrentConnection.OpenConntion();
+                    CurrentConnection.CloseConntion();
                 }
                 catch (Exception ex)
                 {
@@ -313,7 +308,7 @@ namespace School_Management.Control
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = false;
+          
             this.Close();
         }
     }

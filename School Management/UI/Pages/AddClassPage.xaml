@@ -363,7 +363,8 @@
                               Content="💾 حفظ الصف"
                               Width="200"
                               Style="{StaticResource PrimaryButtonStyle}"
-                              Margin="0,0,15,0"/>
+                              Margin="0,0,15,0"
+                              Click="AddClassClick"/>
 
                         <Button x:Name="ClearButton"
                               Content="🧹 مسح النموذج"

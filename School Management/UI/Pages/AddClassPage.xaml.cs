@@ -1,5 +1,7 @@
-﻿using System;
+﻿using School_Management.Control;
+using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +33,17 @@ namespace School_Management.UI.Pages
                   MaxStudentsValueText.Text = MaxStudentsSlider.Value.ToString();
                 //  MaxStudentsValueText.Text = e.NewValue.ToString();
 
+        }
+        private void AddClassClick(Object sender, RoutedEventArgs e)
+        {
+            //test
+            //string name = "hi";
+            //string number = "3";
+          
+            //List<string> a = new List<string>();
+            //a.Add(name);
+            //a.Add(number);
+            //SqlExec.AddAndExecPrc("InsertNewClass" , a);
         }
     }
 }
