@@ -136,11 +136,13 @@ namespace School_Management.Control
 
                     // جلب قواعد البيانات المتاحة
                     string query = @"
-                        SELECT name, create_date, state_desc 
-                        FROM sys.databases 
-                        WHERE database_id > 4  
-                        AND state = 0  
-                        ORDER BY name";
+                        SELECT name AS DatabaseName 
+                FROM sys.databases 
+                WHERE database_id > 4 
+                AND state = 0
+                AND 
+                OBJECT_ID(name + '.dbo.InsertNewEmployee', 'P') IS NOT NULL
+                ORDER BY name";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     using (SqlDataReader reader = command.ExecuteReader())
@@ -148,7 +150,7 @@ namespace School_Management.Control
                         int count = 0;
                         while (reader.Read())
                         {
-                            string dbName = reader["name"].ToString();
+                            string dbName = reader["DatabaseName"].ToString();
                             lstDatabases.Items.Add(dbName);
                             count++;
                         }
@@ -283,6 +285,8 @@ namespace School_Management.Control
                     CurrentConnection.CuCon = new SqlConnection(ConnectionString);
                     CurrentConnection.OpenConntion();
                     CurrentConnection.CloseConntion();
+                    ShowResult("✅", "الاتصال ناجح", $"تم الاتصال بنجاح بالسيرفر: {SelectedServer}", "#D4EDDA");
+
                 }
                 catch (Exception ex)
                 {
@@ -305,10 +309,20 @@ namespace School_Management.Control
                 return $"Server={serverName};Database={databaseName};User Id={username};Password={password};Connection Timeout=5;";
             }
         }
+        private void ShowResult(string icon, string title, string details, string colorCode)
+        {
+            resultIcon.Text = icon;
+            txtResult.Text = title;
+            txtDetails.Text = details;
+            resultPanel.Background = (System.Windows.Media.Brush)new System.Windows.Media.BrushConverter()
+                .ConvertFromString(colorCode);
+            resultPanel.Visibility = Visibility.Visible;
 
+            // تمرير إلى الأعلى
+            resultPanel.BringIntoView();
+        }
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-          
             this.Close();
         }
     }

@@ -216,6 +216,47 @@
             </Grid>
         </Border>
 
+        <Border x:Name="resultPanel"
+        Grid.Row="5"
+        Margin="0,15,0,0"
+        Background="#F5F5F5"
+        BorderBrush="#BDBDBD"
+        BorderThickness="1"
+        CornerRadius="5"
+        Padding="15"
+        Visibility="Collapsed">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock x:Name="resultIcon" 
+                   Grid.Row="0"
+                   Grid.Column="0"
+                   FontSize="24"
+                   Margin="0,0,10,0"/>
+
+                <TextBlock x:Name="txtResult" 
+                   Grid.Row="0"
+                   Grid.Column="1"
+                   FontWeight="Bold"
+                   FontSize="14"/>
+
+                <TextBlock x:Name="txtDetails" 
+                   Grid.Row="1"
+                   Grid.Column="1"
+                   Margin="0,5,0,0"
+                   TextWrapping="Wrap"/>
+            </Grid>
+        </Border>
+
+
         <!-- أزرار الإجراءات -->
         <StackPanel Grid.Row="6" 
                     Orientation="Horizontal" 
