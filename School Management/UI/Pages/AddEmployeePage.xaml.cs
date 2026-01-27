@@ -1,4 +1,5 @@
-﻿using System;
+﻿using School_Management.Control;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -25,60 +26,12 @@ namespace School_Management.UI.Pages
         {
             InitializeComponent();
             InitializeForm();
-            LoadJobItems();
         }
-
-
-        public class JobItem
-        {
-            public string Name { get; set; }
-        }
-
-
-        private void LoadJobItems()
-        {
-            List<JobItem> jobItems = new List<JobItem>
-    {
-        new JobItem { Name = "مدرس" },
-        new JobItem { Name = "مدير مدرسة"},
-        new JobItem { Name = "ناظر" },
-        new JobItem { Name = "مرشد تربوي" },
-        new JobItem { Name = "سكرتير" },
-        new JobItem { Name = "محاسب" },
-        new JobItem { Name = "أمين مكتبة" },
-        new JobItem { Name = "حارس" },
-        new JobItem { Name = "عامل نظافة" },
-        new JobItem { Name = "سائق" },
-        new JobItem { Name = "معلم مساعد" },
-        new JobItem { Name = "مشرف" },
-        new JobItem { Name = "طبيب مدرسي" },
-        new JobItem { Name = "ممرض/ممرضة" },
-        new JobItem { Name = "أخصائي اجتماعي" },
-        new JobItem { Name = "فني مختبر" },
-        new JobItem { Name = "مدرب رياضة" },
-        new JobItem { Name = "مدرس حاسوب" },
-        new JobItem { Name = "مدرس لغة" },
-        new JobItem { Name = "مدرس علوم" },
-        new JobItem { Name = "مدرس رياضيات" },
-        new JobItem { Name = "مساعد إداري" },
-        new JobItem { Name = "منسق" },
-        new JobItem { Name = "مراقب" },
-        new JobItem { Name = "مشرف صيانة" }
-    };
-
-
-            foreach (var item in jobItems)
-            {
-                JobComboBox.Items.Add(item.Name);
-            }
-
-        }
-
 
         private void InitializeForm()
         {
             // تعيين القيم الافتراضية
-            AgeValueText.Text = $"{AgeSlider.Value} سنة";
+            AgeValueText.Text = $"{AgeSlider.Value}";
 
             // تحديث حالة زر الحفظ
             UpdateSaveButtonState();
@@ -87,7 +40,7 @@ namespace School_Management.UI.Pages
         private void UpdateSaveButtonState()
         {
             // التحقق من صحة جميع الحقول الإلزامية
-            bool allValid = isNameValid && isNationalIdValid  && isMobilePhoneValid;
+            bool allValid = isNameValid && isNationalIdValid && isMobilePhoneValid;
             if (allValid)
             {
                 SaveButton.IsEnabled = true;
@@ -242,39 +195,9 @@ namespace School_Management.UI.Pages
             }
         }
 
-        // دالة المساعدة للتحقق من صحة رقم الهاتف
-        private bool IsValidPhoneNumber(string phone)
-        {
-            if (string.IsNullOrWhiteSpace(phone))
-                return false;
 
-            // التحقق من أن الرقم يحتوي على أرقام فقط
-            return Regex.IsMatch(phone, @"^\d+$");
-        }
-
-        // دالة المساعدة للتحقق من صحة الاسم
-        private bool IsValidName(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name) || name.Length < 3)
-                return false;
-
-            // التحقق من أن الاسم يحتوي على أحرف عربية فقط
-            return Regex.IsMatch(name, @"^[\p{IsArabic}\s]+$");
-        }
-
-        // دالة المساعدة للتحقق من صحة الرقم الوطني
-        private bool IsValidNationalId(string nationalId)
-        {
-            if (string.IsNullOrWhiteSpace(nationalId) || nationalId.Length != 14)
-                return false;
-
-            // التحقق من أن الرقم الوطني يحتوي على أرقام فقط
-            return Regex.IsMatch(nationalId, @"^\d+$");
-        }
-        // إضافة حدث التحقق من إدخال الراتب
         private void SalaryTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            // السماح فقط بالأرقام
             foreach (char c in e.Text)
             {
                 if (!char.IsDigit(c))
@@ -321,7 +244,7 @@ namespace School_Management.UI.Pages
             }
 
             // التحقق من المهنة
-            if (JobComboBox.SelectedItem == null)
+            if (string.IsNullOrWhiteSpace(JobCombotext.Text))
             {
                 JobErrorText.Text = "المهنة مطلوبة";
                 JobErrorText.Visibility = Visibility.Visible;
@@ -412,7 +335,7 @@ namespace School_Management.UI.Pages
         {
             EmployeeNameTextBox.Text = "";
             NationalIdTextBox.Text = "";
-            JobComboBox.SelectedIndex = -1;
+            JobCombotext.Text = "";
             AgeSlider.Value = 25;
             MobilePhoneTextBox.Text = "";
             UsernameTextBox.Text = "";
@@ -435,71 +358,33 @@ namespace School_Management.UI.Pages
         // تحديث دالة SaveButton_Click
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                // التحقق من صحة الحقول الإلزامية
-                if (!ValidateForm())
-                    return;
 
-                // استخدام سلسلة الاتصال الحالية
-                string connectionString = "";
 
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    connection.Open();
+            if (!ValidateForm())
+                return;
 
-                    // إعداد المعاملات للإجراء المخزن
-                    using (SqlCommand command = new SqlCommand("InsertNewEmployee", connection))
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
+            List<SqlParameter> parameters = new List<SqlParameter>()
+    {
+        new SqlParameter("@EmployeeName", EmployeeNameTextBox.Text),
+        new SqlParameter("@Username", UsernameTextBox.Text),
+        new SqlParameter("@Password", PasswordBox.Password),
+        new SqlParameter("@NationalNumber", NationalIdTextBox.Text),
+        new SqlParameter("@JobTitle", JobCombotext.Text),
+        new SqlParameter("@Age", int.Parse(AgeValueText.Text)),
+        new SqlParameter("@PhoneNumber", MobilePhoneTextBox.Text),
+        new SqlParameter("@Salary", int.Parse(SalaryTextBox.Text)),
+        new SqlParameter("@HireDate", DateTime.Today)
+    };
 
-                        command.Parameters.AddWithValue("@EmployeeName", EmployeeNameTextBox.Text.Trim());
-                        command.Parameters.AddWithValue("@Username", UsernameTextBox.Text.Trim());
-                        command.Parameters.AddWithValue("@Password", PasswordBox.Password);
-                        command.Parameters.AddWithValue("@NationalNumber", NationalIdTextBox.Text.Trim());
-                        command.Parameters.AddWithValue("@JobTitle", ((JobItem)JobComboBox.SelectedItem).Name);
-                        command.Parameters.AddWithValue("@Age", int.Parse(AgeValueText.Text.Replace(" سنة", "")));
-                        command.Parameters.AddWithValue("@PhoneNumber", "+963" + MobilePhoneTextBox.Text.Trim());
-                        command.Parameters.AddWithValue("@Salary", int.Parse(SalaryTextBox.Text));
-                        command.Parameters.AddWithValue("@HireDate", DateTime.Today);
+            SqlExec.Exec_proc(AllPrc.InsertNewEmployee.ToString(), parameters);
 
-                        // تنفيذ الإجراء المخزن
-                        var result = command.ExecuteScalar();
+            MessageBox.Show($"تم إضافة الموظف بنجاح!\n" +
+                                     $"اسم الموظف: {EmployeeNameTextBox.Text.Trim()}\n" +
+                                     $"اسم المستخدم: {UsernameTextBox.Text.Trim()}\n" +
+                                     $"الراتب: {SalaryTextBox.Text} ل.س",
+                                     "نجاح", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                        MessageBox.Show($"تم إضافة الموظف بنجاح!\n" +
-                                      $"اسم الموظف: {EmployeeNameTextBox.Text.Trim()}\n" +
-                                      $"اسم المستخدم: {UsernameTextBox.Text.Trim()}\n" +
-                                      $"الراتب: {SalaryTextBox.Text} ل.س",
-                                      "نجاح", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                        ClearButton_Click(sender, e);
-                    }
-                }
-            }
-            catch (SqlException sqlEx)
-            {
-                // إذا كان الخطأ بسبب اسم مستخدم مكرر
-                if (sqlEx.Message.Contains("UNIQUE") && sqlEx.Message.Contains("Username"))
-                {
-                    UsernameErrorText.Text = "اسم المستخدم هذا مستخدم بالفعل";
-                    UsernameErrorText.Visibility = Visibility.Visible;
-                }
-                else if (sqlEx.Message.Contains("UNIQUE") && sqlEx.Message.Contains("NationalNumber"))
-                {
-                    NationalIdErrorText.Text = "الرقم الوطني هذا مسجل بالفعل";
-                    NationalIdErrorText.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    MessageBox.Show($"خطأ في قاعدة البيانات: {sqlEx.Message}",
-                                  "خطأ", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"حدث خطأ: {ex.Message}",
-                              "خطأ", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            ClearButton_Click(sender, e);
         }
     }
 }

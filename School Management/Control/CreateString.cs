@@ -91,7 +91,7 @@ namespace School_Management.Control
                                                          AS      
                                                         BEGIN
                                                         INSERT INTO Employees (EmployeeID, EmployeeName,Username, Password, NationalNumber, JobTitle, Age, PhoneNumber, Salary, HireDate)
-                                                        VALUES (NEWID(), @EmployeeName, @NationalNumber, @JobTitle, @Age, @PhoneNumber, @Salary, @HireDate)
+                                                        VALUES (NEWID(), @EmployeeName,@Username,@Password, @NationalNumber, @JobTitle, @Age, @PhoneNumber, @Salary, @HireDate)
                                                         END";
 
         public static readonly string InsertNewTeacher = @"CREATE PROC InsertNewTeacher
@@ -175,4 +175,9 @@ namespace School_Management.Control
         public static List<string> CreateProceduresCommands = new List<string> { InsertNewEmployee, InsertNewTeacher  , InsertNewClass , InsertNewGroup , InsertNewSubject  , InsertNewStudent , InsertNewClassGroup , InsertNewTeacherClassGroup };
 
     }
+    public enum AllPrc
+    {
+        InsertNewEmployee , InsertNewTeacher , InsertNewClass , InsertNewGroup , InsertNewSubject , InsertNewStudent ,InsertNewClassGroup ,InsertNewTeacherClassGroup 
+    }
+
 }

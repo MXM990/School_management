@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Linq;
@@ -10,50 +11,35 @@ namespace School_Management.Control
 {
     internal class SqlExec
     {
-        static string AddParametraInProc(string prc , List<string> parm)
-        {
-            string SqlCommandString;
 
-            SqlCommandString = @"Exec " + prc +" ";
 
-            for (int i = 0; i < parm.Count; i++)
-            {
-                SqlCommandString += " @Value" + i;
-                if (i < parm.Count - 1)
-                {
-                    SqlCommandString += " , ";
-                }
-            }
-            return SqlCommandString;
-        }
-
-        public static bool Exec_proc(string FinalPrc,List<string> parm)
+        public static bool Exec_proc(string procName, List<SqlParameter> parameters)
         {
             if (CurrentConnection.OpenConntion())
             {
-                SqlCommand sqlcmd = new SqlCommand(FinalPrc, CurrentConnection.CuCon);
-                for (int i = 0; i < parm.Count; i++)
+                try
                 {
-                    sqlcmd.Parameters.AddWithValue("@Value" + i, parm[i]);
+                    using (SqlCommand sqlcmd = new SqlCommand(procName, CurrentConnection.CuCon))
+                    {
+                        sqlcmd.CommandType = CommandType.StoredProcedure;  
+                        sqlcmd.Parameters.AddRange(parameters.ToArray());
+                        sqlcmd.ExecuteNonQuery();
+                        return true;
+                    }
                 }
-                sqlcmd.ExecuteNonQuery();
-                CurrentConnection.CloseConntion();
-                return true;
+                catch (Exception ex)
+                {
+                    return false;
+                }
+                finally
+                {
+                    CurrentConnection.CloseConntion();
+                }
             }
             else
             {
                 return false;
             }
-        }
-        public static bool AddAndExecPrc(string prc , List<string> parm)
-        {
-            string F_prc = AddParametraInProc(prc, parm);
-            if (Exec_proc(F_prc, parm))
-            {
-                return true;
-
-            }
-            return false;
         }
     }
 }
