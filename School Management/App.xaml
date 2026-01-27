@@ -277,7 +277,9 @@
                 <Setter Property="FontSize" Value="12"/>
                 <Setter Property="Foreground" Value="{StaticResource TextHintBrush}"/>
             </Style>
-
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="UI/Resources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
