@@ -69,7 +69,6 @@
             </Style.Triggers>
         </Style>
 
-        <!-- نمط لأزرار الحقول -->
         <Style x:Key="ClearButtonStyle" TargetType="Button" BasedOn="{StaticResource RoundedButtonStyle}">
             <Setter Property="Background" Value="#FFEBEE"/>
             <Setter Property="Foreground" Value="#F44336"/>
@@ -112,46 +111,25 @@
             </Setter>
         </Style>
 
-        <!-- نمط ComboBox -->
-        <Style x:Key="RoundedComboBoxStyle" TargetType="ComboBox">
+        <!-- نمط PasswordBox -->
+        <Style x:Key="RoundedPasswordBoxStyle" TargetType="PasswordBox">
             <Setter Property="Height" Value="45"/>
             <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Padding" Value="12"/>
             <Setter Property="BorderBrush" Value="#D1D1D1"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="ComboBox">
-                        <Grid>
-                            <Border x:Name="border"
-                                    Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                    CornerRadius="5">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="20"/>
-                                    </Grid.ColumnDefinitions>
-                                    <ContentPresenter Grid.Column="0"
-                                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                    Margin="{TemplateBinding Padding}"/>
-                                    <Path Grid.Column="1"
-                                          x:Name="arrow"
-                                          Data="M0,0 L5,5 L10,0"
-                                          Stroke="#666"
-                                          StrokeThickness="1"
-                                          HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"/>
-                                </Grid>
-                            </Border>
-                        </Grid>
+                    <ControlTemplate TargetType="PasswordBox">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#93BFC7"/>
-                            </Trigger>
                             <Trigger Property="IsFocused" Value="True">
                                 <Setter TargetName="border" Property="BorderBrush" Value="#93BFC7"/>
                             </Trigger>
@@ -181,10 +159,10 @@
                 </StackPanel>
             </Border>
 
-            <!-- نموذج الإضافة -->
             <Border Background="White" CornerRadius="10" Padding="30">
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -200,17 +178,6 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- رسالة GUID (مخفية) -->
-                    <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-                            Background="#F8F9FA" CornerRadius="5" Padding="10" Margin="0,0,0,20">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="🔒" FontSize="16" Margin="0,0,10,0"/>
-                            <TextBlock Text="سيتم إنشاء رقم تعريف فريد (GUID) تلقائياً عند حفظ البيانات" 
-                                     FontSize="12" Foreground="#6C757D"/>
-                        </StackPanel>
-                    </Border>
-
-                    <!-- اسم الموظف -->
                     <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,10,20">
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                             <TextBlock Text="👤" FontSize="14" Margin="0,0,5,0"/>
@@ -254,31 +221,53 @@
 
                     <!-- المهنة -->
                     <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,10,20">
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                            <TextBlock Text="💼" FontSize="14" Margin="0,0,5,0"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <TextBlock Text="💼" 
+                   FontSize="16" 
+                   VerticalAlignment="Center"
+                   Margin="0,0,6,0"/>
                             <TextBlock Text="المهنة" 
-                                     FontSize="14" FontWeight="Bold" Foreground="#2C3E2F"/>
-                            <TextBlock Text=" *" Foreground="#F44336"/>
+                   FontSize="16" 
+                   FontWeight="SemiBold" 
+                   Foreground="#2C3E50"
+                   VerticalAlignment="Center"/>
+                            <TextBlock Text="*" 
+                   Foreground="#E74C3C"
+                   FontWeight="Bold"
+                   VerticalAlignment="Center"
+                   Margin="2,0,0,0"/>
                         </StackPanel>
 
-                        <ComboBox x:Name="JobComboBox"
-                                Style="{StaticResource RoundedComboBoxStyle}"
-                                SelectionChanged="JobComboBox_SelectionChanged">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Icon}" FontSize="14" Margin="0,0,10,0"/>
-                                        <TextBlock Text="{Binding Name}" FontSize="14"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
+                        <Border CornerRadius="8"
+            Background="#F8F9FA"
+            BorderThickness="1"
+            BorderBrush="#E0E0E0"
+            Padding="2"
+            Margin="0,0,0,2">
+                            <ComboBox x:Name="JobComboBox"
+                  Height="44"
+                  VerticalContentAlignment="Center"
+                  Padding="12,0"
+                  BorderThickness="0"
+                  Background="Transparent"
+                  FontSize="14"
+                  Foreground="#333333">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}"
+                               Padding="4,8"
+                               FontSize="14"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </Border>
 
-                        <TextBlock x:Name="JobErrorText" 
-                                 Foreground="#F44336" 
-                                 FontSize="12"
-                                 Margin="5,5,0,0"
-                                 Visibility="Collapsed"/>
+                        <TextBlock x:Name="JobErrorText"
+               Foreground="#E74C3C"
+               FontSize="13"
+               Margin="8,4,0,0"
+               Visibility="Collapsed"
+               TextWrapping="Wrap"/>
                     </StackPanel>
 
                     <!-- العمر -->
@@ -322,14 +311,8 @@
                                          Padding="10"/>
                             </Border>
                         </Grid>
-
-                        <TextBlock Text="يمكنك استخدام شريط التمرير أو إدخال القيمة يدوياً" 
-                                 FontSize="11"
-                                 Foreground="#6C757D"
-                                 Margin="0,5,0,0"/>
                     </StackPanel>
 
-                    <!-- رقم الهاتف النقال -->
                     <StackPanel Grid.Row="3" Grid.Column="0" Margin="0,0,10,20">
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                             <TextBlock Text="📱" FontSize="14" Margin="0,0,5,0"/>
@@ -373,11 +356,50 @@
                                  Visibility="Collapsed"/>
                     </StackPanel>
 
-                    <!-- رقم الهاتف الأرضي -->
+                    <!-- اسم المستخدم -->
                     <StackPanel Grid.Row="3" Grid.Column="1" Margin="10,0,0,20">
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                            <TextBlock Text="☎️" FontSize="14" Margin="0,0,5,0"/>
-                            <TextBlock Text="رقم الهاتف الأرضي" 
+                            <TextBlock Text="👤" FontSize="14" Margin="0,0,5,0"/>
+                            <TextBlock Text="اسم المستخدم" 
+                                     FontSize="14" FontWeight="Bold" Foreground="#2C3E2F"/>
+                            <TextBlock Text=" *" Foreground="#F44336"/>
+                        </StackPanel>
+
+                        <TextBox x:Name="UsernameTextBox"
+                               Style="{StaticResource RoundedTextBoxStyle}"
+                               TextChanged="TextBox_TextChanged"/>
+
+                        <TextBlock x:Name="UsernameErrorText" 
+                                 Foreground="#F44336" 
+                                 FontSize="12"
+                                 Margin="5,5,0,0"
+                                 Visibility="Collapsed"/>
+                    </StackPanel>
+
+                    <!-- كلمة المرور -->
+                    <StackPanel Grid.Row="4" Grid.Column="0" Margin="0,0,10,20">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                            <TextBlock Text="🔒" FontSize="14" Margin="0,0,5,0"/>
+                            <TextBlock Text="كلمة المرور" 
+                                     FontSize="14" FontWeight="Bold" Foreground="#2C3E2F"/>
+                            <TextBlock Text=" *" Foreground="#F44336"/>
+                        </StackPanel>
+
+                        <PasswordBox x:Name="PasswordBox"
+                                   Style="{StaticResource RoundedPasswordBoxStyle}"/>
+
+                        <TextBlock x:Name="PasswordErrorText" 
+                                 Foreground="#F44336" 
+                                 FontSize="12"
+                                 Margin="5,5,0,0"
+                                 Visibility="Collapsed"/>
+                    </StackPanel>
+
+                    <!-- الراتب -->
+                    <StackPanel Grid.Row="4" Grid.Column="1" Margin="10,0,0,20">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                            <TextBlock Text="💰" FontSize="14" Margin="0,0,5,0"/>
+                            <TextBlock Text="الراتب (ل.س)" 
                                      FontSize="14" FontWeight="Bold" Foreground="#2C3E2F"/>
                         </StackPanel>
 
@@ -392,30 +414,31 @@
                                   CornerRadius="5,0,0,5"
                                   BorderBrush="#D1D1D1"
                                   BorderThickness="1,1,0,1">
-                                <TextBlock Text="+963"
+                                <TextBlock Text="ل.س"
                                          FontSize="14"
                                          HorizontalAlignment="Center"
                                          VerticalAlignment="Center"
                                          Padding="10"/>
                             </Border>
 
-                            <TextBox x:Name="LandlinePhoneTextBox"
+                            <TextBox x:Name="SalaryTextBox"
                                    Grid.Column="1"
                                    Style="{StaticResource RoundedTextBoxStyle}"
                                    Margin="-1,0,0,0"
                                    BorderThickness="0,1,1,1"
-                                   MaxLength="8"
-                                   PreviewTextInput="PhoneTextBox_PreviewTextInput"/>
+                                   PreviewTextInput="SalaryTextBox_PreviewTextInput"
+                                   TextChanged="TextBox_TextChanged"/>
                         </Grid>
 
-                        <TextBlock Text="اختياري" 
-                                 FontSize="11"
-                                 Foreground="#6C757D"
-                                 Margin="0,5,0,0"/>
+                        <TextBlock x:Name="SalaryErrorText" 
+                                 Foreground="#F44336" 
+                                 FontSize="12"
+                                 Margin="5,5,0,0"
+                                 Visibility="Collapsed"/>
                     </StackPanel>
 
                     <!-- معلومات إضافية -->
-                    <Border Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
+                    <Border Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
                             Background="#F8F9FA" CornerRadius="5" Padding="15" Margin="0,0,0,20">
                         <StackPanel>
                             <TextBlock Text="📝 معلومات إضافية (اختيارية)" 
@@ -452,7 +475,7 @@
                     </Border>
 
                     <!-- حالة النموذج -->
-                    <Border Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
+                    <Border Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"
                             x:Name="FormStatusBorder"
                             Background="#FFF3E0" 
                             CornerRadius="5" 
@@ -471,7 +494,7 @@
                     </Border>
 
                     <!-- أزرار التحكم -->
-                    <StackPanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"
+                    <StackPanel Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
                               Orientation="Horizontal"
                               HorizontalAlignment="Center"
                               Margin="0,20,0,10">
@@ -497,7 +520,7 @@
                     </StackPanel>
 
                     <!-- تذييل الصفحة -->
-                    <Border Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
+                    <Border Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"
                             BorderThickness="0,1,0,0"
                             BorderBrush="#E0E0E0"
                             Margin="0,30,0,0"
@@ -515,13 +538,19 @@
 
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                                 <TextBlock Text="•" Margin="0,0,10,0" Foreground="#93BFC7"/>
-                                <TextBlock Text="سيتم حفظ بيانات الموظف في قاعدة البيانات فور الضغط على زر الحفظ" 
+                                <TextBlock Text="اسم المستخدم يجب أن يكون فريداً ولا يتكرر في النظام" 
+                                         FontSize="12" Foreground="#5A6D5E"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                <TextBlock Text="•" Margin="0,0,10,0" Foreground="#93BFC7"/>
+                                <TextBlock Text="كلمة المرور يجب أن تكون 6 أحرف على الأقل" 
                                          FontSize="12" Foreground="#5A6D5E"/>
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="•" Margin="0,0,10,0" Foreground="#93BFC7"/>
-                                <TextBlock Text="يمكنك إضافة المزيد من البيانات عبر صفحة تعديل الموظف" 
+                                <TextBlock Text="الراتب يجب أن يكون قيمة رقمية موجبة" 
                                          FontSize="12" Foreground="#5A6D5E"/>
                             </StackPanel>
                         </StackPanel>

@@ -12,6 +12,9 @@ namespace School_Management.Control
         public static readonly string CreateTableEmployees = @"CREATE TABLE Employees (
                                                                 EmployeeID UNIQUEIDENTIFIER ,
                                                                 EmployeeName NVARCHAR(100) ,
+                                                                Username NVARCHAR(50) UNIQUE,
+                                                                Password NVARCHAR(100),
+                                                                IsActive BIT DEFAULT 1 ,
                                                                 NationalNumber NVARCHAR(20) UNIQUE ,
                                                                 JobTitle NVARCHAR(50) ,
                                                                 Age INT ,
@@ -77,15 +80,17 @@ namespace School_Management.Control
     {
         public static readonly string InsertNewEmployee = @"CREATE PROC InsertNewEmployee 
                                                         @EmployeeName NVARCHAR(100),
+                                                        @Username NVARCHAR(50) ,
+                                                        @Password NVARCHAR(100) ,
                                                         @NationalNumber NVARCHAR(20),
                                                         @JobTitle NVARCHAR(50),
                                                         @Age INT,
                                                         @PhoneNumber NVARCHAR(15),
                                                         @Salary INT,
-                                                        @HireDate DATE
+                                                        @HireDate DATE 
                                                          AS      
                                                         BEGIN
-                                                        INSERT INTO Employees (EmployeeID, EmployeeName, NationalNumber, JobTitle, Age, PhoneNumber, Salary, HireDate)
+                                                        INSERT INTO Employees (EmployeeID, EmployeeName,Username, Password, NationalNumber, JobTitle, Age, PhoneNumber, Salary, HireDate)
                                                         VALUES (NEWID(), @EmployeeName, @NationalNumber, @JobTitle, @Age, @PhoneNumber, @Salary, @HireDate)
                                                         END";
 

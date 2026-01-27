@@ -32,6 +32,13 @@ namespace School_Management.UI
                 MessageBox.Show("Name or Password Is Empty" , "fill all fild" ,MessageBoxButton.OK , MessageBoxImage.Warning);
                 return;
             }
+            if (CurrentConnection.CuCon == null)
+            {
+                if (MessageBoxResult.No == MessageBox.Show("لا يوجد أتصال على أي قاعدة", "هل تريد الأستمرار", MessageBoxButton.YesNo, MessageBoxImage.Warning))
+                {
+                    return;
+                }
+            }
             if (UsernameTextBox.Text == "admin" && PasswordBox.Password == "admin")
             {
                 AdminDashboard admin_ui = new AdminDashboard();
