@@ -109,14 +109,15 @@ namespace School_Management.Control
                                                         VALUES (NEWID(), @TeacherName, @NationalNumber, @Specialization, @Age, @PhoneNumber, @YearsOfExperience, @Salary, @HireDate)
                                                         END";
 
-        public static readonly string InsertNewClass = @"CREATE PROC InsertNewClass
-                                                        @EducationLevel NVARCHAR(50),
-                                                        @AdditionalInfo NVARCHAR(500)
-                                                        AS
-                                                        BEGIN
-                                                        INSERT INTO Classes (ClassID, EducationLevel, AdditionalInfo, CreatedDate)
-                                                        VALUES (NEWID(), @EducationLevel, @AdditionalInfo, GETDATE())
-                                                        END";
+        public static readonly string InsertNewClass = @"CREATE PROC InsertNewClass 
+                                                          @EducationLevel NVARCHAR(50),
+                                                          @AdditionalInfo NVARCHAR(500) = NULL,
+                                                          @CreatedDate DATETIME
+                                                           AS      
+                                                           BEGIN
+                                                               INSERT INTO Classes (ClassID, EducationLevel, AdditionalInfo, CreatedDate)
+                                                               VALUES (NEWID(), @EducationLevel, @AdditionalInfo, @CreatedDate)
+                                                           END";
 
         public static readonly string InsertNewGroup = @"CREATE PROC InsertNewGroup
                                                         @GroupName NVARCHAR(50),

@@ -46,7 +46,7 @@ namespace School_Management.UI
             }
             if (UsernameTextBox.Text == "emp" && PasswordBox.Password == "emp")
             {
-                EmployeeDashboard emp_ui = new EmployeeDashboard();
+                EmployeeDashboard emp_ui = new EmployeeDashboard("mohmad" , "nour");
                 emp_ui.Show();
             }
         }

@@ -38,7 +38,6 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
@@ -107,10 +106,10 @@
                             <TextBlock Text=" *" Foreground="#F44336"/>
                         </StackPanel>
 
-                        <ComboBox x:Name="SpecializationComboBox"
-                                Style="{StaticResource RoundedComboBoxStyle}"
-                                ItemTemplate="{StaticResource SpecializationTemplate}"
-                                SelectionChanged="SpecializationComboBox_SelectionChanged"/>
+                        <TextBox x:Name="Specializationtext"
+                               Style="{StaticResource RoundedTextBoxStyle}"
+                               MaxLength="14"
+                               TextChanged="Specializationtext_TextChanged"/>
 
                         <TextBlock x:Name="SpecializationErrorText" 
                                  Foreground="#F44336" 
@@ -151,7 +150,7 @@
                                   BorderBrush="#D1D1D1"
                                   BorderThickness="1">
                                 <TextBlock x:Name="AgeValueText"
-                                         Text="30 سنة"
+                                         Text="30"
                                          FontSize="14"
                                          FontWeight="Bold"
                                          Foreground="#2C3E2F"
@@ -211,49 +210,8 @@
                                  Visibility="Collapsed"/>
                     </StackPanel>
 
-                    <!-- رقم الهاتف الأرضي -->
-                    <StackPanel Grid.Row="3" Grid.Column="1" Margin="10,0,0,20">
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                            <TextBlock Text="☎️" FontSize="14" Margin="0,0,5,0"/>
-                            <TextBlock Text="رقم الهاتف الأرضي" 
-                                     FontSize="14" FontWeight="Bold" Foreground="#2C3E2F"/>
-                        </StackPanel>
-
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="80"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <Border Grid.Column="0"
-                                  Background="#ECF4E8"
-                                  CornerRadius="5,0,0,5"
-                                  BorderBrush="#D1D1D1"
-                                  BorderThickness="1,1,0,1">
-                                <TextBlock Text="+963"
-                                         FontSize="14"
-                                         HorizontalAlignment="Center"
-                                         VerticalAlignment="Center"
-                                         Padding="10"/>
-                            </Border>
-
-                            <TextBox x:Name="LandlinePhoneTextBox"
-                                   Grid.Column="1"
-                                   Style="{StaticResource RoundedTextBoxStyle}"
-                                   Margin="-1,0,0,0"
-                                   BorderThickness="0,1,1,1"
-                                   MaxLength="8"
-                                   PreviewTextInput="PhoneTextBox_PreviewTextInput"/>
-                        </Grid>
-
-                        <TextBlock Text="اختياري" 
-                                 FontSize="11"
-                                 Foreground="#6C757D"
-                                 Margin="0,5,0,0"/>
-                    </StackPanel>
-
                     <!-- سنوات الخبرة -->
-                    <StackPanel Grid.Row="4" Grid.Column="0" Margin="0,0,10,20">
+                    <StackPanel Grid.Row="3" Grid.Column="1" Margin="10,0,0,20">
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                             <TextBlock Text="📅" FontSize="14" Margin="0,0,5,0"/>
                             <TextBlock Text="سنوات الخبرة" 
@@ -284,7 +242,7 @@
                                   BorderBrush="#D1D1D1"
                                   BorderThickness="1">
                                 <TextBlock x:Name="ExperienceValueText"
-                                         Text="5 سنوات"
+                                         Text="5"
                                          FontSize="14"
                                          FontWeight="Bold"
                                          Foreground="#2C3E2F"
@@ -301,7 +259,7 @@
                     </StackPanel>
 
                     <!-- الراتب (اختياري) -->
-                    <StackPanel Grid.Row="4" Grid.Column="1" Margin="10,0,0,20">
+                    <StackPanel Grid.Row="4" Grid.Column="0" Margin="0,0,10,20">
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                             <TextBlock Text="💰" FontSize="14" Margin="0,0,5,0"/>
                             <TextBlock Text="الراتب (اختياري)" 
@@ -332,15 +290,14 @@
                                    Margin="-1,0,0,0"
                                    BorderThickness="0,1,1,1"
                                    PreviewTextInput="SalaryTextBox_PreviewTextInput"
-                                   TextChanged="SalaryTextBox_TextChanged">
-                                <TextBox.Text>
-                                    <Binding Path="Salary" StringFormat="{}{0:N0}" Mode="TwoWay">
-                                        <Binding.ValidationRules>
-                                        </Binding.ValidationRules>
-                                    </Binding>
-                                </TextBox.Text>
-                            </TextBox>
+                                   TextChanged="SalaryTextBox_TextChanged"/>
                         </Grid>
+
+                        <TextBlock x:Name="SalaryErrorText"
+                                 Foreground="#F44336" 
+                                 FontSize="12"
+                                 Margin="5,5,0,0"
+                                 Visibility="Collapsed"/>
 
                         <TextBlock Text="اختياري - يمكن تحديده لاحقاً" 
                                  FontSize="11"
@@ -349,8 +306,7 @@
                     </StackPanel>
 
                     <!-- معلومات إضافية -->
-                    <Border Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
-                            Background="#F8F9FA" CornerRadius="5" Padding="15" Margin="0,0,0,20">
+                    <Border Grid.Row="4" Grid.Column="1" Margin="10,0,0,20">
                         <StackPanel>
                             <TextBlock Text="📝 معلومات إضافية (اختيارية)" 
                                      FontSize="14" FontWeight="Bold" Foreground="#2C3E2F"
@@ -386,7 +342,7 @@
                     </Border>
 
                     <!-- حالة النموذج -->
-                    <Border Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"
+                    <Border Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
                             x:Name="FormStatusBorder"
                             Background="#FFF3E0" 
                             CornerRadius="5" 
@@ -405,7 +361,7 @@
                     </Border>
 
                     <!-- أزرار التحكم -->
-                    <StackPanel Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
+                    <StackPanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"
                               Orientation="Horizontal"
                               HorizontalAlignment="Center"
                               Margin="0,20,0,10">
@@ -422,9 +378,7 @@
                               Background="#ABE7B2"
                               BorderBrush="#93C9A8"
                               Margin="0,0,15,0"
-                              Click="ClearButton_Click">
-                           
-                        </Button>
+                              Click="ClearButton_Click"/>
 
                         <Button x:Name="CancelButton"
                               Content="❌ إلغاء"
@@ -433,13 +387,11 @@
                               Background="#FFEBEE"
                               BorderBrush="#F44336"
                               Foreground="#F44336"
-                              Click="CancelButton_Click">
-                          
-                        </Button>
+                              Click="CancelButton_Click"/>
                     </StackPanel>
 
                     <!-- تذييل الصفحة -->
-                    <Border Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"
+                    <Border Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
                             BorderThickness="0,1,0,0"
                             BorderBrush="#E0E0E0"
                             Margin="0,30,0,0"

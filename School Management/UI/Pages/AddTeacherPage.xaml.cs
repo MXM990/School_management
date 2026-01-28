@@ -1,26 +1,18 @@
-﻿using System;
+﻿using School_Management.Control;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using School_Management.Models;
 
 namespace School_Management.UI.Pages
 {
     public partial class AddTeacherPage : UserControl
     {
-        // كائن لتمثيل الاختصاصات
-        public class SpecializationItem
-        {
-            public string Icon { get; set; }
-            public string Name { get; set; }
-            public string Value { get; set; }
-        }
-
-        // متغيرات التحقق من الصحة
         private bool isNameValid = false;
         private bool isNationalIdValid = false;
         private bool isSpecializationValid = false;
@@ -29,49 +21,18 @@ namespace School_Management.UI.Pages
         public AddTeacherPage()
         {
             InitializeComponent();
-            InitializeSpecializations();
             InitializeForm();
-        }
-
-        private void InitializeSpecializations()
-        {
-            // قائمة الاختصاصات المتاحة
-            var specializations = new List<SpecializationItem>
-            {
-                new SpecializationItem { Icon = "📐", Name = "الرياضيات", Value = "Mathematics" },
-                new SpecializationItem { Icon = "🔬", Name = "العلوم", Value = "Science" },
-                new SpecializationItem { Icon = "🔭", Name = "الفيزياء", Value = "Physics" },
-                new SpecializationItem { Icon = "🧪", Name = "الكيمياء", Value = "Chemistry" },
-                new SpecializationItem { Icon = "🧬", Name = "الأحياء", Value = "Biology" },
-                new SpecializationItem { Icon = "🔄", Name = "اللغة العربية", Value = "Arabic" },
-                new SpecializationItem { Icon = "🇬🇧", Name = "اللغة الإنجليزية", Value = "English" },
-                new SpecializationItem { Icon = "🇫🇷", Name = "اللغة الفرنسية", Value = "French" },
-                new SpecializationItem { Icon = "📜", Name = "التاريخ", Value = "History" },
-                new SpecializationItem { Icon = "🌍", Name = "الجغرافيا", Value = "Geography" },
-                new SpecializationItem { Icon = "💻", Name = "المعلوماتية", Value = "ComputerScience" },
-                new SpecializationItem { Icon = "🎨", Name = "الفنون", Value = "Arts" },
-                new SpecializationItem { Icon = "🎵", Name = "الموسيقى", Value = "Music" },
-                new SpecializationItem { Icon = "⚽", Name = "التربية الرياضية", Value = "PhysicalEducation" },
-                new SpecializationItem { Icon = "📊", Name = "الإحصاء", Value = "Statistics" }
-            };
-
-            SpecializationComboBox.ItemsSource = specializations;
-            SpecializationComboBox.SelectedIndex = 0;
         }
 
         private void InitializeForm()
         {
-            // تعيين القيم الافتراضية
-            AgeValueText.Text = $"{AgeSlider.Value} سنة";
-            ExperienceValueText.Text = $"{ExperienceSlider.Value} سنوات";
-
-            // تحديث حالة زر الحفظ
+            AgeValueText.Text = $"{(int)AgeSlider.Value}";
+            ExperienceValueText.Text = $"{(int)ExperienceSlider.Value}";
             UpdateSaveButtonState();
         }
 
         private void UpdateSaveButtonState()
         {
-            // التحقق من صحة جميع الحقول الإلزامية
             bool allValid = isNameValid && isNationalIdValid && isSpecializationValid && isMobilePhoneValid;
             SaveButton.IsEnabled = allValid;
         }
@@ -85,19 +46,6 @@ namespace School_Management.UI.Pages
         private void HideError(TextBlock errorTextBlock)
         {
             errorTextBlock.Visibility = Visibility.Collapsed;
-        }
-
-        private void ShowFormStatus(string message, string icon = "⚠️", string color = "#FF9800")
-        {
-            StatusIcon.Text = icon;
-            StatusMessage.Text = message;
-            StatusMessage.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(color));
-            FormStatusBorder.Visibility = Visibility.Visible;
-        }
-
-        private void HideFormStatus()
-        {
-            FormStatusBorder.Visibility = Visibility.Collapsed;
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -114,6 +62,9 @@ namespace School_Management.UI.Pages
                         break;
                     case "MobilePhoneTextBox":
                         ValidateMobilePhone();
+                        break;
+                    case "SalaryTextBox":
+                        ValidateSalary();
                         break;
                 }
             }
@@ -132,11 +83,6 @@ namespace School_Management.UI.Pages
             else if (name.Length < 3)
             {
                 ShowError(NameErrorText, "اسم المدرس يجب أن يكون 3 أحرف على الأقل");
-                isNameValid = false;
-            }
-            else if (!Regex.IsMatch(name, @"^[\p{IsArabic}\s]+$"))
-            {
-                ShowError(NameErrorText, "يرجى إدخال اسم عربي صحيح");
                 isNameValid = false;
             }
             else
@@ -181,9 +127,9 @@ namespace School_Management.UI.Pages
                 ShowError(MobilePhoneErrorText, "الرجاء إدخال رقم الهاتف النقال");
                 isMobilePhoneValid = false;
             }
-            else if (mobilePhone.Length != 10 && mobilePhone.Length != 9)
+            else if (mobilePhone.Length != 10)
             {
-                ShowError(MobilePhoneErrorText, "رقم الهاتف يجب أن يكون 9 أو 10 أرقام");
+                ShowError(MobilePhoneErrorText, "رقم الهاتف يجب أن يكون 10 أرقام");
                 isMobilePhoneValid = false;
             }
             else if (!Regex.IsMatch(mobilePhone, @"^\d+$"))
@@ -198,9 +144,70 @@ namespace School_Management.UI.Pages
             }
         }
 
-        private void SpecializationComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ValidateSalary()
         {
-            if (SpecializationComboBox.SelectedItem != null)
+            string salary = SalaryTextBox.Text.Trim();
+
+            if (!string.IsNullOrWhiteSpace(salary))
+            {
+                if (!int.TryParse(salary, out int salaryValue) || salaryValue < 0)
+                {
+                    ShowError(SalaryErrorText, "الراتب يجب أن يكون رقمًا صحيحًا موجبًا");
+                }
+                else
+                {
+                    HideError(SalaryErrorText);
+                }
+            }
+            else
+            {
+                HideError(SalaryErrorText);
+            }
+        }
+
+        private void AgeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if(AgeValueText is not null)
+            {
+                AgeValueText.Text = $"{(int)AgeSlider.Value}";
+            }
+        }
+
+        private void ExperienceSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (ExperienceValueText is not null)
+            {
+                ExperienceValueText.Text = $"{(int)ExperienceSlider.Value}";
+            }
+        }
+
+        private void NationalIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex(@"^[0-9]+$");
+            e.Handled = !regex.IsMatch(e.Text);
+        }
+
+        private void PhoneTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex(@"^[0-9]+$");
+            e.Handled = !regex.IsMatch(e.Text);
+        }
+
+        private void SalaryTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            foreach (char c in e.Text)
+            {
+                if (!char.IsDigit(c))
+                {
+                    e.Handled = true;
+                    return;
+                }
+            }
+        }
+
+        private void Specializationtext_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(Specializationtext.Text))
             {
                 isSpecializationValid = true;
                 HideError(SpecializationErrorText);
@@ -208,167 +215,175 @@ namespace School_Management.UI.Pages
             else
             {
                 isSpecializationValid = false;
-                ShowError(SpecializationErrorText, "الرجاء اختيار الاختصاص");
+                ShowError(SpecializationErrorText, "الرجاء إدخال الاختصاص");
             }
             UpdateSaveButtonState();
         }
 
-        private void AgeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private bool ValidateForm()
         {
-         //   AgeValueText.Text = $"{(int)AgeSlider.Value} سنة";
-        }
+            bool isValid = true;
 
-        private void ExperienceSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-         //   ExperienceValueText.Text = $"{(int)ExperienceSlider.Value} سنوات";
-        }
-
-        private void NationalIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            // السماح فقط بالأرقام
-            Regex regex = new Regex(@"^[0-9]+$");
-            e.Handled = !regex.IsMatch(e.Text);
-        }
-
-        private void PhoneTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            // السماح فقط بالأرقام
-            Regex regex = new Regex(@"^[0-9]+$");
-            e.Handled = !regex.IsMatch(e.Text);
-        }
-
-        private void SalaryTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            // السماح فقط بالأرقام والنقطة
-            Regex regex = new Regex(@"^[0-9\.]+$");
-            e.Handled = !regex.IsMatch(e.Text);
-        }
-
-        private void SalaryTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            // تحقق من صحة الراتب إذا تم إدخاله
-            string salaryText = SalaryTextBox.Text.Trim();
-            if (!string.IsNullOrWhiteSpace(salaryText))
+            // التحقق من اسم المدرس
+            if (string.IsNullOrWhiteSpace(TeacherNameTextBox.Text))
             {
-                if (!decimal.TryParse(salaryText, out decimal salary) || salary < 0)
+                NameErrorText.Text = "اسم المدرس مطلوب";
+                NameErrorText.Visibility = Visibility.Visible;
+                isValid = false;
+            }
+            else
+            {
+                NameErrorText.Visibility = Visibility.Collapsed;
+            }
+
+            // التحقق من الرقم الوطني
+            if (string.IsNullOrWhiteSpace(NationalIdTextBox.Text))
+            {
+                NationalIdErrorText.Text = "الرقم الوطني مطلوب";
+                NationalIdErrorText.Visibility = Visibility.Visible;
+                isValid = false;
+            }
+            else if (NationalIdTextBox.Text.Length != 14)
+            {
+                NationalIdErrorText.Text = "الرقم الوطني يجب أن يكون 14 رقمًا";
+                NationalIdErrorText.Visibility = Visibility.Visible;
+                isValid = false;
+            }
+            else
+            {
+                NationalIdErrorText.Visibility = Visibility.Collapsed;
+            }
+
+            // التحقق من الاختصاص
+            if (string.IsNullOrWhiteSpace(Specializationtext.Text))
+            {
+                SpecializationErrorText.Text = "الاختصاص مطلوب";
+                SpecializationErrorText.Visibility = Visibility.Visible;
+                isValid = false;
+            }
+            else
+            {
+                SpecializationErrorText.Visibility = Visibility.Collapsed;
+            }
+
+            // التحقق من الهاتف النقال
+            if (string.IsNullOrWhiteSpace(MobilePhoneTextBox.Text))
+            {
+                MobilePhoneErrorText.Text = "رقم الهاتف النقال مطلوب";
+                MobilePhoneErrorText.Visibility = Visibility.Visible;
+                isValid = false;
+            }
+            else if (MobilePhoneTextBox.Text.Length != 10)
+            {
+                MobilePhoneErrorText.Text = "رقم الهاتف يجب أن يكون 10 أرقام";
+                MobilePhoneErrorText.Visibility = Visibility.Visible;
+                isValid = false;
+            }
+            else
+            {
+                MobilePhoneErrorText.Visibility = Visibility.Collapsed;
+            }
+
+            // التحقق من الراتب (اختياري)
+            if (!string.IsNullOrWhiteSpace(SalaryTextBox.Text))
+            {
+                if (!int.TryParse(SalaryTextBox.Text, out int salary) || salary <= 0)
                 {
-                    ShowFormStatus("الرجاء إدخال قيمة راتب صحيحة", "⚠️", "#FF9800");
+                    SalaryErrorText.Text = "الراتب يجب أن يكون رقمًا صحيحًا موجبًا";
+                    SalaryErrorText.Visibility = Visibility.Visible;
+                    isValid = false;
                 }
                 else
                 {
-                    HideFormStatus();
+                    SalaryErrorText.Visibility = Visibility.Collapsed;
                 }
             }
+
+            return isValid;
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            // إخفاء أي رسائل حالة سابقة
-            HideFormStatus();
+            if (!ValidateForm())
+                return;
+
+            // التحقق من صحة الراتب إذا تم إدخاله
+            int? salaryValue = null;
+            if (!string.IsNullOrWhiteSpace(SalaryTextBox.Text))
+            {
+                if (int.TryParse(SalaryTextBox.Text, out int salary))
+                {
+                    salaryValue = salary;
+                }
+            }
+
+            List<SqlParameter> parameters = new List<SqlParameter>()
+            {
+                new SqlParameter("@TeacherName", TeacherNameTextBox.Text),
+                new SqlParameter("@NationalNumber", NationalIdTextBox.Text),
+                new SqlParameter("@Specialization", Specializationtext.Text),
+                new SqlParameter("@Age", (int)AgeSlider.Value),
+                new SqlParameter("@PhoneNumber", MobilePhoneTextBox.Text),
+                new SqlParameter("@YearsOfExperience", (int)ExperienceSlider.Value),
+                new SqlParameter("@Salary", salaryValue.HasValue ? (object)salaryValue.Value : DBNull.Value),
+                new SqlParameter("@HireDate", DateTime.Today)
+            };
 
             try
             {
-                // إنشاء معرف فريد GUID
-                Guid teacherId = Guid.NewGuid();
+                // استدعاء الإجراء المخزن مع اسم الإجراء الصحيح
+                bool success = SqlExec.Exec_proc("InsertNewTeacher", parameters);
 
-                // جمع بيانات المدرس
-                var teacher = new Teacher
+                if (success)
                 {
-                    Id = teacherId,
-                    Name = TeacherNameTextBox.Text.Trim(),
-                    NationalId = NationalIdTextBox.Text.Trim(),
-                    Specialization = (SpecializationComboBox.SelectedItem as SpecializationItem)?.Name,
-                    Age = (int)AgeSlider.Value,
-                    MobilePhone = MobilePhoneTextBox.Text.Trim(),
-                    LandlinePhone = LandlinePhoneTextBox.Text.Trim(),
-                    ExperienceYears = (int)ExperienceSlider.Value,
-                    CreatedDate = DateTime.Now
-                };
+                    MessageBox.Show($"تم إضافة المدرس بنجاح!\n" +
+                                   $"اسم المدرس: {TeacherNameTextBox.Text.Trim()}\n" +
+                                   $"الاختصاص: {Specializationtext.Text}\n" +
+                                   $"سنوات الخبرة: {ExperienceSlider.Value}\n" +
+                                   (salaryValue.HasValue ? $"الراتب: {salaryValue.Value:N0} ل.س" : "الراتب: غير محدد"),
+                                   "نجاح", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                // معالجة الراتب إذا تم إدخاله
-                if (!string.IsNullOrWhiteSpace(SalaryTextBox.Text.Trim()))
-                {
-                    if (decimal.TryParse(SalaryTextBox.Text.Trim(), out decimal salary))
-                    {
-                        teacher.Salary = salary;
-                    }
-                }
-
-                // التحقق من صحة بيانات المدرس
-                if (!teacher.IsValid())
-                {
-                    ShowFormStatus("❌ يرجى التحقق من صحة جميع البيانات المدخلة", "❌", "#F44336");
-                    return;
-                }
-
-                // هنا يمكنك إضافة كود لحفظ البيانات في قاعدة البيانات
-                // SaveToDatabase(teacher);
-
-                // عرض رسالة نجاح
-                ShowFormStatus($"✅ تم إضافة المدرس '{teacher.Name}' بنجاح!\nتم إنشاء المعرف الفريد: {teacherId}", "✅", "#4CAF50");
-
-                // تعطيل زر الحفظ مؤقتاً
-                SaveButton.IsEnabled = false;
-
-                // إمكانية عرض بيانات المدرس في MessageBox
-                var salaryInfo = teacher.Salary.HasValue ? $"{teacher.Salary.Value:N0} ل.س" : "غير محدد";
-                var result = MessageBox.Show(
-                    $"تم إضافة المدرس بنجاح!\n\n" +
-                    $"المعرف: {teacher.Id}\n" +
-                    $"الاسم: {teacher.Name}\n" +
-                    $"الرقم الوطني: {teacher.NationalId}\n" +
-                    $"الاختصاص: {teacher.Specialization}\n" +
-                    $"العمر: {teacher.Age} سنة\n" +
-                    $"سنوات الخبرة: {teacher.ExperienceYears}\n" +
-                    $"رقم النقال: {teacher.MobilePhone}\n" +
-                    $"الراتب: {salaryInfo}\n\n" +
-                    "هل تريد إضافة مدرس آخر؟",
-                    "نجاح الإضافة",
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Information);
-
-                if (result == MessageBoxResult.Yes)
-                {
                     ClearButton_Click(sender, e);
+                }
+                else
+                {
+                    MessageBox.Show("حدث خطأ أثناء حفظ البيانات", "خطأ", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (Exception ex)
             {
-                ShowFormStatus($"❌ حدث خطأ أثناء حفظ البيانات: {ex.Message}", "❌", "#F44336");
                 MessageBox.Show($"حدث خطأ: {ex.Message}", "خطأ", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
-            // مسح جميع الحقول
             TeacherNameTextBox.Text = "";
             NationalIdTextBox.Text = "";
-            SpecializationComboBox.SelectedIndex = 0;
+            Specializationtext.Text = "";
             AgeSlider.Value = 30;
-            ExperienceSlider.Value = 5;
+            ExperienceSlider.Value = 0;
             MobilePhoneTextBox.Text = "";
-            LandlinePhoneTextBox.Text = "";
             SalaryTextBox.Text = "";
             AdditionalInfoTextBox.Text = "";
 
             // إخفاء رسائل الخطأ
-            HideError(NameErrorText);
-            HideError(NationalIdErrorText);
-            HideError(MobilePhoneErrorText);
-            HideFormStatus();
+            NameErrorText.Visibility = Visibility.Collapsed;
+            NationalIdErrorText.Visibility = Visibility.Collapsed;
+            SpecializationErrorText.Visibility = Visibility.Collapsed;
+            MobilePhoneErrorText.Visibility = Visibility.Collapsed;
+            SalaryErrorText.Visibility = Visibility.Collapsed;
 
             // إعادة تعيين متغيرات التحقق
             isNameValid = false;
             isNationalIdValid = false;
+            isSpecializationValid = false;
             isMobilePhoneValid = false;
-            isSpecializationValid = true; // لأن لدينا قيمة افتراضية
 
             // تحديث حالة زر الحفظ
             UpdateSaveButtonState();
 
-            // إعادة التركيز على أول حقل
-            TeacherNameTextBox.Focus();
+            FormStatusBorder.Visibility = Visibility.Collapsed;
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -381,39 +396,19 @@ namespace School_Management.UI.Pages
 
             if (result == MessageBoxResult.Yes)
             {
-                // العودة إلى الصفحة الرئيسية أو قائمة المدرسين
                 var mainWindow = Window.GetWindow(this) as AdminDashboard;
                 if (mainWindow != null)
                 {
-                   // mainWindow.LoadPage("ViewAllTeachers");
+                    // mainWindow.LoadPage("ViewAllTeachers");
                 }
             }
         }
 
-        // كلاس التحقق من صحة الراتب (اختياري)
-        public class SalaryValidationRule : ValidationRule
+        // إضافة دالة SalaryTextBox_TextChanged للتأكد من تحديث الرسالة
+        private void SalaryTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo)
-            {
-                string salaryText = value as string;
-
-                if (string.IsNullOrWhiteSpace(salaryText))
-                {
-                    return ValidationResult.ValidResult; // الراتب اختياري
-                }
-
-                if (!decimal.TryParse(salaryText, out decimal salary))
-                {
-                    return new ValidationResult(false, "الرجاء إدخال قيمة رقمية صحيحة");
-                }
-
-                if (salary < 0)
-                {
-                    return new ValidationResult(false, "الراتب لا يمكن أن يكون سالباً");
-                }
-
-                return ValidationResult.ValidResult;
-            }
+            ValidateSalary();
+            UpdateSaveButtonState();
         }
     }
-}
+}   
