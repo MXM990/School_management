@@ -93,12 +93,12 @@ namespace School_Management.UI
 
                         case "ViewAllStudents":
                             PageTitle.Text = "عرض جميع الطلاب";
-                            //MainFrame.Content = new ViewAllStudentsPage();
+                            MainFrame.Content = new ViewAllStudentsPage();
                             break;
 
                         case "SearchStudent":
                             PageTitle.Text = "بحث عن طالب";
-                            //MainFrame.Content = new SearchStudentPage();
+                            MainFrame.Content = new SearchStudentPage();
                             break;
 
                         case "ViewStudentsByClass":

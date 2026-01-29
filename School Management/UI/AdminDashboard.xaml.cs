@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using School_Management.UI.EmpPages;
 
 namespace School_Management.UI
 {
@@ -103,7 +104,7 @@ namespace School_Management.UI
                     title = "عرض جميع الشعب";
                     break;
                 case "ViewAllStudents":
-                    page = new Pages.ViewAllStudentsPage();
+                    page = new ViewAllStudentsPage();
                     title = "عرض جميع الطلاب";
                     break;
             }
