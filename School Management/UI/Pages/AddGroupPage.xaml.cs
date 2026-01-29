@@ -162,18 +162,5 @@ namespace School_Management.UI.Pages
                 }
             }
         }
-
-        private void ShowFormStatus(string message, string icon = "⚠️", string color = "#FF9800")
-        {
-            StatusIcon.Text = icon;
-            StatusMessage.Text = message;
-            StatusMessage.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(color));
-            FormStatusBorder.Visibility = Visibility.Visible;
-        }
-
-        private void HideFormStatus()
-        {
-            FormStatusBorder.Visibility = Visibility.Collapsed;
-        }
     }
 }

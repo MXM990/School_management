@@ -53,8 +53,9 @@
                         </StackPanel>
 
                         <TextBox x:Name="GroupNameTextBox"
-                               Style="{StaticResource RoundedTextBoxStyle}"/>
-
+                               Style="{StaticResource RoundedTextBoxStyle}"
+                               TextChanged="GroupNameTextBox_TextChanged"/>
+                                
                         <TextBlock x:Name="GroupNameErrorText" 
                                  Foreground="#F44336" 
                                  FontSize="12"

@@ -153,16 +153,24 @@ namespace School_Management.Control
                                                         VALUES (NEWID(), @StudentName, @NationalNumber, @Age, @FatherName, @PhoneNumber, @RegistrationStatus, @Address, @Email, @BirthDate)
                                                         END";
 
-        public static readonly string InsertNewClassGroup = @"CREATE PROC InsertNewClassGroup
-                                                        @fullClassName NVARCHAR(100),
-                                                        @ClassID UNIQUEIDENTIFIER,
-                                                        @GroupID UNIQUEIDENTIFIER,
-                                                        @MaxStudents INT
-                                                         AS
-                                                        BEGIN
-                                                        INSERT INTO Class_Group (ClassGroupID, fullClassName, ClassID, GroupID, MaxStudents)
-                                                        VALUES (NEWID(), @fullClassName, @ClassID, @GroupID, @MaxStudents)
-                                                        END";
+        public static readonly string InsertNewClassGroup = @"CREATE PROC InsertClassGroup
+                                                             @fullClassName NVARCHAR(100),
+                                                             @ClassID UNIQUEIDENTIFIER,
+                                                             @GroupID UNIQUEIDENTIFIER,
+                                                             @MaxStudents INT
+                                                         AS      
+                                                         BEGIN
+                                                           
+                                                             IF EXISTS (SELECT 1 FROM Class_Group WHERE ClassID = @ClassID AND GroupID = @GroupID)
+                                                             BEGIN
+                                                                 RAISERROR ('هذا الصف والشعبة مجتمعان مسبقاً', 16, 1)
+                                                                 RETURN
+                                                             END
+                                                             
+                                                       
+                                                             INSERT INTO Class_Group (ClassGroupID, fullClassName, ClassID, GroupID, MaxStudents)
+                                                             VALUES (NEWID(), @fullClassName, @ClassID, @GroupID, @MaxStudents)
+                                                         END";
 
         public static readonly string InsertNewTeacherClassGroup = @"CREATE PROC InsertNewTeacherClassGroup
                                                         @TeacherID UNIQUEIDENTIFIER,

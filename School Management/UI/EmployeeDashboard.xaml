@@ -194,19 +194,32 @@
                                 </StackPanel>
                             </Button>
 
+                            <Button x:Name="AddClassGroupButton"
+                               Style="{StaticResource SidebarButtonStyle}"
+                               Tag="AssignGourpToClass" 
+                               Click="SidebarButton_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="🏫👥" 
+                                        FontSize="16"
+                                        Margin="0,0,10,0"/>
+                                                           <TextBlock Text="إضافة صف كامل" 
+                                        FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+
                             <Button x:Name="AssignStudentToClassButton"
                                   Style="{StaticResource SidebarButtonStyle}"
                                   Tag="AssignStudentToClass"
                                   Click="SidebarButton_Click">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="↪️🏫" 
+                                    <TextBlock Text="🏫➕👨‍🎓" 
                                              FontSize="16"
                                              Margin="0,0,10,0"/>
-                                    <TextBlock Text="إضافة طالب إلى صف/شعبة" 
+                                    <TextBlock Text="إضافة طالب إلى صف" 
                                              FontSize="14"/>
                                 </StackPanel>
                             </Button>
-
+                             
                             <Button x:Name="AssignTeacherToClassButton"
                                   Style="{StaticResource SidebarButtonStyle}"
                                   Tag="AssignTeacherToClass"
@@ -215,7 +228,7 @@
                                     <TextBlock Text="↪️👨‍🏫" 
                                              FontSize="16"
                                              Margin="0,0,10,0"/>
-                                    <TextBlock Text="إضافة مدرس إلى صف/شعبة" 
+                                    <TextBlock Text="إضافة مدرس إلى صف" 
                                              FontSize="14"/>
                                 </StackPanel>
                             </Button>
