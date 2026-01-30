@@ -194,6 +194,19 @@
                                 </StackPanel>
                             </Button>
 
+                            <Button x:Name="AddSubjectButton"
+      Style="{StaticResource SidebarButtonStyle}"
+      Tag="AddSubject" 
+      Click="SidebarButton_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="📚➕" 
+                 FontSize="16"
+                 Margin="0,0,10,0"/>
+                                    <TextBlock Text="إضافة مادة جديدة" 
+                 FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+
                             <Button x:Name="AddClassGroupButton"
                                Style="{StaticResource SidebarButtonStyle}"
                                Tag="AssignGourpToClass" 

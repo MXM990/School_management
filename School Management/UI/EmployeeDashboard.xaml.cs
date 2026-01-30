@@ -61,6 +61,11 @@ namespace School_Management.UI
                             MainFrame.Content = new AddStudentPage();
                             break;
 
+                        case "AddSubject": 
+                            PageTitle.Text = "إضافة مادة جديدة";
+                            MainFrame.Content = new AddSubjectPage();
+                            break;
+
                         case "AssignGourpToClass":
                             PageTitle.Text = "إضافة شعبة إلى صف";
                             MainFrame.Content = new AddClassGroupPage();
@@ -73,12 +78,12 @@ namespace School_Management.UI
 
                         case "AssignTeacherToClass":
                             PageTitle.Text = "إضافة مدرس إلى صف";
-                            //MainFrame.Content = new AssignTeacherToClassPage();
+                            MainFrame.Content = new AssignTeacherToClassPage();
                             break;
 
                         case "AssignSubjects":
                             PageTitle.Text = "إعطاء مواد للطالب";
-                            //MainFrame.Content = new AssignSubjectsPage();
+                         //   MainFrame.Content = new StudentSubjectRegistrationPage();
                             break;
 
                         case "ViewAllClasses":

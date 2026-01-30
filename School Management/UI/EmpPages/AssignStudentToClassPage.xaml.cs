@@ -67,7 +67,6 @@ namespace School_Management.UI.EmpPages
                 StudentsComboBox.ItemsSource = allStudents;
                 if (allStudents.Count > 0)
                 {
-                    StudentsComboBox.DisplayMemberPath = "DisplayText";
                     StudentInfoText.Text = $"عدد الطلاب المتاحين: {allStudents.Count}";
                     StudentInfoText.Visibility = Visibility.Visible;
                 }
@@ -130,7 +129,6 @@ namespace School_Management.UI.EmpPages
                 ClassGroupComboBox.ItemsSource = allClassGroups;
                 if (allClassGroups.Count > 0)
                 {
-                    ClassGroupComboBox.DisplayMemberPath = "DisplayText";
                     ClassGroupInfoText.Text = $"عدد الصفوف/الشعب المتاحة: {allClassGroups.Count}";
                     ClassGroupInfoText.Visibility = Visibility.Visible;
                 }
@@ -280,6 +278,7 @@ namespace School_Management.UI.EmpPages
                     }
                 }
 
+                CurrentConnection.CloseConntion();
                 // استخدام الإجراء المخزن
                 List<SqlParameter> parameters = new List<SqlParameter>()
                 {
@@ -391,11 +390,13 @@ namespace School_Management.UI.EmpPages
         public string NationalNumber { get; set; }
         public int Age { get; set; }
         public string RegistrationStatus { get; set; }
-
-        public string DisplayText
+        
+       
+        public override string ToString()
         {
-            get { return $"{StudentName} ({NationalNumber})"; }
+            return StudentName;
         }
+
     }
 
     public class ClassGroupItem
@@ -407,9 +408,9 @@ namespace School_Management.UI.EmpPages
         public int MaxStudents { get; set; }
         public int CurrentStudents { get; set; }
 
-        public string DisplayText
+        public override string ToString()
         {
-            get { return $"{FullClassName} ({CurrentStudents}/{MaxStudents} طالب)"; }
+            return FullClassName;
         }
 
         public bool HasAvailableSeats

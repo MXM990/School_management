@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="School_Management.UI.EmpPages.AssignStudentToClassPage"
+﻿<UserControl x:Class="School_Management.UI.EmpPages.AssignTeacherToClassPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,21 +10,21 @@
         <StackPanel Margin="20">
 
             <!-- عنوان الصفحة -->
-            <Border Background="#CBF3BB" CornerRadius="10" Padding="20" Margin="0,0,0,20">
+            <Border Background="#FFE082" CornerRadius="10" Padding="20" Margin="0,0,0,20">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock Text="↪️🏫" FontSize="28" Margin="0,0,10,0"/>
-                        <TextBlock Text="إضافة طالب إلى صف/شعبة" 
+                        <TextBlock Text="👨‍🏫🏫" FontSize="28" Margin="0,0,10,0"/>
+                        <TextBlock Text="تخصيص مدرس إلى صف/شعبة" 
                                  FontSize="24" FontWeight="Bold" Foreground="White"/>
                     </StackPanel>
 
-                    <TextBlock Text="اختر طالباً ثم الصف والشعبة المناسبة لتسجيله" 
-                             FontSize="14" Foreground="#ECF4E8"
+                    <TextBlock Text="اختر مدرساً ثم الصف والشعبة المناسبة لتخصيصه للتدريس" 
+                             FontSize="14" Foreground="#FFF8E1"
                              HorizontalAlignment="Center" Margin="0,10,0,0"/>
                 </StackPanel>
             </Border>
 
-            <!-- نموذج التسجيل -->
+            <!-- نموذج التخصيص -->
             <Border Background="White" CornerRadius="10" Padding="30">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -42,11 +42,11 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- اختيار الطالب -->
+                    <!-- اختيار المدرس -->
                     <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,20">
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                            <TextBlock Text="👨‍🎓" FontSize="14" Margin="0,0,5,0"/>
-                            <TextBlock Text="اختر الطالب" 
+                            <TextBlock Text="👨‍🏫" FontSize="14" Margin="0,0,5,0"/>
+                            <TextBlock Text="اختر المدرس" 
                                      FontSize="14" FontWeight="Bold" Foreground="#2C3E2F"/>
                             <TextBlock Text=" *" Foreground="#F44336"/>
                         </StackPanel>
@@ -57,30 +57,30 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <ComboBox x:Name="StudentsComboBox"
+                            <ComboBox x:Name="TeachersComboBox"
                                     Grid.Column="0"
                                     Style="{StaticResource RoundedComboBoxStyle}"
-                                    DisplayMemberPath="StudentName"
-                                    SelectionChanged="StudentsComboBox_SelectionChanged"/>
+                                    DisplayMemberPath="TeacherName"
+                                    SelectionChanged="TeachersComboBox_SelectionChanged"/>
 
-                            <Button x:Name="RefreshStudentsButton"
+                            <Button x:Name="RefreshTeachersButton"
                                   Grid.Column="1"
                                   Content="🔄 تحديث"
                                   Width="100"
                                   Height="35"
-                                  Background="#E8F5E9"
-                                  BorderBrush="#4CAF50"
+                                  Background="#FFF3E0"
+                                  BorderBrush="#FF9800"
                                   Margin="10,0,0,0"
-                                  Click="RefreshStudentsButton_Click"/>
+                                  Click="RefreshTeachersButton_Click"/>
                         </Grid>
 
-                        <TextBlock x:Name="StudentInfoText"
+                        <TextBlock x:Name="TeacherInfoText"
                                  FontSize="12"
                                  Foreground="#5A6D5E"
                                  Margin="5,5,0,0"
                                  Visibility="Collapsed"/>
 
-                        <TextBlock x:Name="StudentErrorText" 
+                        <TextBlock x:Name="TeacherErrorText" 
                                  Foreground="#F44336" 
                                  FontSize="12"
                                  Margin="5,5,0,0"
@@ -151,10 +151,10 @@
                             </StackPanel>
 
                             <StackPanel Grid.Column="2" HorizontalAlignment="Center">
-                                <TextBlock Text="👨‍🎓" FontSize="20"/>
-                                <TextBlock Text="الطلاب المسجلين" 
+                                <TextBlock Text="👨‍🏫" FontSize="20"/>
+                                <TextBlock Text="المدرسين المسجلين" 
                                          FontSize="12" Foreground="#5A6D5E"/>
-                                <TextBlock x:Name="CurrentStudentsText"
+                                <TextBlock x:Name="CurrentTeachersText"
                                          Text="0" 
                                          FontSize="16" FontWeight="Bold"
                                          Foreground="#2196F3"/>
@@ -164,22 +164,22 @@
                                 <TextBlock Text="📊" FontSize="20"/>
                                 <TextBlock Text="السعة القصوى" 
                                          FontSize="12" Foreground="#5A6D5E"/>
-                                <TextBlock x:Name="MaxStudentsText"
-                                         Text="0" 
+                                <TextBlock x:Name="MaxTeachersText"
+                                         Text="غير محدد" 
                                          FontSize="16" FontWeight="Bold"
                                          Foreground="#4CAF50"/>
                             </StackPanel>
                         </Grid>
                     </Border>
 
-                    <!-- معلومات الطالب المحدد -->
+                    <!-- معلومات المدرس المحدد -->
                     <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                             Background="#F8F9FA" 
                             CornerRadius="5" 
                             Padding="15" 
                             Margin="0,0,0,20"
                             Visibility="Collapsed"
-                            x:Name="StudentDetailsBorder">
+                            x:Name="TeacherDetailsBorder">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -190,9 +190,9 @@
 
                             <StackPanel Grid.Column="0" HorizontalAlignment="Center">
                                 <TextBlock Text="👤" FontSize="20"/>
-                                <TextBlock Text="اسم الطالب" 
+                                <TextBlock Text="اسم المدرس" 
                                          FontSize="12" Foreground="#5A6D5E"/>
-                                <TextBlock x:Name="SelectedStudentNameText"
+                                <TextBlock x:Name="SelectedTeacherNameText"
                                          Text="-" 
                                          FontSize="16" FontWeight="Bold"
                                          Foreground="#2C3E2F"/>
@@ -209,20 +209,20 @@
                             </StackPanel>
 
                             <StackPanel Grid.Column="2" HorizontalAlignment="Center">
-                                <TextBlock Text="🎂" FontSize="20"/>
-                                <TextBlock Text="العمر" 
+                                <TextBlock Text="🎓" FontSize="20"/>
+                                <TextBlock Text="التخصص" 
                                          FontSize="12" Foreground="#5A6D5E"/>
-                                <TextBlock x:Name="SelectedAgeText"
+                                <TextBlock x:Name="SelectedSpecializationText"
                                          Text="-" 
                                          FontSize="16" FontWeight="Bold"
                                          Foreground="#2196F3"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="3" HorizontalAlignment="Center">
-                                <TextBlock Text="📝" FontSize="20"/>
-                                <TextBlock Text="الحالة" 
+                                <TextBlock Text="📅" FontSize="20"/>
+                                <TextBlock Text="سنوات الخبرة" 
                                          FontSize="12" Foreground="#5A6D5E"/>
-                                <TextBlock x:Name="SelectedStatusText"
+                                <TextBlock x:Name="SelectedExperienceText"
                                          Text="-" 
                                          FontSize="16" FontWeight="Bold"
                                          Foreground="#4CAF50"/>
@@ -255,7 +255,7 @@
                               HorizontalAlignment="Center"
                               Margin="0,20,0,10">
                         <Button x:Name="SaveButton"
-                              Content="💾 تسجيل الطالب"
+                              Content="💾 تخصيص المدرس"
                               Width="200"
                               Style="{StaticResource PrimaryButtonStyle}"
                               Margin="0,0,15,0"
@@ -291,25 +291,25 @@
 
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                                 <TextBlock Text="•" Margin="0,0,10,0" Foreground="#93BFC7"/>
-                                <TextBlock Text="يجب اختيار طالب ثم الصف والشعبة المناسبة" 
+                                <TextBlock Text="يجب اختيار مدرس ثم الصف والشعبة المناسبة" 
                                          FontSize="12" Foreground="#5A6D5E"/>
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                                 <TextBlock Text="•" Margin="0,0,10,0" Foreground="#93BFC7"/>
-                                <TextBlock Text="يجب التأكد من أن الصف/الشعبة لم يصل للعدد الأقصى للطلاب" 
+                                <TextBlock Text="يمكن للمدرس التدريس في عدة صفوف وشعب (علاقة متعددة إلى متعددة)" 
                                          FontSize="12" Foreground="#5A6D5E"/>
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                                 <TextBlock Text="•" Margin="0,0,10,0" Foreground="#93BFC7"/>
-                                <TextBlock Text="لا يمكن تسجيل الطالب في نفس الصف/الشعبة مرتين" 
+                                <TextBlock Text="يمكن للصف/الشعبة أن يحتوي على عدة مدرسين" 
                                          FontSize="12" Foreground="#5A6D5E"/>
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="•" Margin="0,0,10,0" Foreground="#93BFC7"/>
-                                <TextBlock Text="يمكن للطالب الانتقال بين الشعب خلال نفس السنة الدراسية" 
+                                <TextBlock Text="يمكن إعادة تخصيص المدرس إلى صفوف مختلفة خلال السنة الدراسية" 
                                          FontSize="12" Foreground="#5A6D5E"/>
                             </StackPanel>
                         </StackPanel>
