@@ -13,7 +13,6 @@ namespace School_Management.UI
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            // تحميل الواجهة الرئيسية عند البدء
             LoadWelcomePage();
         }
 
@@ -68,7 +67,7 @@ namespace School_Management.UI
                     title = "حذف مدرس";
                     break;
                 case "ViewAllTeachers":
-                    page = new Pages.ViewAllTeachersPage();
+                    page = new ViewTeachersPage();
                     title = "عرض جميع المدرسين";
                     break;
                 case "AddClass":
@@ -84,7 +83,7 @@ namespace School_Management.UI
                     title = "حذف صف";
                     break;
                 case "ViewAllClasses":
-                    page = new Pages.ViewAllClassesPage();
+                    page = new ViewClassesReportsPage();
                     title = "عرض جميع الصفوف";
                     break;
                 case "AddGroup":
@@ -100,7 +99,7 @@ namespace School_Management.UI
                     title = "حذف شعبة";
                     break;
                 case "ViewAllGroups":
-                    page = new Pages.ViewAllGroupsPage();
+                    page = new Pages.ViewGroupsPage();
                     title = "عرض جميع الشعب";
                     break;
                 case "ViewAllStudents":
@@ -138,7 +137,6 @@ namespace School_Management.UI
 
             if (result == MessageBoxResult.Yes)
             {
-                // هنا يمكنك إضافة كود تسجيل الخروج
                 this.Close();
             }
         }

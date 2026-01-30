@@ -41,5 +41,28 @@ namespace School_Management.Control
                 return false;
             }
         }
+        public static int GetRecordCount(string query)
+        {
+            try
+            {
+                if (CurrentConnection.OpenConntion())
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, CurrentConnection.CuCon))
+                    {
+                        var result = cmd.ExecuteScalar();
+                        return Convert.ToInt32(result);
+                    }
+                }
+                return 0;
+            }
+            catch
+            {
+                return 0;
+            }
+            finally
+            {
+                CurrentConnection.CloseConntion();
+            }
+        }
     }
 }

@@ -48,7 +48,7 @@ namespace School_Management.UI
             MainFrame.Content = new EmployeeWelcomePage();
         }
 
-        private void SidebarButton_Click(object sender, RoutedEventArgs e)
+        public void SidebarButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button && button.Tag is string pageTag)
             {
@@ -88,17 +88,22 @@ namespace School_Management.UI
 
                         case "ViewAllClasses":
                             PageTitle.Text = "عرض جميع الصفوف";
-                            //MainFrame.Content = new ViewAllClassesPage();
+                            MainFrame.Content = new ViewClassesReportsPage();
                             break;
 
                         case "ViewClassesByGroup":
                             PageTitle.Text = "عرض الصفوف حسب الشعبة";
-                            //MainFrame.Content = new ViewClassesByGroupPage();
+                            MainFrame.Content = new ViewClassGroupsPage();
                             break;
 
                         case "ViewAllTeachers":
                             PageTitle.Text = "عرض جميع المدرسين";
-                            //MainFrame.Content = new ViewAllTeachersPage();
+                            MainFrame.Content = new ViewTeachersPage();
+                            break;
+
+                        case "ViewAllTeachersClass":
+                            PageTitle.Text = "عرض جميع المدرسين";
+                            MainFrame.Content = new ViewTeachersClassesPage();
                             break;
 
                         case "ViewAllStudents":
@@ -111,15 +116,17 @@ namespace School_Management.UI
                             MainFrame.Content = new SearchStudentPage();
                             break;
 
-                        case "ViewStudentsByClass":
-                            PageTitle.Text = "عرض الطلاب حسب الصف";
-                            //MainFrame.Content = new ViewStudentsByClassPage();
+                        case "ShowStudentSubject":
+                            PageTitle.Text = "عرض مواد الطالب";
+                            MainFrame.Content = new ViewStudentSubjectsPage();
                             break;
 
-                        case "Reports":
-                            PageTitle.Text = "التقارير الإحصائية";
-                            //MainFrame.Content = new ReportsPage();
+                        case "ViewStudentsByClass":
+                            PageTitle.Text = "عرض الطلاب حسب الصف";
+                            MainFrame.Content = new ViewStudentsInClassesPage();
                             break;
+
+                       
 
                         default:
                             break;

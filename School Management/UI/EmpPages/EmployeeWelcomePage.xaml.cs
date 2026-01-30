@@ -20,19 +20,19 @@ namespace School_Management.UI.EmpPages
             try
             {
                 // جلب إحصائيات الطلاب
-                var studentCount = GetRecordCount("SELECT COUNT(*) FROM Students");
+                var studentCount = SqlExec.GetRecordCount("SELECT COUNT(*) FROM Students");
                 StudentsCountText.Text = studentCount.ToString();
 
                 // جلب إحصائيات المدرسين
-                var teacherCount = GetRecordCount("SELECT COUNT(*) FROM Teachers");
+                var teacherCount = SqlExec.GetRecordCount("SELECT COUNT(*) FROM Teachers");
                 TeachersCountText.Text = teacherCount.ToString();
 
                 // جلب إحصائيات الصفوف
-                var classCount = GetRecordCount("SELECT COUNT(*) FROM Classes");
+                var classCount = SqlExec.GetRecordCount("SELECT COUNT(*) FROM Classes");
                 ClassesCountText.Text = classCount.ToString();
 
                 // جلب إحصائيات الشعب
-                var groupCount = GetRecordCount("SELECT COUNT(*) FROM Groups");
+                var groupCount = SqlExec.GetRecordCount("SELECT COUNT(*) FROM Groups");
                 GroupsCountText.Text = groupCount.ToString();
             }
             catch (Exception ex)
@@ -42,29 +42,7 @@ namespace School_Management.UI.EmpPages
             }
         }
 
-        private int GetRecordCount(string query)
-        {
-            try
-            {
-                if (CurrentConnection.OpenConntion())
-                {
-                    using (SqlCommand cmd = new SqlCommand(query, CurrentConnection.CuCon))
-                    {
-                        var result = cmd.ExecuteScalar();
-                        return Convert.ToInt32(result);
-                    }
-                }
-                return 0;
-            }
-            catch
-            {
-                return 0;
-            }
-            finally
-            {
-                CurrentConnection.CloseConntion();
-            }
-        }
+        
 
         private void QuickAddStudentBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -72,7 +50,7 @@ namespace School_Management.UI.EmpPages
             var parentWindow = Window.GetWindow(this) as EmployeeDashboard;
             if (parentWindow != null)
             {
-              //  parentWindow.SidebarButton_Click(FindButtonByName(parentWindow, "AddStudentButton"), e);
+               parentWindow.SidebarButton_Click(FindButtonByName(parentWindow, "AddStudentButton"), e);
             }
         }
 
@@ -82,7 +60,7 @@ namespace School_Management.UI.EmpPages
             var parentWindow = Window.GetWindow(this) as EmployeeDashboard;
             if (parentWindow != null)
             {
-              //  parentWindow.SidebarButton_Click(FindButtonByName(parentWindow, "ViewAllStudentsButton"), e);
+                parentWindow.SidebarButton_Click(FindButtonByName(parentWindow, "ViewAllStudentsButton"), e);
             }
         }
 
@@ -92,17 +70,17 @@ namespace School_Management.UI.EmpPages
             var parentWindow = Window.GetWindow(this) as EmployeeDashboard;
             if (parentWindow != null)
             {
-               // parentWindow.SidebarButton_Click(FindButtonByName(parentWindow, "AssignStudentToClassButton"), e);
+                parentWindow.SidebarButton_Click(FindButtonByName(parentWindow, "AssignStudentToClassButton"), e);
             }
         }
 
-        private void QuickReportsBtn_Click(object sender, RoutedEventArgs e)
+        private void QuickViewTeacherBtn_Click(object sender, RoutedEventArgs e)
         {
             // الانتقال إلى صفحة التقارير
             var parentWindow = Window.GetWindow(this) as EmployeeDashboard;
             if (parentWindow != null)
             {
-               // parentWindow.SidebarButton_Click(FindButtonByName(parentWindow, "ReportsButton"), e);
+                parentWindow.SidebarButton_Click(FindButtonByName(parentWindow, "ViewAllTeachersButton"), e);
             }
         }
 

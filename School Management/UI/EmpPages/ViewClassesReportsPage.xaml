@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="School_Management.UI.EmpPages.ViewAllStudentsPage"
+﻿<UserControl x:Class="School_Management.UI.EmpPages.ViewClassesReportsPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,15 +10,15 @@
         <StackPanel Margin="20">
 
             <!-- عنوان الصفحة -->
-            <Border Background="#CBF3BB" CornerRadius="10" Padding="20" Margin="0,0,0,20">
+            <Border Background="#6EC1E4" CornerRadius="10" Padding="20" Margin="0,0,0,20">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock Text="👨‍🎓📋" FontSize="28" Margin="0,0,10,0"/>
-                        <TextBlock Text="عرض جميع الطلاب" 
+                        <TextBlock Text="📊📋" FontSize="28" Margin="0,0,10,0"/>
+                        <TextBlock Text="تقرير الصفوف الدراسية" 
                                  FontSize="24" FontWeight="Bold" Foreground="White"/>
                     </StackPanel>
 
-                    <TextBlock Text="قائمة جميع الطلاب المسجلين في النظام" 
+                    <TextBlock Text="عرض جميع الصفوف المسجلة في النظام" 
                              FontSize="14" Foreground="#ECF4E8"
                              HorizontalAlignment="Center" Margin="0,10,0,0"/>
                 </StackPanel>
@@ -41,26 +41,10 @@
                         <TextBox x:Name="SearchTextBox"
                                Style="{StaticResource RoundedTextBoxStyle}"
                                TextChanged="SearchTextBox_TextChanged"
-                             />
+                               ToolTip="ابحث حسب مستوى التعليم أو المعلومات الإضافية"/>
                     </StackPanel>
 
-                    <!-- أزرار التصفية -->
-                    <StackPanel Grid.Column="1" Margin="20,0,0,0">
-                        <TextBlock Text="📊 تصفية حسب الحالة" 
-                                 FontSize="14" FontWeight="Bold" Foreground="#2C3E2F"
-                                 Margin="0,0,0,5"/>
-                        <ComboBox x:Name="StatusFilterComboBox"
-                                Style="{StaticResource RoundedComboBoxStyle}"
-                                Width="150"
-                                SelectionChanged="StatusFilterComboBox_SelectionChanged">
-                            <ComboBoxItem Content="جميع الحالات"/>
-                            <ComboBoxItem Content="مسجل"/>
-                            <ComboBoxItem Content="منتظم"/>
-                            <ComboBoxItem Content="منقطع"/>
-                            <ComboBoxItem Content="ملغى"/>
-                        </ComboBox>
-                    </StackPanel>
-
+                 
                     <!-- أزرار الإجراءات -->
                     <StackPanel Grid.Column="2" Margin="20,0,0,0">
                         <TextBlock Text="⚡ إجراءات سريعة" 
@@ -78,7 +62,7 @@
                 </Grid>
             </Border>
 
-            <!-- جدول الطلاب -->
+            <!-- جدول الصفوف -->
             <Border Background="White" CornerRadius="10" Padding="20">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -97,36 +81,31 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="120"/>
-                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="200"/>
                                 <ColumnDefinition Width="150"/>
-                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="150"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Grid.Column="0" Text="#" 
                                      FontWeight="Bold" Foreground="#2C3E2F"/>
-                            <TextBlock Grid.Column="1" Text="اسم الطالب" 
+                            <TextBlock Grid.Column="1" Text="مستوى التعليم" 
                                      FontWeight="Bold" Foreground="#2C3E2F"/>
-                            <TextBlock Grid.Column="2" Text="الرقم الوطني" 
+                            <TextBlock Grid.Column="2" Text="المعلومات الإضافية" 
                                      FontWeight="Bold" Foreground="#2C3E2F"/>
-                            <TextBlock Grid.Column="3" Text="العمر" 
+                            <TextBlock Grid.Column="3" Text="تاريخ الإنشاء" 
                                      FontWeight="Bold" Foreground="#2C3E2F"/>
-                            <TextBlock Grid.Column="4" Text="حالة التسجيل" 
-                                     FontWeight="Bold" Foreground="#2C3E2F"/>
-                            <TextBlock Grid.Column="5" Text="التسجيل" 
-                                     FontWeight="Bold" Foreground="#2C3E2F"/>
-                            <TextBlock Grid.Column="6" Text="إجراءات" 
+                            <TextBlock Grid.Column="5" Text="إجراءات" 
                                      FontWeight="Bold" Foreground="#2C3E2F"/>
                         </Grid>
                     </Border>
 
-                    <!-- قائمة الطلاب -->
+                    <!-- قائمة الصفوف -->
                     <ScrollViewer Grid.Row="1" 
                                   VerticalScrollBarVisibility="Auto"
                                   HorizontalScrollBarVisibility="Disabled">
-                        <StackPanel x:Name="StudentsListPanel">
-                            <!-- سيتم إضافة الطلاب هنا برمجياً -->
+                        <StackPanel x:Name="ClassesListPanel">
+                            <!-- سيتم إضافة الصفوف هنا برمجياً -->
                         </StackPanel>
                     </ScrollViewer>
 
@@ -145,43 +124,13 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="0" HorizontalAlignment="Center">
-                                <TextBlock Text="👨‍🎓" FontSize="20"/>
-                                <TextBlock Text="إجمالي الطلاب" 
+                                <TextBlock Text="📚" FontSize="20"/>
+                                <TextBlock Text="إجمالي الصفوف" 
                                          FontSize="12" Foreground="#5A6D5E"/>
-                                <TextBlock x:Name="TotalStudentsText" 
+                                <TextBlock x:Name="TotalClassesText" 
                                          Text="0" 
                                          FontSize="20" FontWeight="Bold"
                                          Foreground="#2C3E2F"/>
-                            </StackPanel>
-
-                            <StackPanel Grid.Column="1" HorizontalAlignment="Center">
-                                <TextBlock Text="✅" FontSize="20"/>
-                                <TextBlock Text="مسجلين" 
-                                         FontSize="12" Foreground="#5A6D5E"/>
-                                <TextBlock x:Name="RegisteredStudentsText" 
-                                         Text="0" 
-                                         FontSize="20" FontWeight="Bold"
-                                         Foreground="#4CAF50"/>
-                            </StackPanel>
-
-                            <StackPanel Grid.Column="2" HorizontalAlignment="Center">
-                                <TextBlock Text="📊" FontSize="20"/>
-                                <TextBlock Text="منتظمين" 
-                                         FontSize="12" Foreground="#5A6D5E"/>
-                                <TextBlock x:Name="ActiveStudentsText" 
-                                         Text="0" 
-                                         FontSize="20" FontWeight="Bold"
-                                         Foreground="#2196F3"/>
-                            </StackPanel>
-
-                            <StackPanel Grid.Column="3" HorizontalAlignment="Center">
-                                <TextBlock Text="⏸️" FontSize="20"/>
-                                <TextBlock Text="منقطعين" 
-                                         FontSize="12" Foreground="#5A6D5E"/>
-                                <TextBlock x:Name="InactiveStudentsText" 
-                                         Text="0" 
-                                         FontSize="20" FontWeight="Bold"
-                                         Foreground="#FF9800"/>
                             </StackPanel>
                         </Grid>
                     </Border>

@@ -14,7 +14,6 @@
         Background="Transparent"
         Loaded="Window_Loaded">
 
-    <!-- نافذة رئيسية -->
     <Border CornerRadius="15" 
             Background="#ECF4E8"
             BorderBrush="#CBF3BB" 
@@ -26,7 +25,6 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!-- شريط العنوان -->
             <Border Grid.Row="0" 
                     Background="#93BFC7"
                     CornerRadius="15,15,0,0">
@@ -37,7 +35,6 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- شعار واسم المستخدم -->
                     <StackPanel Grid.Column="0" 
                                 Orientation="Horizontal" 
                                 Margin="20,0,0,0"
@@ -62,7 +59,6 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <!-- عنوان الصفحة -->
                     <TextBlock x:Name="PageTitle" 
                              Grid.Column="1" 
                              Text="لوحة تحكم المدير" 
@@ -72,7 +68,6 @@
                              HorizontalAlignment="Center"
                              VerticalAlignment="Center"/>
 
-                    <!-- أزرار التحكم -->
                     <StackPanel Grid.Column="2" 
                               Orientation="Horizontal"
                               Margin="0,0,20,0"
@@ -154,13 +149,11 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- القائمة الجانبية -->
                 <Border Grid.Column="0" 
                         Background="White"
                         CornerRadius="0,0,0,15">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <StackPanel Margin="10">
-                            <!-- زر الرئيسية -->
                             <Button x:Name="HomeButton"
                                   Style="{StaticResource SidebarButtonStyle}"
                                   Click="HomeButton_Click">
@@ -173,7 +166,6 @@
                                 </StackPanel>
                             </Button>
 
-                            <!-- قسم إدارة الموظفين -->
                             <TextBlock Text="إدارة الموظفين" 
                                      FontSize="14"
                                      FontWeight="Bold"
@@ -228,7 +220,6 @@
                                 </StackPanel>
                             </Button>
 
-                            <!-- قسم إدارة المدرسين -->
                             <TextBlock Text="إدارة المدرسين" 
                                      FontSize="14"
                                      FontWeight="Bold"
@@ -283,7 +274,6 @@
                                 </StackPanel>
                             </Button>
 
-                            <!-- قسم إدارة الصفوف -->
                             <TextBlock Text="إدارة الصفوف" 
                                      FontSize="14"
                                      FontWeight="Bold"
@@ -338,7 +328,6 @@
                                 </StackPanel>
                             </Button>
 
-                            <!-- قسم إدارة الشعب -->
                             <TextBlock Text="إدارة الشعب" 
                                      FontSize="14"
                                      FontWeight="Bold"
@@ -393,14 +382,13 @@
                                 </StackPanel>
                             </Button>
 
-                            <!-- قسم إدارة الطلاب -->
                             <TextBlock Text="إدارة الطلاب" 
                                      FontSize="14"
                                      FontWeight="Bold"
                                      Foreground="#93BFC7"
                                      Margin="10,20,10,5"/>
 
-                            <Button x:Name="ViewAllStudentsButton"
+                            <Button x:Name="ViewAllStudentsButtonadmin"
                                   Style="{StaticResource SidebarButtonStyle}"
                                   Tag="ViewAllStudents" Click="SidebarButton_Click">
                                 <StackPanel Orientation="Horizontal">
@@ -412,7 +400,6 @@
                                 </StackPanel>
                             </Button>
 
-                            <!-- زر الخروج -->
                             <Button x:Name="LogoutButton"
                                   Style="{StaticResource SidebarButtonStyle}"
                                   Margin="0,40,0,0"
@@ -432,11 +419,9 @@
                     </ScrollViewer>
                 </Border>
 
-                <!-- منطقة المحتوى -->
                 <Border Grid.Column="1" 
                         Background="#ECF4E8"
                         CornerRadius="0,0,15,0">
-                    <!-- استخدام Frame للتنقل بين الواجهات -->
                     <Frame x:Name="MainFrame"
                            NavigationUIVisibility="Hidden"
                            Background="Transparent"

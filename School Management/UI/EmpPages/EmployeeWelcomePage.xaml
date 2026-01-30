@@ -111,34 +111,35 @@
                     </Button>
                 </Border>
 
-                <!-- بطاقة التقارير -->
+                <!-- بطاقة عرض الأستاذة -->
                 <Border Width="250" Height="250" 
-                        Background="White" 
-                        CornerRadius="10"
-                        Margin="10">
-                    <Button x:Name="QuickReportsBtn" 
-                            Style="{StaticResource CardButtonStyle}"
-                            Click="QuickReportsBtn_Click">
+        Background="White" 
+        CornerRadius="10"
+        Margin="10">
+                    <Button x:Name="QuickViewTeacherBtn" 
+            Style="{StaticResource CardButtonStyle}"
+            Click="QuickViewTeacherBtn_Click">
                         <StackPanel>
-                            <TextBlock Text="📈📊" 
-                                     FontSize="40"
-                                     HorizontalAlignment="Center"/>
-                            <TextBlock Text="التقارير" 
-                                     FontSize="18"
-                                     FontWeight="Bold"
-                                     Foreground="#2C3E2F"
-                                     HorizontalAlignment="Center"
-                                     Margin="0,10,0,5"/>
-                            <TextBlock Text="عرض التقارير والإحصائيات" 
-                                     FontSize="12"
-                                     Foreground="#5A6D5E"
-                                     HorizontalAlignment="Center"
-                                     TextWrapping="Wrap"
-                                     TextAlignment="Center"
-                                     Width="200"/>
+                            <TextBlock Text="👨‍🏫📋" 
+                     FontSize="40"
+                     HorizontalAlignment="Center"/>
+                            <TextBlock Text="عرض المدرسيين" 
+                     FontSize="18"
+                     FontWeight="Bold"
+                     Foreground="#2C3E2F"
+                     HorizontalAlignment="Center"
+                     Margin="0,10,0,5"/>
+                            <TextBlock Text="عرض قائمة جميع المدرسيين" 
+                     FontSize="12"
+                     Foreground="#5A6D5E"
+                     HorizontalAlignment="Center"
+                     TextWrapping="Wrap"
+                     TextAlignment="Center"
+                     Width="200"/>
                         </StackPanel>
                     </Button>
                 </Border>
+                
             </WrapPanel>
 
             <!-- إحصائيات سريعة -->

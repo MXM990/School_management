@@ -174,31 +174,31 @@ namespace School_Management.UI.EmpPages
                 VerticalAlignment = VerticalAlignment.Center
             };
 
-            var viewButton = new Button
-            {
-                Content = "👁️",
-                ToolTip = "عرض التفاصيل",
-                Width = 30,
-                Height = 30,
-                Background = new SolidColorBrush(Color.FromRgb(225, 245, 254)),
-                BorderBrush = new SolidColorBrush(Color.FromRgb(144, 202, 249)),
-                Margin = new Thickness(0, 0, 5, 0),
-                Tag = student.StudentID,
-            //    Click += ViewStudentButton_Click
-            };
+            //var viewButton = new Button
+            //{
+            //    Content = "👁️",
+            //    ToolTip = "عرض التفاصيل",
+            //    Width = 30,
+            //    Height = 30,
+            //    Background = new SolidColorBrush(Color.FromRgb(225, 245, 254)),
+            //    BorderBrush = new SolidColorBrush(Color.FromRgb(144, 202, 249)),
+            //    Margin = new Thickness(0, 0, 5, 0),
+            //    Tag = student.StudentID,
+            //  //  Click += ViewStudentButton_Click
+            //};
 
-            var editButton = new Button
-            {
-                Content = "✏️",
-                ToolTip = "تعديل",
-                Width = 30,
-                Height = 30,
-                Background = new SolidColorBrush(Color.FromRgb(232, 245, 233)),
-                BorderBrush = new SolidColorBrush(Color.FromRgb(165, 214, 167)),
-                Margin = new Thickness(0, 0, 5, 0),
-                Tag = student.StudentID,
-             //   Click += EditStudentButton_Click
-            };
+            //var editButton = new Button
+            //{
+            //    Content = "✏️",
+            //    ToolTip = "تعديل",
+            //    Width = 30,
+            //    Height = 30,
+            //    Background = new SolidColorBrush(Color.FromRgb(232, 245, 233)),
+            //    BorderBrush = new SolidColorBrush(Color.FromRgb(165, 214, 167)),
+            //    Margin = new Thickness(0, 0, 5, 0),
+            //    Tag = student.StudentID,
+            // //   Click += EditStudentButton_Click
+            //};
 
             var deleteButton = new Button
             {
@@ -209,11 +209,11 @@ namespace School_Management.UI.EmpPages
                 Background = new SolidColorBrush(Color.FromRgb(255, 235, 238)),
                 BorderBrush = new SolidColorBrush(Color.FromRgb(239, 154, 154)),
                 Tag = student.StudentID,
-              //  Click += DeleteStudentButton_Click
+                
             };
 
-            actionsPanel.Children.Add(viewButton);
-            actionsPanel.Children.Add(editButton);
+            //actionsPanel.Children.Add(viewButton);
+            //actionsPanel.Children.Add(editButton);
             actionsPanel.Children.Add(deleteButton);
 
             Grid.SetColumn(actionsPanel, 6);
@@ -221,6 +221,10 @@ namespace School_Management.UI.EmpPages
 
             border.Child = grid;
             StudentsListPanel.Children.Add(border);
+            deleteButton.Click += (sender, e) =>
+            {
+                DeleteStudentButton_Click(sender, e);
+            };
         }
 
         private Brush GetStatusColor(string status)
@@ -360,7 +364,6 @@ namespace School_Management.UI.EmpPages
                                 {
                                     MessageBox.Show("تم حذف الطالب بنجاح", "نجاح",
                                         MessageBoxButton.OK, MessageBoxImage.Information);
-                                    LoadStudents();
                                 }
                             }
                         }
@@ -373,6 +376,7 @@ namespace School_Management.UI.EmpPages
                     finally
                     {
                         CurrentConnection.CloseConntion();
+                        LoadStudents();
                     }
                 }
             }

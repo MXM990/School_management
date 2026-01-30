@@ -274,7 +274,7 @@
                                     <TextBlock Text="🏫📋" 
                                              FontSize="16"
                                              Margin="0,0,10,0"/>
-                                    <TextBlock Text="عرض جميع الصفوف" 
+                                    <TextBlock Text=" جميع الصفوف" 
                                              FontSize="14"/>
                                 </StackPanel>
                             </Button>
@@ -287,7 +287,7 @@
                                     <TextBlock Text="👥🏫" 
                                              FontSize="16"
                                              Margin="0,0,10,0"/>
-                                    <TextBlock Text="عرض الصفوف حسب الشعبة" 
+                                    <TextBlock Text=" الصفوف حسب الشعبة" 
                                              FontSize="14"/>
                                 </StackPanel>
                             </Button>
@@ -300,7 +300,20 @@
                                     <TextBlock Text="👨‍🏫📋" 
                                              FontSize="16"
                                              Margin="0,0,10,0"/>
-                                    <TextBlock Text="عرض جميع المدرسين" 
+                                    <TextBlock Text=" جميع المدرسين" 
+                                             FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+                            
+                            <Button x:Name="ViewAllTeachersClassButton"
+                                  Style="{StaticResource SidebarButtonStyle}"
+                                  Tag="ViewAllTeachersClass"
+                                  Click="SidebarButton_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="👨‍🏫🏫" 
+                                             FontSize="16"
+                                             Margin="0,0,10,0"/>
+                                    <TextBlock Text="المدرسين حسب الصف" 
                                              FontSize="14"/>
                                 </StackPanel>
                             </Button>
@@ -313,7 +326,7 @@
                                     <TextBlock Text="👨‍🎓📋" 
                                              FontSize="16"
                                              Margin="0,0,10,0"/>
-                                    <TextBlock Text="عرض جميع الطلاب" 
+                                    <TextBlock Text=" جميع الطلاب" 
                                              FontSize="14"/>
                                 </StackPanel>
                             </Button>
@@ -330,6 +343,19 @@
                                              FontSize="14"/>
                                 </StackPanel>
                             </Button>
+                            
+                            <Button x:Name="ShowStudentSubjectButton"
+                                  Style="{StaticResource SidebarButtonStyle}"
+                                  Tag="ShowStudentSubject"
+                                  Click="SidebarButton_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="📚👨‍🎓" 
+                                             FontSize="16"
+                                             Margin="0,0,10,0"/>
+                                    <TextBlock Text="عرض مواد الطالب" 
+                                             FontSize="14"/>
+                                </StackPanel>
+                            </Button>
 
                             <Button x:Name="ViewStudentsByClassButton"
                                   Style="{StaticResource SidebarButtonStyle}"
@@ -339,31 +365,12 @@
                                     <TextBlock Text="📊👨‍🎓" 
                                              FontSize="16"
                                              Margin="0,0,10,0"/>
-                                    <TextBlock Text="عرض الطلاب حسب الصف" 
+                                    <TextBlock Text="الطلاب حسب الصف" 
                                              FontSize="14"/>
                                 </StackPanel>
                             </Button>
 
-                            <!-- قسم التقارير -->
-                            <TextBlock Text="التقارير والإحصائيات" 
-                                     FontSize="14"
-                                     FontWeight="Bold"
-                                     Foreground="#93BFC7"
-                                     Margin="10,20,10,5"/>
-
-                            <Button x:Name="ReportsButton"
-                                  Style="{StaticResource SidebarButtonStyle}"
-                                  Tag="Reports"
-                                  Click="SidebarButton_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="📈📊" 
-                                             FontSize="16"
-                                             Margin="0,0,10,0"/>
-                                    <TextBlock Text="التقارير الإحصائية" 
-                                             FontSize="14"/>
-                                </StackPanel>
-                            </Button>
-
+                            
                             <!-- زر الخروج -->
                             <Button x:Name="LogoutButton"
                                   Style="{StaticResource SidebarButtonStyle}"
