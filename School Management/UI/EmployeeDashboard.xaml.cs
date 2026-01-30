@@ -83,7 +83,7 @@ namespace School_Management.UI
 
                         case "AssignSubjects":
                             PageTitle.Text = "إعطاء مواد للطالب";
-                         //   MainFrame.Content = new StudentSubjectRegistrationPage();
+                            MainFrame.Content = new RegisterStudentSubjects();
                             break;
 
                         case "ViewAllClasses":

@@ -378,7 +378,7 @@ namespace School_Management.UI.EmpPages
                     new SqlParameter("@ClassGroupID", selectedClassGroupId.Value)
                 };
 
-                bool success = SqlExec.Exec_proc("AssignTeacherToClassGroup", parameters);
+                bool success = SqlExec.Exec_proc("InsertNewTeacherClassGroup", parameters);
 
                 if (success)
                 {

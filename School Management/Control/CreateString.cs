@@ -78,6 +78,15 @@ namespace School_Management.Control
                                                                 StudentID UNIQUEIDENTIFIER ,
                                                                 ClassGroupID UNIQUEIDENTIFIER)";
 
+
+        public static readonly string CreateTableStudentSubjectsRegster = @"CREATE TABLE StudentSubjectsRegster (
+                                                                StudentSubjectsID UNIQUEIDENTIFIER ,
+                                                                StudentID UNIQUEIDENTIFIER  ,
+                                                                SubjectID UNIQUEIDENTIFIER ,
+																ClassID UNIQUEIDENTIFIER)";
+
+
+
         public static List<string> CreateTables = new List<string> { CreateTableEmployees, CreateTableTeachers, CreateTableClasses, CreateTableGroups, CreateTableSubjects, CreateTableStudents, CreateTableClass_Group, CreateTableTeacher_Class_Group , CreateTableStudent_Class_Group };
 
     }
@@ -216,6 +225,16 @@ namespace School_Management.Control
                                                                      VALUES (NEWID(), @StudentID, @ClassGroupID)
                                                                  END";
 
+
+        public static readonly string InsertStudentSubjectsRegster = @"CREATE PROC InsertStudentSubjectsRegster
+                                                             @StudentID UNIQUEIDENTIFIER,
+                                                             @SubjectID UNIQUEIDENTIFIER,
+                                                             @ClassID UNIQUEIDENTIFIER
+                                                         AS      
+                                                        
+                                                       
+                                                             INSERT INTO StudentSubjectsRegster (StudentSubjectsID, StudentID, SubjectID, ClassID)
+                                                             VALUES (NEWID(), @StudentID, @SubjectID, @ClassID )";
 
 
         public static List<string> CreateProceduresCommands = new List<string> { InsertNewEmployee, InsertNewTeacher  , InsertNewClass , InsertNewGroup , InsertNewSubject  , InsertNewStudent , InsertNewClassGroup , InsertNewTeacherClassGroup , InsertNewStudentClassGroup };

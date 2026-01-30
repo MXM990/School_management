@@ -1,4 +1,5 @@
 ﻿using School_Management.Control;
+using School_Management.UI.EmpPages;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -22,6 +23,10 @@ namespace School_Management.UI.Pages
         private List<ClassItemSub> classList = new List<ClassItemSub>();
         private List<SubjectItem> subjectList = new List<SubjectItem>();
 
+        private Guid? selectedStudentId = null;
+        private Guid? selectedClassId = null;
+
+
         public RegisterStudentSubjects()
         {
             InitializeComponent();
@@ -42,7 +47,7 @@ namespace School_Management.UI.Pages
                 studentList.Clear();
                 StudentComboBox.ItemsSource = null;
 
-                string query = "SELECT StudentID, FirstName + ' ' + LastName AS FullName FROM Students ORDER BY FirstName";
+                string query = "SELECT StudentID, StudentName FROM Students ORDER BY StudentName";
 
                 if (CurrentConnection.OpenConntion())
                 {
@@ -207,20 +212,28 @@ namespace School_Management.UI.Pages
         #region أحداث التحقق من الصحة
         private void StudentComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (StudentComboBox.SelectedItem is StudentItemSub selectedStudent)
+            {
+                selectedStudentId = selectedStudent.StudentID;
+            }
             ValidateStudent();
             UpdateSaveButtonState();
         }
 
         private void ClassComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ValidateClass();
+            if (ClassComboBox.SelectedItem is ClassItemSub selectedClass)
+            {
+                selectedClassId = selectedClass.ClassID;
+            }
+                ValidateClass();
             UpdateSaveButtonState();
 
             // إذا كان الصف صحيحًا، قم بتحميل المواد
             if (isClassValid)
             {
-                var selectedClass = ClassComboBox.SelectedItem as ClassItemSub;
-                LoadSubjects(selectedClass.ClassID);
+                var selectedClass_view = ClassComboBox.SelectedItem as ClassItemSub;
+                LoadSubjects(selectedClass_view.ClassID);
             }
         }
         #endregion
@@ -319,40 +332,90 @@ namespace School_Management.UI.Pages
             try
             {
                 // الحصول على الطالب المحدد
-                var selectedStudent = StudentComboBox.SelectedItem as StudentItemSub;
-                var selectedClass = ClassComboBox.SelectedItem as ClassItemSub;
+               
+                bool allSuccess = true;
+                int successCount = 0;
+                int totalSelected = 0;
 
                 // إدراج سجل لكل مادة محددة
                 foreach (SubjectItem subject in subjectList)
                 {
                     if (subject.IsSelected)
                     {
+                        totalSelected++;
+
                         List<SqlParameter> parameters = new List<SqlParameter>()
                         {
-                            new SqlParameter("@StudentID", selectedStudent.StudentID),
-                            new SqlParameter("@ClassID", selectedClass.ClassID)
+                            new SqlParameter("@StudentID", selectedStudentId.Value),
+                            new SqlParameter("@SubjectID", subject.SubjectID),
+                            new SqlParameter("@ClassID", selectedClassId.Value)
                         };
 
-                        // إدراج المادة في جدول المواد المسجلة
-                        string query = "INSERT INTO StudentSubjectsRegister (StudentSubjectsID, StudentID, ClassID) VALUES (NEWID(), @StudentID, @ClassID)";
+                        bool success = SqlExec.Exec_proc("InsertStudentSubjectsRegster", parameters);
 
-                        if (CurrentConnection.OpenConntion())
+                        if (success)
                         {
-                            using (SqlCommand cmd = new SqlCommand(query, CurrentConnection.CuCon))
-                            {
-                                cmd.Parameters.AddWithValue("@StudentID", selectedStudent.StudentID);
-                                cmd.Parameters.AddWithValue("@ClassID", selectedClass.ClassID);
-                                cmd.ExecuteNonQuery();
-                            }
+                            successCount++;
                         }
-                        CurrentConnection.CloseConntion();
+                        else
+                        {
+                            allSuccess = false;
+                            // يمكنك تسجيل المواد التي فشل تسجيلها
+                        }
                     }
                 }
 
-                MessageBox.Show("تم تسجيل مواد الطالب بنجاح!", "نجاح",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
+                if (successCount > 0)
+                {
+                    string message;
 
-                ClearForm();
+                    if (successCount == totalSelected)
+                    {
+                        message = $"✅ تم تسجيل جميع المواد ({successCount}) بنجاح!";
+                        ShowFormStatus(message, "✅", "#4CAF50");
+                    }
+                    else
+                    {
+                        message = $"⚠️ تم تسجيل {successCount} من أصل {totalSelected} مادة\n" +
+                                 "بعض المواد كانت مسجلة مسبقاً";
+                        ShowFormStatus(message, "⚠️", "#FF9800");
+                    }
+
+                    // إظهار رسالة نجاح
+                    MessageBox.Show(message, "نتيجة التسجيل",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    ShowFormStatus("❌ لم يتم تسجيل أي مادة. جميع المواد مسجلة مسبقاً", "❌", "#F44336");
+                    MessageBox.Show("جميع المواد المحددة مسجلة مسبقاً للطالب", "تحذير",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+
+                // مسح النموذج بعد الحفظ الناجح
+                if (successCount > 0)
+                {
+                    ClearForm();
+                }
+
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Message.Contains("المادة المحددة لا تنتمي إلى الصف المختار"))
+                {
+                    MessageBox.Show("المادة المحددة لا تنتمي إلى الصف المختار", "خطأ",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else if (ex.Message.Contains("الطالب مسجل مسبقاً في هذه المادة"))
+                {
+                    MessageBox.Show("الطالب مسجل مسبقاً في بعض المواد المحددة", "تحذير",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+                else
+                {
+                    MessageBox.Show($"حدث خطأ في قاعدة البيانات: {ex.Message}", "خطأ",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
             catch (Exception ex)
             {
@@ -360,6 +423,7 @@ namespace School_Management.UI.Pages
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
