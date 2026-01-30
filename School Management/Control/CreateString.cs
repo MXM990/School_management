@@ -72,8 +72,12 @@ namespace School_Management.Control
                                                                 RegterTeacherClassID UNIQUEIDENTIFIER,
                                                                 TeacherID UNIQUEIDENTIFIER ,
                                                                 ClassGroupID UNIQUEIDENTIFIER )";
+        public static readonly string CreateTableStudent_Class_Group = @"CREATE TABLE Student_Class_Group (
+                                                                RegterStudentClassID UNIQUEIDENTIFIER,
+                                                                StudentID UNIQUEIDENTIFIER ,
+                                                                ClassGroupID UNIQUEIDENTIFIER)";
 
-        public static List<string> CreateTables = new List<string> { CreateTableEmployees, CreateTableTeachers, CreateTableClasses, CreateTableGroups, CreateTableSubjects, CreateTableStudents, CreateTableClass_Group, CreateTableTeacher_Class_Group };
+        public static List<string> CreateTables = new List<string> { CreateTableEmployees, CreateTableTeachers, CreateTableClasses, CreateTableGroups, CreateTableSubjects, CreateTableStudents, CreateTableClass_Group, CreateTableTeacher_Class_Group , CreateTableStudent_Class_Group };
 
     }
     public class ProcInsertString
@@ -181,7 +185,41 @@ namespace School_Management.Control
                                                         VALUES (NEWID(), @TeacherID, @ClassGroupID)
                                                         END";
 
-        public static List<string> CreateProceduresCommands = new List<string> { InsertNewEmployee, InsertNewTeacher  , InsertNewClass , InsertNewGroup , InsertNewSubject  , InsertNewStudent , InsertNewClassGroup , InsertNewTeacherClassGroup };
+         public static readonly string InsertNewStudentClassGroup = @"CREATE PROC AssignStudentToClassGroup
+                                                                     @StudentID UNIQUEIDENTIFIER,
+                                                                     @ClassGroupID UNIQUEIDENTIFIER
+                                                                 AS      
+                                                                 BEGIN
+                                                                     -- التحقق من أن الطالب غير مسجل مسبقاً في نفس الصف/الشعبة
+                                                                     IF EXISTS (SELECT 1 FROM Student_Class_Group WHERE StudentID = @StudentID AND ClassGroupID = @ClassGroupID)
+                                                                     BEGIN
+                                                                         RAISERROR ('الطالب مسجل مسبقاً في هذا الصف/الشعبة', 16, 1)
+                                                                         RETURN
+                                                                     END
+                                                                     
+                                                                     -- التحقق من أن الصف/الشعبة لم يتجاوز السعة القصوى
+                                                                     DECLARE @CurrentCount INT, @MaxStudents INT
+                                                                     
+                                                                     SELECT @CurrentCount = COUNT(*), @MaxStudents = cg.MaxStudents
+                                                                     FROM Student_Class_Group scg
+                                                                     INNER JOIN Class_Group cg ON scg.ClassGroupID = cg.ClassGroupID
+                                                                     WHERE scg.ClassGroupID = @ClassGroupID
+                                                                     GROUP BY cg.MaxStudents
+                                                                     
+                                                                     IF @CurrentCount >= @MaxStudents
+                                                                     BEGIN
+                                                                         RAISERROR ('الصف/الشعبة قد وصل للعدد الأقصى من الطلاب', 16, 1)
+                                                                         RETURN
+                                                                     END
+                                                                     
+                                                                     -- إضافة الطالب إلى الصف/الشعبة
+                                                                     INSERT INTO Student_Class_Group (RegterStudentClassID, StudentID, ClassGroupID)
+                                                                     VALUES (NEWID(), @StudentID, @ClassGroupID)
+                                                                 END";
+
+
+
+        public static List<string> CreateProceduresCommands = new List<string> { InsertNewEmployee, InsertNewTeacher  , InsertNewClass , InsertNewGroup , InsertNewSubject  , InsertNewStudent , InsertNewClassGroup , InsertNewTeacherClassGroup , InsertNewStudentClassGroup };
 
     }
     public enum AllPrc
