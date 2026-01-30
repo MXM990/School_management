@@ -68,7 +68,7 @@ namespace School_Management.UI
 
                         case "AssignStudentToClass":
                             PageTitle.Text = "إضافة طالب إلى صف";
-                            //MainFrame.Content = new AssignStudentToClassPage();
+                            MainFrame.Content = new AssignStudentToClassPage();
                             break;
 
                         case "AssignTeacherToClass":

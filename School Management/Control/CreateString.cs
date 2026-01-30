@@ -72,6 +72,7 @@ namespace School_Management.Control
                                                                 RegterTeacherClassID UNIQUEIDENTIFIER,
                                                                 TeacherID UNIQUEIDENTIFIER ,
                                                                 ClassGroupID UNIQUEIDENTIFIER )";
+
         public static readonly string CreateTableStudent_Class_Group = @"CREATE TABLE Student_Class_Group (
                                                                 RegterStudentClassID UNIQUEIDENTIFIER,
                                                                 StudentID UNIQUEIDENTIFIER ,
@@ -190,14 +191,13 @@ namespace School_Management.Control
                                                                      @ClassGroupID UNIQUEIDENTIFIER
                                                                  AS      
                                                                  BEGIN
-                                                                     -- التحقق من أن الطالب غير مسجل مسبقاً في نفس الصف/الشعبة
+                                                                    
                                                                      IF EXISTS (SELECT 1 FROM Student_Class_Group WHERE StudentID = @StudentID AND ClassGroupID = @ClassGroupID)
                                                                      BEGIN
                                                                          RAISERROR ('الطالب مسجل مسبقاً في هذا الصف/الشعبة', 16, 1)
                                                                          RETURN
                                                                      END
                                                                      
-                                                                     -- التحقق من أن الصف/الشعبة لم يتجاوز السعة القصوى
                                                                      DECLARE @CurrentCount INT, @MaxStudents INT
                                                                      
                                                                      SELECT @CurrentCount = COUNT(*), @MaxStudents = cg.MaxStudents
@@ -212,7 +212,6 @@ namespace School_Management.Control
                                                                          RETURN
                                                                      END
                                                                      
-                                                                     -- إضافة الطالب إلى الصف/الشعبة
                                                                      INSERT INTO Student_Class_Group (RegterStudentClassID, StudentID, ClassGroupID)
                                                                      VALUES (NEWID(), @StudentID, @ClassGroupID)
                                                                  END";
@@ -224,7 +223,7 @@ namespace School_Management.Control
     }
     public enum AllPrc
     {
-        InsertNewEmployee , InsertNewTeacher , InsertNewClass , InsertNewGroup , InsertNewSubject , InsertNewStudent ,InsertNewClassGroup ,InsertNewTeacherClassGroup 
+        InsertNewEmployee , InsertNewTeacher , InsertNewClass , InsertNewGroup , InsertNewSubject , InsertNewStudent ,InsertNewClassGroup ,InsertNewTeacherClassGroup , InsertNewStudentClassGroup
     }
 
 }
