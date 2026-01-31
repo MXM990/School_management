@@ -369,8 +369,18 @@
                                              FontSize="14"/>
                                 </StackPanel>
                             </Button>
+                            <Button x:Name="ChatBotButton"
+        Style="{StaticResource SidebarButtonStyle}"
+        Click="ChatBotButton_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="🤖" 
+                 FontSize="16"
+                 Margin="0,0,10,0"/>
+                                    <TextBlock Text="المساعد الذكي" 
+                 FontSize="14"/>
+                                </StackPanel>
+                            </Button>
 
-                            
                             <!-- زر الخروج -->
                             <Button x:Name="LogoutButton"
                                   Style="{StaticResource SidebarButtonStyle}"

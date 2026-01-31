@@ -1,4 +1,5 @@
-﻿using School_Management.UI.EmpPages;
+﻿using School_Management.Control;
+using School_Management.UI.EmpPages;
 using School_Management.UI.Pages;
 using System;
 using System.Data.SqlClient;
@@ -15,8 +16,8 @@ namespace School_Management.UI
         public EmployeeDashboard(string username, string name)
         {
             InitializeComponent();
-            employeeUsername = username;
-            employeeName = name;
+            EmployeeNameText.Text = employeeUsername;
+            EmployeeRoleText.Text = name;
             LoadEmployeeData();
         }
 
@@ -140,6 +141,22 @@ namespace School_Management.UI
             }
         }
 
+        private void ChatBotButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string connectionString = CurrentConnection.CuCon.ConnectionString; // استبدلها بسلسلة الاتصال الفعلية
+
+                var chatWindow = new ChatBotWindow(connectionString, EmployeeNameText.Text);
+                chatWindow.Owner = this;
+                chatWindow.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"حدث خطأ في فتح المساعد الذكي: {ex.Message}", "خطأ",
+                               MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
             var result = MessageBox.Show(

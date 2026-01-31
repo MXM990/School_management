@@ -11,7 +11,7 @@
         ResizeMode="NoResize"
         WindowStyle="None"
         AllowsTransparency="True"
-        Background="Transparent">
+        Loaded="Window_Loaded">
 
     <!-- نافذة مع تأثير زجاجي -->
     <Border CornerRadius="20" 
@@ -211,30 +211,7 @@
                             </Border>
                         </StackPanel>
 
-                        <!-- خيارات إضافية -->
-                        <Grid Margin="0,0,0,30">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <CheckBox x:Name="RememberMeCheckBox"
-                                    Content="تذكر بيانات الدخول"
-                                    Foreground="#5A6D5E"
-                                    FontSize="14"
-                                    Grid.Column="0"
-                                    HorizontalAlignment="Left"/>
-
-                            <TextBlock Text="نسيت كلمة المرور؟" 
-                                     Foreground="#93BFC7"
-                                     FontSize="14"
-                                     Cursor="Hand"
-                                     Grid.Column="1"
-                                     HorizontalAlignment="Right"
-                                     VerticalAlignment="Center"/>
-                        </Grid>
-
-                        <!-- زر تسجيل الدخول -->
+                      
                         <Button x:Name="LoginButton"
                               Content="تسجيل الدخول"
                               Background="#CBF3BB"
@@ -245,7 +222,8 @@
                               FontWeight="Bold"
                               Height="50"
                               Cursor="Hand"
-                              IsEnabled="True" Click="LoginButton_Click">
+                              IsEnabled="True" 
+                              Click="LoginButton_Click">
                             <Button.Resources>
                                 <Style TargetType="Border">
                                     <Setter Property="CornerRadius" Value="10"/>
@@ -264,7 +242,8 @@
                                     FontSize="14"
                                     Height="40"
                                     Cursor="Hand"
-                                    Margin="0,0,0,10" Click="SelectDatabaseButton_Click">
+                                    Margin="0,0,0,10" 
+                                    Click="SelectDatabaseButton_Click">
                                 <Button.Resources>
                                     <Style TargetType="Border">
                                         <Setter Property="CornerRadius" Value="8"/>
@@ -281,7 +260,8 @@
                                   FontSize="14"
                                   Height="40"
                                   Cursor="Hand"
-                                  Margin="0,0,0,10" Click="CreateDatabaseButton_Click">
+                                  Margin="0,0,0,10" 
+                                  Click="CreateDatabaseButton_Click">
                                 <Button.Resources>
                                     <Style TargetType="Border">
                                         <Setter Property="CornerRadius" Value="8"/>
@@ -297,7 +277,8 @@
                                   BorderThickness="1"
                                   FontSize="14"
                                   Height="40"
-                                  Cursor="Hand">
+                                  Cursor="Hand"
+                                  Click="ExitButton_Click">
                                 <Button.Resources>
                                     <Style TargetType="Border">
                                         <Setter Property="CornerRadius" Value="8"/>
@@ -321,6 +302,30 @@
                 </Grid>
             </Border>
 
+            <!-- مؤشر حالة الاتصال -->
+            <StackPanel Orientation="Horizontal" 
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Top"
+                      Margin="20">
+                <!-- دائرة مؤشر الاتصال -->
+                <Ellipse x:Name="ConnectionIndicator"
+                       Width="12" 
+                       Height="12"
+                       Margin="0,0,5,0"
+                       VerticalAlignment="Center">
+                    <Ellipse.Fill>
+                        <SolidColorBrush Color="Red"/>
+                    </Ellipse.Fill>
+                </Ellipse>
+
+                <!-- نص حالة الاتصال -->
+                <TextBlock x:Name="ConnectionStatusText"
+                         Text="غير متصل"
+                         VerticalAlignment="Center"
+                         Foreground="#5A6D5E"
+                         FontSize="12"/>
+            </StackPanel>
+
             <!-- أزرار التحكم بالنافذة -->
             <StackPanel Orientation="Horizontal" 
                       HorizontalAlignment="Right"
@@ -336,7 +341,8 @@
                       FontSize="14"
                       FontWeight="Bold"
                       Cursor="Hand"
-                      Margin="0,0,10,0">
+                      Margin="0,0,10,0"
+                      Click="MinimizeButton_Click">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Setter Property="Template">
@@ -368,7 +374,8 @@
                       Foreground="#5A6D5E"
                       FontSize="14"
                       FontWeight="Bold"
-                      Cursor="Hand">
+                      Cursor="Hand"
+                      Click="CloseButton_Click">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Setter Property="Template">

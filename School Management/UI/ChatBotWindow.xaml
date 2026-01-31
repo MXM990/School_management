@@ -1,0 +1,188 @@
+﻿<Window x:Class="School_Management.UI.ChatBotWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="المساعد الذكي - نظام إدارة المدرسة"
+        Height="600" Width="500"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent">
+
+    <Border CornerRadius="15" 
+            Background="#ECF4E8"
+            BorderBrush="#4CAF50" 
+            BorderThickness="2">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- شريط العنوان -->
+            <Border Grid.Row="0" 
+                    Background="#4CAF50"
+                    CornerRadius="13,13,0,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" 
+                                Orientation="Horizontal" 
+                                Margin="15,0,0,0"
+                                VerticalAlignment="Center">
+                        <TextBlock Text="🤖" 
+                                 FontSize="20"
+                                 Margin="0,0,10,0"/>
+                        <TextBlock Text="المساعد الذكي" 
+                                 FontSize="16"
+                                 FontWeight="Bold"
+                                 Foreground="White"/>
+                    </StackPanel>
+
+                    <Button Grid.Column="2"
+                            Content="✕" 
+                            Width="30" Height="30"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            Foreground="White"
+                            FontWeight="Bold"
+                            Margin="0,0,10,0"
+                            Click="CloseButton_Click">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="Transparent"
+                                                    CornerRadius="15">
+                                                <ContentPresenter HorizontalAlignment="Center" 
+                                                                  VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#2C3E2F"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </Grid>
+            </Border>
+
+            <!-- منطقة المحادثة -->
+            <Border Grid.Row="1" 
+                    Background="White"
+                    Margin="10">
+                <ScrollViewer x:Name="ChatScrollViewer"
+                            VerticalScrollBarVisibility="Auto">
+                    <ItemsControl x:Name="ChatMessagesControl">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="5"
+                                        Padding="10"
+                                        CornerRadius="10"
+                                        Background="{Binding BackgroundColor}">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Sender}"
+                                                 FontWeight="Bold"
+                                                 Foreground="#2C3E2F"
+                                                 Margin="0,0,0,5"/>
+                                        <TextBlock Text="{Binding Message}"
+                                                 TextWrapping="Wrap"
+                                                 Foreground="#333333"/>
+                                        <TextBlock Text="{Binding Time}"
+                                                 FontSize="10"
+                                                 Foreground="#666666"
+                                                 HorizontalAlignment="Left"
+                                                 Margin="0,5,0,0"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Border>
+
+            <!-- منطقة الإدخال -->
+            <Border Grid.Row="2" 
+                    Background="#F8F9FA"
+                    CornerRadius="0,0,13,13"
+                    Padding="10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox x:Name="MessageTextBox"
+                           Grid.Column="0"
+                           VerticalContentAlignment="Center"
+                           Padding="10"
+                           FontSize="14"
+                           BorderBrush="#4CAF50"
+                           BorderThickness="2"
+                           KeyDown="MessageTextBox_KeyDown">
+                        <TextBox.Style>
+                            <Style TargetType="TextBox">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="TextBox">
+                                            <Border CornerRadius="20"
+                                                    Background="White"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                                <ScrollViewer x:Name="PART_ContentHost"
+                                                            VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+
+                    <Button x:Name="SendButton"
+                          Grid.Column="1"
+                          Content="➤"
+                          Width="50" Height="50"
+                          Background="#4CAF50"
+                          BorderBrush="#45a049"
+                          BorderThickness="2"
+                          Foreground="White"
+                          FontSize="18"
+                          FontWeight="Bold"
+                          Margin="10,0,0,0"
+                          Cursor="Hand"
+                          Click="SendButton_Click">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border CornerRadius="25"
+                                                    Background="{TemplateBinding Background}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                                <ContentPresenter HorizontalAlignment="Center" 
+                                                                  VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

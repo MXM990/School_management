@@ -47,7 +47,7 @@ namespace School_Management.UI
                     title = "حذف موظف";
                     break;
                 case "ViewAllEmployees":
-                    page = new Pages.ViewAllEmployeesPage();
+                    page = new Pages.ViewEmployeesPage();
                     title = "عرض جميع الموظفين";
                     break;
                 case "AddTeacher":
