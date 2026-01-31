@@ -4,33 +4,30 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             d:DesignHeight="700" d:DesignWidth="900">
-
-    
+             d:DesignHeight="800" d:DesignWidth="1100">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
         <StackPanel Margin="20">
 
             <!-- عنوان الصفحة -->
-            <Border Background="#FFEBEE" CornerRadius="10" Padding="20" Margin="0,0,0,20">
+            <Border Background="#F44336" CornerRadius="10" Padding="20" Margin="0,0,0,20">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock Text="🗑️" FontSize="28" Margin="0,0,10,0"/>
+                        <TextBlock Text="🗑️👨‍🏫" FontSize="28" Margin="0,0,10,0"/>
                         <TextBlock Text="حذف مدرس" 
-                                 FontSize="24" FontWeight="Bold" Foreground="#F44336"/>
+                                 FontSize="24" FontWeight="Bold" Foreground="White"/>
                     </StackPanel>
 
                     <TextBlock Text="ابحث عن المدرس المراد حذفه ثم قم بتأكيد العملية" 
-                             FontSize="14" Foreground="#F44336"
-                             HorizontalAlignment="Center"
-                             FontWeight="Bold"/>
+                             FontSize="14" Foreground="#FFEBEE"
+                             HorizontalAlignment="Center" Margin="0,10,0,0"/>
                 </StackPanel>
             </Border>
 
-            <!-- حقل البحث عن المدرس -->
-            <Border Background="White" CornerRadius="10" Padding="30" Margin="0,0,0,20">
+            <!-- البحث عن المدرس -->
+            <Border Background="White" CornerRadius="10" Padding="20" Margin="0,0,0,20">
                 <StackPanel>
-                    <TextBlock Text="🔍 البحث عن المدرس للحذف" 
+                    <TextBlock Text="🔍 البحث عن المدرس" 
                              FontSize="18" FontWeight="Bold" Foreground="#2C3E2F"
                              Margin="0,0,0,15"/>
 
@@ -41,28 +38,28 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBox x:Name="SearchTextBox"
+                               Style="{StaticResource RoundedTextBoxStyle}"
                                Height="45"
                                FontSize="14"
                                Padding="12"
-                               BorderBrush="#D1D1D1"
-                               BorderThickness="1"
-                               VerticalContentAlignment="Center"
-                               />
+                               TextChanged="SearchTextBox_TextChanged"
+                               ToolTip="ابحث باسم المدرس أو الرقم الوطني أو التخصص"/>
 
                         <Button x:Name="SearchButton"
                               Grid.Column="1"
                               Content="🔍 بحث"
                               Width="120"
                               Height="45"
-                              Background="#93BFC7"
+                              Background="#F44336"
                               Foreground="White"
                               FontSize="14"
                               FontWeight="Bold"
                               BorderThickness="0"
-                              Margin="-1,0,0,0"/>
+                              Margin="10,0,0,0"
+                              Click="SearchButton_Click"/>
                     </Grid>
 
-                    <TextBlock Text="يمكنك البحث باستخدام: الاسم، الرقم الوطني، الاختصاص، أو معرف المدرس" 
+                    <TextBlock Text="يمكنك البحث باستخدام: اسم المدرس - الرقم الوطني - التخصص" 
                              FontSize="11"
                              Foreground="#6C757D"
                              Margin="0,10,0,0"/>
@@ -77,38 +74,53 @@
                     Margin="0,0,0,20"
                     Visibility="Collapsed">
                 <StackPanel>
-                    <TextBlock Text="👨‍🏫 نتائج البحث" 
-                             FontSize="18" FontWeight="Bold" Foreground="#2C3E2F"
-                             Margin="0,0,0,15"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                        <TextBlock Text="👨‍🏫 نتائج البحث" 
+                                 FontSize="18" FontWeight="Bold" Foreground="#2C3E2F"/>
+                        <TextBlock x:Name="ResultsCountText"
+                                 Text=" (0 نتيجة)"
+                                 FontSize="14"
+                                 Foreground="#6C757D"
+                                 Margin="5,0,0,0"
+                                 VerticalAlignment="Center"/>
+                    </StackPanel>
 
-                    <ListView x:Name="SearchResultsListView"
-                            Height="200"
-                            BorderBrush="#D1D1D1"
-                            BorderThickness="1"
-                            SelectionMode="Single">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="المعرف" Width="100" DisplayMemberBinding="{Binding Id}"/>
-                                <GridViewColumn Header="الاسم" Width="150" DisplayMemberBinding="{Binding Name}"/>
-                                <GridViewColumn Header="الرقم الوطني" Width="120" DisplayMemberBinding="{Binding NationalId}"/>
-                                <GridViewColumn Header="الاختصاص" Width="120" DisplayMemberBinding="{Binding Specialization}"/>
-                                <GridViewColumn Header="الخبرة" Width="80" DisplayMemberBinding="{Binding ExperienceYears}"/>
-                                <GridViewColumn Header="الراتب" Width="100" DisplayMemberBinding="{Binding Salary, StringFormat={}{0:N0} ل.س}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
+                    <Border Background="#F5F5F5" 
+                            CornerRadius="5" 
+                            Padding="15" 
+                            Margin="0,0,0,10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="80"/>
+                            </Grid.ColumnDefinitions>
 
-                    <Button x:Name="SelectTeacherButton"
-                          Content="✓ تحديد المدرس للحذف"
-                          Width="200"
-                          Height="40"
-                          Background="#FFEBEE"
-                          Foreground="#F44336"
-                          FontSize="14"
-                          FontWeight="Bold"
-                          HorizontalAlignment="Center"
-                          Margin="0,15,0,0"
-                          Visibility="Collapsed"/>
+                            <TextBlock Grid.Column="0" Text="#" 
+                                     FontWeight="Bold" Foreground="#2C3E2F"/>
+                            <TextBlock Grid.Column="1" Text="اسم المدرس" 
+                                     FontWeight="Bold" Foreground="#2C3E2F"/>
+                            <TextBlock Grid.Column="2" Text="الرقم الوطني" 
+                                     FontWeight="Bold" Foreground="#2C3E2F"/>
+                            <TextBlock Grid.Column="3" Text="التخصص" 
+                                     FontWeight="Bold" Foreground="#2C3E2F"/>
+                            <TextBlock Grid.Column="4" Text="سنوات الخبرة" 
+                                     FontWeight="Bold" Foreground="#2C3E2F"/>
+                            <TextBlock Grid.Column="5" Text="تحديد" 
+                                     FontWeight="Bold" Foreground="#2C3E2F"/>
+                        </Grid>
+                    </Border>
+
+                    <ScrollViewer Height="250" 
+                                  VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel x:Name="SearchResultsPanel">
+                            <!-- سيتم إضافة نتائج البحث هنا برمجياً -->
+                        </StackPanel>
+                    </ScrollViewer>
                 </StackPanel>
             </Border>
 
@@ -125,10 +137,12 @@
                              Margin="0,0,0,20"/>
 
                     <!-- بطاقة معلومات المدرس -->
-                    <Border Background="#FFF3E0" 
+                    <Border Background="#F8F9FA" 
                             CornerRadius="10" 
-                            Padding="20" 
-                            Margin="0,0,0,20">
+                            Padding="25" 
+                            Margin="0,0,0,25"
+                            BorderBrush="#E0E0E0"
+                            BorderThickness="1">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -144,16 +158,28 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="150"/>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <!-- معلومات المدرس -->
+                            <!-- المعلومات الأساسية -->
                             <TextBlock Grid.Row="0" Grid.Column="0" 
-                                     Text="👤 الاسم:" 
+                                     Text="👨‍🏫 اسم المدرس:" 
                                      FontSize="14" 
                                      FontWeight="Bold"
                                      Margin="0,0,0,10"/>
                             <TextBlock Grid.Row="0" Grid.Column="1" 
                                      x:Name="TeacherNameText"
+                                     FontSize="14"
+                                     Margin="0,0,0,10"/>
+
+                            <TextBlock Grid.Row="0" Grid.Column="2" 
+                                     Text="📱 رقم الهاتف:" 
+                                     FontSize="14" 
+                                     FontWeight="Bold"
+                                     Margin="0,0,0,10"/>
+                            <TextBlock Grid.Row="0" Grid.Column="3" 
+                                     x:Name="PhoneNumberText"
                                      FontSize="14"
                                      Margin="0,0,0,10"/>
 
@@ -163,67 +189,87 @@
                                      FontWeight="Bold"
                                      Margin="0,0,0,10"/>
                             <TextBlock Grid.Row="1" Grid.Column="1" 
-                                     x:Name="NationalIdText"
+                                     x:Name="NationalNumberText"
                                      FontSize="14"
                                      Margin="0,0,0,10"/>
 
-                            <TextBlock Grid.Row="2" Grid.Column="0" 
-                                     Text="📚 الاختصاص:" 
+                            <TextBlock Grid.Row="1" Grid.Column="2" 
+                                     Text="📚 التخصص:" 
                                      FontSize="14" 
                                      FontWeight="Bold"
                                      Margin="0,0,0,10"/>
-                            <TextBlock Grid.Row="2" Grid.Column="1" 
+                            <TextBlock Grid.Row="1" Grid.Column="3" 
                                      x:Name="SpecializationText"
                                      FontSize="14"
                                      Margin="0,0,0,10"/>
 
-                            <TextBlock Grid.Row="3" Grid.Column="0" 
+                            <TextBlock Grid.Row="2" Grid.Column="0" 
                                      Text="🎂 العمر:" 
                                      FontSize="14" 
                                      FontWeight="Bold"
                                      Margin="0,0,0,10"/>
-                            <TextBlock Grid.Row="3" Grid.Column="1" 
+                            <TextBlock Grid.Row="2" Grid.Column="1" 
                                      x:Name="AgeText"
                                      FontSize="14"
                                      Margin="0,0,0,10"/>
 
-                            <TextBlock Grid.Row="4" Grid.Column="0" 
-                                     Text="📅 سنوات الخبرة:" 
+                            <TextBlock Grid.Row="2" Grid.Column="2" 
+                                     Text="🏆 سنوات الخبرة:" 
                                      FontSize="14" 
                                      FontWeight="Bold"
                                      Margin="0,0,0,10"/>
-                            <TextBlock Grid.Row="4" Grid.Column="1" 
-                                     x:Name="ExperienceText"
+                            <TextBlock Grid.Row="2" Grid.Column="3" 
+                                     x:Name="YearsOfExperienceText"
                                      FontSize="14"
                                      Margin="0,0,0,10"/>
 
-                            <TextBlock Grid.Row="5" Grid.Column="0" 
-                                     Text="📱 الهاتف:" 
-                                     FontSize="14" 
-                                     FontWeight="Bold"
-                                     Margin="0,0,0,10"/>
-                            <TextBlock Grid.Row="5" Grid.Column="1" 
-                                     x:Name="PhoneText"
-                                     FontSize="14"
-                                     Margin="0,0,0,10"/>
-
-                            <TextBlock Grid.Row="6" Grid.Column="0" 
+                            <TextBlock Grid.Row="3" Grid.Column="0" 
                                      Text="💰 الراتب:" 
                                      FontSize="14" 
                                      FontWeight="Bold"
                                      Margin="0,0,0,10"/>
-                            <TextBlock Grid.Row="6" Grid.Column="1" 
+                            <TextBlock Grid.Row="3" Grid.Column="1" 
                                      x:Name="SalaryText"
                                      FontSize="14"
                                      Margin="0,0,0,10"/>
 
-                            <TextBlock Grid.Row="7" Grid.Column="0" 
-                                     Text="🔒 المعرف:" 
+                            <TextBlock Grid.Row="3" Grid.Column="2" 
+                                     Text="📅 تاريخ التعيين:" 
                                      FontSize="14" 
                                      FontWeight="Bold"
                                      Margin="0,0,0,10"/>
-                            <TextBlock Grid.Row="7" Grid.Column="1" 
-                                     x:Name="GuidText"
+                            <TextBlock Grid.Row="3" Grid.Column="3" 
+                                     x:Name="HireDateText"
+                                     FontSize="14"
+                                     Margin="0,0,0,10"/>
+
+                            <TextBlock Grid.Row="4" Grid.Column="0" 
+                                     Text="⏳ مدة الخدمة:" 
+                                     FontSize="14" 
+                                     FontWeight="Bold"
+                                     Margin="0,0,0,10"/>
+                            <TextBlock Grid.Row="4" Grid.Column="1" 
+                                     x:Name="ServiceDurationText"
+                                     FontSize="14"
+                                     Margin="0,0,0,10"/>
+
+                            <TextBlock Grid.Row="4" Grid.Column="2" 
+                                     Text="📊 مستوى الخبرة:" 
+                                     FontSize="14" 
+                                     FontWeight="Bold"
+                                     Margin="0,0,0,10"/>
+                            <TextBlock Grid.Row="4" Grid.Column="3" 
+                                     x:Name="ExperienceLevelText"
+                                     FontSize="14"
+                                     Margin="0,0,0,10"/>
+
+                            <TextBlock Grid.Row="5" Grid.Column="0" 
+                                     Text="🔑 معرف المدرس:" 
+                                     FontSize="14" 
+                                     FontWeight="Bold"
+                                     Margin="0,0,0,10"/>
+                            <TextBlock Grid.Row="5" Grid.Column="1" 
+                                     x:Name="TeacherIDText"
                                      FontSize="12"
                                      Foreground="#6C757D"
                                      Margin="0,0,0,10"/>
@@ -233,7 +279,7 @@
                     <!-- تحذير الحذف -->
                     <Border Background="#FFEBEE" 
                             CornerRadius="10" 
-                            Padding="20" 
+                            Padding="25" 
                             Margin="0,0,0,30"
                             BorderBrush="#F44336"
                             BorderThickness="2">
@@ -248,13 +294,31 @@
                                      FontSize="14" FontWeight="Bold" Foreground="#F44336"
                                      Margin="0,0,0,10"/>
 
-                            <TextBlock Text="سيتم حذف جميع بيانات المدرس بشكل نهائي من قاعدة البيانات." 
+                            <TextBlock Text="سيتم حذف جميع بيانات المدرس بشكل نهائي من قاعدة البيانات، بما في ذلك:" 
                                      FontSize="14"
                                      Margin="0,0,0,5"/>
 
+                            <StackPanel Orientation="Horizontal" Margin="15,5,0,0">
+                                <TextBlock Text="•" Margin="0,0,10,0" Foreground="#F44336"/>
+                                <TextBlock Text="المعلومات الشخصية والمهنية" 
+                                         FontSize="14"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="15,5,0,0">
+                                <TextBlock Text="•" Margin="0,0,10,0" Foreground="#F44336"/>
+                                <TextBlock Text="الصفوف التي يدرسها (إن وجدت)" 
+                                         FontSize="14"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="15,5,0,0">
+                                <TextBlock Text="•" Margin="0,0,10,0" Foreground="#F44336"/>
+                                <TextBlock Text="جميع السجلات المرتبطة بهذا المدرس" 
+                                         FontSize="14"/>
+                            </StackPanel>
+
                             <TextBlock Text="يرجى التأكد من اختيار المدرس الصحيح قبل المتابعة." 
                                      FontSize="14" FontWeight="Bold"
-                                     Margin="0,10,0,0"/>
+                                     Margin="0,15,0,0"/>
                         </StackPanel>
                     </Border>
 
@@ -265,43 +329,128 @@
                         <Button x:Name="DeleteButton"
                               Content="🗑️ تأكيد الحذف"
                               Width="200"
-                              Style="{StaticResource DangerButtonStyle}"
-                              Margin="0,0,15,0"/>
+                              Height="45"
+                              Background="#F44336"
+                              Foreground="White"
+                              FontSize="14"
+                              FontWeight="Bold"
+                              BorderThickness="0"
+                              Margin="0,0,15,0"
+                              Click="DeleteButton_Click"/>
 
                         <Button x:Name="CancelDeleteButton"
                               Content="❌ إلغاء"
                               Width="150"
-                              Style="{StaticResource CancelButtonStyle}"/>
+                              Height="45"
+                              Background="#757575"
+                              Foreground="White"
+                              FontSize="14"
+                              FontWeight="Bold"
+                              BorderThickness="0"
+                              Click="CancelDeleteButton_Click"/>
                     </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- إحصائيات -->
+            <Border Background="#F8F9FA" 
+                    CornerRadius="10" 
+                    Padding="20" 
+                    Margin="0,0,0,20">
+                <StackPanel>
+                    <TextBlock Text="📊 إحصائيات المدرسين" 
+                             FontSize="18" FontWeight="Bold" Foreground="#2C3E2F"
+                             Margin="0,0,0,15"/>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+                            <TextBlock Text="👨‍🏫" FontSize="24"/>
+                            <TextBlock Text="إجمالي المدرسين" 
+                                     FontSize="12" Foreground="#5A6D5E"/>
+                            <TextBlock x:Name="TotalTeachersText" 
+                                     Text="0" 
+                                     FontSize="20" FontWeight="Bold"
+                                     Foreground="#2C3E2F"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                            <TextBlock Text="💰" FontSize="24"/>
+                            <TextBlock Text="متوسط الراتب" 
+                                     FontSize="12" Foreground="#5A6D5E"/>
+                            <TextBlock x:Name="AvgSalaryText" 
+                                     Text="0" 
+                                     FontSize="20" FontWeight="Bold"
+                                     Foreground="#2196F3"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" HorizontalAlignment="Center">
+                            <TextBlock Text="🏆" FontSize="24"/>
+                            <TextBlock Text="متوسط الخبرة" 
+                                     FontSize="12" Foreground="#5A6D5E"/>
+                            <TextBlock x:Name="AvgExperienceText" 
+                                     Text="0 سنة" 
+                                     FontSize="20" FontWeight="Bold"
+                                     Foreground="#4CAF50"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="3" HorizontalAlignment="Center">
+                            <TextBlock Text="📚" FontSize="24"/>
+                            <TextBlock Text="عدد التخصصات" 
+                                     FontSize="12" Foreground="#5A6D5E"/>
+                            <TextBlock x:Name="SpecializationsCountText" 
+                                     Text="0" 
+                                     FontSize="20" FontWeight="Bold"
+                                     Foreground="#FF9800"/>
+                        </StackPanel>
+                    </Grid>
                 </StackPanel>
             </Border>
 
             <!-- تذييل الصفحة -->
             <Border BorderThickness="0,1,0,0"
                     BorderBrush="#E0E0E0"
-                    Margin="0,30,0,0"
+                    Margin="0,10,0,0"
                     Padding="0,20,0,0">
                 <StackPanel>
-                    <TextBlock Text="📋 ملاحظات هامة:" 
+                    <TextBlock Text="📝 إجراءات الحذف:" 
                              FontSize="14" FontWeight="Bold" Foreground="#2C3E2F"
                              Margin="0,0,0,10"/>
 
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                        <TextBlock Text="•" Margin="0,0,10,0" Foreground="#93BFC7"/>
-                        <TextBlock Text="عملية حذف المدرس نهائية ولا يمكن التراجع عنها" 
+                        <TextBlock Text="1." Margin="0,0,10,0" Foreground="#F44336"/>
+                        <TextBlock Text="البحث عن المدرس باستخدام الاسم أو الرقم الوطني أو التخصص" 
                                  FontSize="12" Foreground="#5A6D5E"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                        <TextBlock Text="•" Margin="0,0,10,0" Foreground="#93BFC7"/>
-                        <TextBlock Text="يجب التأكد من اختيار المدرس الصحيح قبل تأكيد الحذف" 
+                        <TextBlock Text="2." Margin="0,0,10,0" Foreground="#F44336"/>
+                        <TextBlock Text="تحديد المدرس من قائمة النتائج" 
                                  FontSize="12" Foreground="#5A6D5E"/>
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="•" Margin="0,0,10,0" Foreground="#93BFC7"/>
-                        <TextBlock Text="يمكنك البحث عن أي مدرس باستخدام الاسم، الرقم الوطني، أو الاختصاص" 
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <TextBlock Text="3." Margin="0,0,10,0" Foreground="#F44336"/>
+                        <TextBlock Text="مراجعة تفاصيل المدرس بعناية" 
                                  FontSize="12" Foreground="#5A6D5E"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <TextBlock Text="4." Margin="0,0,10,0" Foreground="#F44336"/>
+                        <TextBlock Text="تأكيد الحذف بعد قراءة التحذيرات" 
+                                 FontSize="12" Foreground="#5A6D5E"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <TextBlock Text="⚠️" Margin="0,0,10,0" Foreground="#F44336"/>
+                        <TextBlock Text="يجب على الأدمن فقط القيام بهذه العملية" 
+                                 FontSize="12" FontWeight="Bold" Foreground="#F44336"/>
                     </StackPanel>
                 </StackPanel>
             </Border>

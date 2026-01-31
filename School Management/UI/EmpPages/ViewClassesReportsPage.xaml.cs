@@ -147,29 +147,12 @@ namespace School_Management.UI.EmpPages
                 VerticalAlignment = VerticalAlignment.Center
             };
 
-          
-            var deleteButton = new Button
-            {
-                Content = "🗑️",
-                ToolTip = "حذف",
-                Width = 30,
-                Height = 30,
-                Background = new SolidColorBrush(Color.FromRgb(255, 235, 238)),
-                BorderBrush = new SolidColorBrush(Color.FromRgb(239, 154, 154)),
-                Tag = classItem.ClassID
-            };
-
-        
-            actionsPanel.Children.Add(deleteButton);
-
             Grid.SetColumn(actionsPanel, 5);
             grid.Children.Add(actionsPanel);
 
             border.Child = grid;
             ClassesListPanel.Children.Add(border);
 
-           
-            deleteButton.Click += DeleteClassButton_Click;
         }
 
         private void UpdateStatistics()
@@ -236,50 +219,7 @@ namespace School_Management.UI.EmpPages
 
      
 
-        private void DeleteClassButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is Button button && button.Tag is Guid classId)
-            {
-                var result = MessageBox.Show(
-                    "هل أنت متأكد من حذف هذا الصف؟\nهذا الإجراء سيمسح جميع البيانات المرتبطة به.",
-                    "تأكيد الحذف",
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Warning);
-
-                if (result == MessageBoxResult.Yes)
-                {
-                    try
-                    {
-                        string query = "DELETE FROM Classes WHERE ClassID = @ClassID";
-
-                        if (CurrentConnection.OpenConntion())
-                        {
-                            using (SqlCommand cmd = new SqlCommand(query, CurrentConnection.CuCon))
-                            {
-                                cmd.Parameters.AddWithValue("@ClassID", classId);
-                                int rowsAffected = cmd.ExecuteNonQuery();
-
-                                if (rowsAffected > 0)
-                                {
-                                    MessageBox.Show("تم حذف الصف بنجاح", "نجاح",
-                                        MessageBoxButton.OK, MessageBoxImage.Information);
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"حدث خطأ أثناء الحذف: {ex.Message}", "خطأ",
-                            MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    finally
-                    {
-                        CurrentConnection.CloseConntion();
-                        LoadClasses();
-                    }
-                }
-            }
-        }
+    
     }
 
     public class ClassDataView

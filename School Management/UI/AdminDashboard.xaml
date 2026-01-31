@@ -184,18 +184,7 @@
                                 </StackPanel>
                             </Button>
 
-                            <Button x:Name="EditEmployeeButton"
-                                  Style="{StaticResource SidebarButtonStyle}"
-                                  Tag="EditEmployee" Click="SidebarButton_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="✏️" 
-                                             FontSize="16"
-                                             Margin="0,0,10,0"/>
-                                    <TextBlock Text="تعديل موظف" 
-                                             FontSize="14"/>
-                                </StackPanel>
-                            </Button>
-
+                           
                             <Button x:Name="DeleteEmployeeButton"
                                   Style="{StaticResource SidebarButtonStyle}"
                                   Tag="DeleteEmployee" Click="SidebarButton_Click">
@@ -238,18 +227,7 @@
                                 </StackPanel>
                             </Button>
 
-                            <Button x:Name="EditTeacherButton"
-                                  Style="{StaticResource SidebarButtonStyle}"
-                                  Tag="EditTeacher" Click="SidebarButton_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="✏️" 
-                                             FontSize="16"
-                                             Margin="0,0,10,0"/>
-                                    <TextBlock Text="تعديل مدرس" 
-                                             FontSize="14"/>
-                                </StackPanel>
-                            </Button>
-
+                          
                             <Button x:Name="DeleteTeacherButton"
                                   Style="{StaticResource SidebarButtonStyle}"
                                   Tag="DeleteTeacher" Click="SidebarButton_Click">
@@ -292,17 +270,7 @@
                                 </StackPanel>
                             </Button>
 
-                            <Button x:Name="EditClassButton"
-                                  Style="{StaticResource SidebarButtonStyle}"
-                                  Tag="EditClass" Click="SidebarButton_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="✏️" 
-                                             FontSize="16"
-                                             Margin="0,0,10,0"/>
-                                    <TextBlock Text="تعديل صف" 
-                                             FontSize="14"/>
-                                </StackPanel>
-                            </Button>
+                            
 
                             <Button x:Name="DeleteClassButton"
                                   Style="{StaticResource SidebarButtonStyle}"
@@ -346,18 +314,7 @@
                                 </StackPanel>
                             </Button>
 
-                            <Button x:Name="EditGroupButton"
-                                  Style="{StaticResource SidebarButtonStyle}"
-                                  Tag="EditGroup" Click="SidebarButton_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="✏️" 
-                                             FontSize="16"
-                                             Margin="0,0,10,0"/>
-                                    <TextBlock Text="تعديل شعبة" 
-                                             FontSize="14"/>
-                                </StackPanel>
-                            </Button>
-
+                          
                             <Button x:Name="DeleteGroupButton"
                                   Style="{StaticResource SidebarButtonStyle}"
                                   Tag="DeleteGroup" Click="SidebarButton_Click">

@@ -223,19 +223,7 @@ namespace School_Management.UI.EmpPages
                 Tag = teacher.NationalNumber // استخدام الرقم الوطني كمعرف
             };
 
-            var deleteButton = new Button
-            {
-                Content = "🗑️",
-                ToolTip = "حذف المعلم",
-                Width = 30,
-                Height = 30,
-                Background = new SolidColorBrush(Color.FromRgb(255, 235, 238)),
-                BorderBrush = new SolidColorBrush(Color.FromRgb(239, 154, 154)),
-                Tag = teacher.NationalNumber // استخدام الرقم الوطني كمعرف
-            };
-
             actionsPanel.Children.Add(viewButton);
-            actionsPanel.Children.Add(deleteButton);
 
             Grid.SetColumn(actionsPanel, 8);
             grid.Children.Add(actionsPanel);
@@ -245,7 +233,6 @@ namespace School_Management.UI.EmpPages
 
             // ربط الأحداث
             viewButton.Click += ViewTeacherButton_Click;
-            deleteButton.Click += DeleteTeacherButton_Click;
         }
 
         private Brush GetExperienceColor(int yearsOfExperience)
@@ -365,54 +352,7 @@ namespace School_Management.UI.EmpPages
             }
         }
 
-        private void DeleteTeacherButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is Button button && button.Tag is string nationalNumber)
-            {
-                var teacher = allTeachers.Find(t => t.NationalNumber == nationalNumber);
-                if (teacher != null)
-                {
-                    var result = MessageBox.Show(
-                        $"هل أنت متأكد من حذف المعلم:\n{teacher.TeacherName}؟\nهذا الإجراء لا يمكن التراجع عنه.",
-                        "تأكيد الحذف",
-                        MessageBoxButton.YesNo,
-                        MessageBoxImage.Warning);
-
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        try
-                        {
-                            string query = "DELETE FROM Teachers WHERE NationalNumber = @NationalNumber";
-
-                            if (CurrentConnection.OpenConntion())
-                            {
-                                using (SqlCommand cmd = new SqlCommand(query, CurrentConnection.CuCon))
-                                {
-                                    cmd.Parameters.AddWithValue("@NationalNumber", nationalNumber);
-                                    int rowsAffected = cmd.ExecuteNonQuery();
-
-                                    if (rowsAffected > 0)
-                                    {
-                                        MessageBox.Show("تم حذف المعلم بنجاح", "نجاح",
-                                            MessageBoxButton.OK, MessageBoxImage.Information);
-                                    }
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show($"حدث خطأ أثناء الحذف: {ex.Message}", "خطأ",
-                                MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
-                        finally
-                        {
-                            CurrentConnection.CloseConntion();
-                            LoadTeachers();
-                        }
-                    }
-                }
-            }
-        }
+       
     }
 
     public class TeacherData

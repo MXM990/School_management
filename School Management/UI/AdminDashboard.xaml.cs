@@ -42,10 +42,6 @@ namespace School_Management.UI
                     page = new Pages.AddEmployeePage();
                     title = "إضافة موظف جديد";
                     break;
-                case "EditEmployee":
-                    page = new Pages.EditEmployeePage();
-                    title = "تعديل بيانات موظف";
-                    break;
                 case "DeleteEmployee":
                     page = new Pages.DeleteEmployeePage();
                     title = "حذف موظف";
@@ -57,10 +53,6 @@ namespace School_Management.UI
                 case "AddTeacher":
                     page = new Pages.AddTeacherPage();
                     title = "إضافة مدرس جديد";
-                    break;
-                case "EditTeacher":
-                    page = new Pages.EditTeacherPage();
-                    title = "تعديل بيانات مدرس";
                     break;
                 case "DeleteTeacher":
                     page = new Pages.DeleteTeacherPage();
@@ -74,10 +66,6 @@ namespace School_Management.UI
                     page = new Pages.AddClassPage();
                     title = "إضافة صف جديد";
                     break;
-                case "EditClass":
-                    page = new Pages.EditClassPage();
-                    title = "تعديل بيانات صف";
-                    break;
                 case "DeleteClass":
                     page = new Pages.DeleteClassPage();
                     title = "حذف صف";
@@ -89,10 +77,6 @@ namespace School_Management.UI
                 case "AddGroup":
                     page = new Pages.AddGroupPage();
                     title = "إضافة شعبة جديدة";
-                    break;
-                case "EditGroup":
-                    page = new Pages.EditGroupPage();
-                    title = "تعديل بيانات شعبة";
                     break;
                 case "DeleteGroup":
                     page = new Pages.DeleteGroupPage();
